@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="Linux Player">
 <meta property="og:description" content="OpenCL Summary">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-09T01:05:11.294Z">
+<meta property="og:updated_time" content="2019-07-09T03:28:33.934Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OpenCL Overview">
 <meta name="twitter:description" content="OpenCL Summary">
@@ -573,7 +573,7 @@
 <li>when it’s called, the argument value will be internally copied by OCL, so it’s safe to reuse the ponter for others.</li>
 </ul>
 </li>
-<li>e.g.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">__kernel void func (global int *vertexArray,</span><br><span class="line">                    int vertexCount,</span><br><span class="line">                    float weight,</span><br><span class="line">                    local float *localArray)</span><br><span class="line">&#123; ... &#125;</span><br><span class="line"></span><br><span class="line">kernel = clCreateKernel(program, &quot;func&quot;, NULL);</span><br><span class="line"></span><br><span class="line">cl_int vertexCount;</span><br><span class="line">cl_float weight;</span><br><span class="line">cl_mem vertexArray;</span><br><span class="line">cl_int localWorksize[1] = &#123; 32 &#125;;</span><br><span class="line"></span><br><span class="line">errNum = clSetKernelArg(kernel, 0, sizeof(cl_mem), &amp;vertexArray);</span><br><span class="line">errNum |= clSetKernelArg(kernel, 1, sizeof(cl_int), &amp;vertexCount);</span><br><span class="line">errNum |= clSetKernelArg(kernel, 2, sizeof(cl_float), &amp;weight);</span><br><span class="line">errNum |= clSetKernelArg(kernel, 3, sizeof(cl_float) * localWorkSize[0], &amp;weight);</span><br><span class="line"></span><br><span class="line">index 0: a point to cl_mem is a global pointer</span><br><span class="line">index 3: local argument is only available inside a kernel function, value must be NULL</span><br><span class="line">         type of localArray is cl_float, and the number of that is 32.</span><br></pre></td></tr></table></figure>
+<li>e.g.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">__kernel void func (global int *vertexArray,</span><br><span class="line">                    int vertexCount,</span><br><span class="line">                    float weight,</span><br><span class="line">                    local float *localArray)</span><br><span class="line">&#123; ... &#125;</span><br><span class="line"></span><br><span class="line">kernel = clCreateKernel(program, &quot;func&quot;, NULL);</span><br><span class="line"></span><br><span class="line">cl_int vertexCount;</span><br><span class="line">cl_float weight;</span><br><span class="line">cl_mem vertexArray;</span><br><span class="line">cl_int localWorksize[1] = &#123; 32 &#125;;</span><br><span class="line"></span><br><span class="line">errNum = clSetKernelArg(kernel, 0, sizeof(cl_mem), &amp;vertexArray);</span><br><span class="line">errNum |= clSetKernelArg(kernel, 1, sizeof(cl_int), &amp;vertexCount);</span><br><span class="line">errNum |= clSetKernelArg(kernel, 2, sizeof(cl_float), &amp;weight);</span><br><span class="line">errNum |= clSetKernelArg(kernel, 3, sizeof(cl_float) * localWorkSize[0], NULL);</span><br><span class="line"></span><br><span class="line">index 0: a point to cl_mem is a global pointer</span><br><span class="line">index 3: local argument is only available inside a kernel function, value must be NULL</span><br><span class="line">         type of localArray is cl_float, and the number of that is 32.</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -1058,19 +1058,11 @@
 			
 		
 			
-				<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>4</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/linux-env-misc/" title="linux-env-misc">linux-env-misc<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/OpenCL/" title="OpenCL">OpenCL<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/TensorFlow/" title="TensorFlow">TensorFlow<sup>3</sup></a></li>
+				<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>4</sup></a></li>
 			
 		
 			
@@ -1078,7 +1070,15 @@
 			
 		
 			
+				<li><a href="/tags/OpenCL/" title="OpenCL">OpenCL<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/SCM/" title="SCM">SCM<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TensorFlow/" title="TensorFlow">TensorFlow<sup>3</sup></a></li>
 			
 		
 			
@@ -1086,11 +1086,11 @@
 			
 		
 			
-				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
+				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
 			
 		
 			
@@ -1098,7 +1098,7 @@
 			
 		
 			
-				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
+				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
 			
 		
 			
@@ -1106,7 +1106,7 @@
 			
 		
 			
-				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
+				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
 			
 		
 		</ul>
