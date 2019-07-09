@@ -1,0 +1,720 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>OpenCL SVM | Linux Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjunweihit">
+    
+
+    
+    <meta name="description" content="Introduction of SVM">
+<meta name="keywords" content="OpenCL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenCL SVM">
+<meta property="og:url" content="http://zjunweihit.github.io/2018/12/13/ocl-svm/index.html">
+<meta property="og:site_name" content="Linux Player">
+<meta property="og:description" content="Introduction of SVM">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-09T00:55:29.871Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OpenCL SVM">
+<meta name="twitter:description" content="Introduction of SVM">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Linux Player" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/L2_ico.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/L2.jpg" alt="Linux Player" title="Linux Player"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Linux Player">Linux Player</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:zjunweihit.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/12/13/ocl-svm/" title="OpenCL SVM" itemprop="url">OpenCL SVM</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
+		
+  <p class="article-time">
+    <time datetime="2018-12-13T14:35:26.000Z" itemprop="datePublished"> Published 2018-12-13</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Detect-supported-SVM-type"><span class="toc-number">2.</span> <span class="toc-text">Detect supported SVM type</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Identifying-an-SVM-Buffer-Using-a-Regular-Pointer"><span class="toc-number">3.</span> <span class="toc-text">Identifying an SVM Buffer Using a Regular Pointer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shared-Virtual-Address-Space"><span class="toc-number">4.</span> <span class="toc-text">Shared Virtual Address Space</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Map-free-Access"><span class="toc-number">5.</span> <span class="toc-text">Map-free Access</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Fine-Grained-Coherent-Access"><span class="toc-number">6.</span> <span class="toc-text">Fine-Grained Coherent Access</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Fine-Grained-Synchronization"><span class="toc-number">7.</span> <span class="toc-text">Fine-Grained Synchronization</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sharing-the-Entire-Host-Address-Space"><span class="toc-number">8.</span> <span class="toc-text">Sharing the Entire Host Address Space</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Implicit-Use-of-Any-SVM-Allocation"><span class="toc-number">9.</span> <span class="toc-text">Implicit Use of Any SVM Allocation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">10.</span> <span class="toc-text">Reference</span></a></li></ol>
+		
+		</div>
+		
+		<p>Introduction of SVM</p>
+<a id="more"></a>
+
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>OpenCL 2.0 shared vitual memory(SVM) enables the host and device portions of an OpenCL application to seamlessly share pointers and complex pointer-containing data-structures.</p>
+<ul>
+<li>Share vitual address space</li>
+<li>Defines memory model consistency guarantees for SVM allocations<ul>
+<li>This enables the host and the kernel sides to interact with each other using atomics for synchronization, like two distinct cores in a CPU.</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><code>Shared virtual addressspace</code> between the host and a kernel on a device allows sharing pointer-based data structures between the host and the device.</li>
+<li><code>Identifying an SVM buffer using a regular pointer</code> without having to create a separate cl_mem object via the clCreateBuffer function.<ul>
+<li>This helps to integrate OpenCL into a legacy C/C++ program and to easily manage OpenCL memory resources on the host.</li>
+</ul>
+</li>
+<li><code>&quot;Map-free&quot; access</code> to SVM allocations on the host side simplifies OpenCL host programming by eliminating the necessity to use map/unmap commands.</li>
+<li><code>Fine-grained coherent access</code> to an SVM allocation from the host during accessing the same SVM allocation from the kernel on the device side in the same time.<ul>
+<li>This allows the host and the device kernel to concurrently make modifications to adjacent bytes of a single SVM allocation.</li>
+</ul>
+</li>
+<li><code>Fine-grained synchronization</code>: Concurrent modification of the same bytes from the host and from the kernel on the device using atomics enables light-weight synchronization and memory consistency between the host and the device without enqueueing new commands in an OpenCL command queue.</li>
+<li><code>Implicit use of any SVM allocation</code>: Pointers in one SVM allocation can point to other SVM allocations.<ul>
+<li>Minimum level of SVM support requires that such indirectly referenced allocations should be bound to a kernel’s execution context or need to be explicitly passed as kernel parameters.</li>
+<li>One of the advanced SVM features allows not passing all such indirectly used SVM allocations to kernels and using any number of them implicitly.</li>
+</ul>
+</li>
+<li><code>Sharing the entire host address space</code> provided by an operating system seamlessly, without creating an SVM buffer for it.</li>
+</ol>
+<ul>
+<li>Coarse-grained buffer<ul>
+<li>1, 2.</li>
+</ul>
+</li>
+<li>Fine-grained buffer<ul>
+<li>w/o atomics: 1-4</li>
+<li>w/ atomics: 1-6</li>
+</ul>
+</li>
+<li>Fine-grained system<ul>
+<li>w/o atomics: 1-4, 6,7</li>
+<li>w/ atomics: 1-7</li>
+</ul>
+</li>
+</ul>
+<h1 id="Detect-supported-SVM-type"><a href="#Detect-supported-SVM-type" class="headerlink" title="Detect supported SVM type"></a>Detect supported SVM type</h1><p>Query svm capabilities from <code>clGetDeviceInfo()</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cl_device_svm_capabilities caps;</span><br><span class="line"></span><br><span class="line">cl_int err = clGetDeviceInfo(</span><br><span class="line">        deviceID,</span><br><span class="line">        CL_DEVICE_SVM_CAPABILITIES,</span><br><span class="line">        sizeof(cl_device_svm_capabilities),</span><br><span class="line">        &amp;caps,</span><br><span class="line">        0</span><br><span class="line">        );</span><br></pre></td></tr></table></figure>
+
+<p>Return a bit-filed variable containing below:</p>
+<ul>
+<li>CL_DEVICE_SVM_COARSE_GRAIN for coarse-grained buffer SVM</li>
+<li>CL_DEVICE_SVM_FINE_GRAIN_BUFFER for fine-grained buffer SVM</li>
+<li>CL_DEVICE_SVM_FINE_GRAIN_SYSTEM for fine-grained system SVM</li>
+<li>CL_DEVICE_SVM_ATOMICS for atomics support</li>
+</ul>
+<h1 id="Identifying-an-SVM-Buffer-Using-a-Regular-Pointer"><a href="#Identifying-an-SVM-Buffer-Using-a-Regular-Pointer" class="headerlink" title="Identifying an SVM Buffer Using a Regular Pointer"></a>Identifying an SVM Buffer Using a Regular Pointer</h1><p>Allocate SVM buffer in <em>a given context</em> on device and return a regular pointer by <code>clSVMAlloc()</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void* p = clSVMAlloc (</span><br><span class="line">        context,            // an OpenCL context where this buffer is available</span><br><span class="line">        flags,              // access mode for the kernel and other options</span><br><span class="line">        size,               // amount of memory to allocate (in bytes)</span><br><span class="line">        0                   // alignment in bytes (0 means default)</span><br><span class="line">        );</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>it can only be used in the specified context</li>
+<li>flags:<ul>
+<li>access mode required for kernel is similar as clCreateBuffer()<ul>
+<li>CL_MEM_READ_ONLY - read-only memory when used inside a kernel</li>
+<li>CL_MEM_WRITE_ONLY - memory is written but not read by a kernel</li>
+<li>CL_MEM_READ_WRITE - memory is read and written by a kernel</li>
+</ul>
+</li>
+<li>memory in advanced types<ul>
+<li>CL_MEM_SVM_FINE_GRAIN_BUFFER - creates an SVM allocation that works correctly with fine-grained memory accesses</li>
+<li>CL_MEM_SVM_ATOMICS - enables using SVM atomic operations to control visibility of updates in this SVM allocation </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Set kernel arguments by <code>clSetKernelArgSVMPointer()</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">clSetKernelArgSVMPointer(kernel, 0, p);</span><br><span class="line"></span><br><span class="line">kernel void mykernel (global float* p)</span><br><span class="line">&#123;</span><br><span class="line">        . . .</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Free SVM buffer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">clSVMFree (</span><br><span class="line">        context,   // an OpenCL context used in corresponding clSVMAlloc call</span><br><span class="line">        p          // a pointer to allocated with clSVMAlloc memory</span><br><span class="line">        );</span><br></pre></td></tr></table></figure>
+
+<p>If need to synchronize the deallocation with OCL commands, enqueued into command queue.</p>
+<ul>
+<li>clEnqueueSVMFree(): same as clSVMFree() to free the memory, with addition that enqueued as OCl command.</li>
+</ul>
+<p>For compatibility, create cl_mem object on top of SVM buffer by calling <code>clCreateBuffer()</code> with <code>CL_MEM_USE_HOST_PTR</code> and passing <code>the pointer</code> that was returned from the <code>clSVMAlloc()</code>.</p>
+<ul>
+<li>both buffer and p can be used to access the underlying SVM allocation<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cl_mem buffer = clCreateBuffer (</span><br><span class="line">        context,            // an OpenCL context where this buffer is available</span><br><span class="line">        CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,   // access mode for the device and other options</span><br><span class="line">        size,               // amount of memory to allocate (in bytes)</span><br><span class="line">        p,                  // pointer returned by clSVMAlloc</span><br><span class="line">        &amp;err                // resulting error code</span><br><span class="line">        );</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Shared-Virtual-Address-Space"><a href="#Shared-Virtual-Address-Space" class="headerlink" title="Shared Virtual Address Space"></a>Shared Virtual Address Space</h1><p>After allocated SVM buffer, the pointer assigned in host can be dereferenced in kernel on the device.</p>
+<ul>
+<li>Both host and device use the same virtual address for SVM buffer.</li>
+<li>In OpenCL 1.2, no SVM support, the shared data can be referred by indices</li>
+</ul>
+<p>shared physical memory, different from shared virtual memory, may be available on OCL prior to 2.0.</p>
+<ul>
+<li>in this case, host and device use different virtual memory for access to the same physical memory</li>
+</ul>
+<h1 id="Map-free-Access"><a href="#Map-free-Access" class="headerlink" title="Map-free Access"></a>Map-free Access</h1><p>mapping machanism is required except fine-grained SVM buffer.</p>
+<ul>
+<li><p>coarse-grained SVM buffer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">float* p = (float*)clSVMAlloc(…);</span><br><span class="line"></span><br><span class="line">clEnqueueSVMMap(…,</span><br><span class="line">        CL_TRUE,  // block until map is done</span><br><span class="line">        p, …);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// Initialize SVM buffer</span><br><span class="line">p[i] = …;</span><br><span class="line"></span><br><span class="line">clEnqueueSVMUnmap(…, p, …);</span><br><span class="line"></span><br><span class="line">clEnqueueNDRange(…);</span><br><span class="line"></span><br><span class="line">clEnqueueSVMMap(…,</span><br><span class="line">        CL_TRUE,  // block until map is done</span><br><span class="line">        p, …);</span><br><span class="line"></span><br><span class="line">// Read the data produced by the kernel</span><br><span class="line">… = p[i];</span><br><span class="line"></span><br><span class="line">clEnqueueSVMUnmap(…, p, …);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>fine-grained SVM buffer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">float* p = (float*)clSVMAlloc(…);</span><br><span class="line">// Initialize SVM buffer</span><br><span class="line">p[i] = …;</span><br><span class="line"></span><br><span class="line">clEnqueueNDRange(…);</span><br><span class="line"></span><br><span class="line">clFinish(…);</span><br><span class="line"></span><br><span class="line">// Read the data produced by the kernel</span><br><span class="line">… = p[i];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>To create fine-grained SVM buffer, with map-free access.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void* p = clSVMAlloc (</span><br><span class="line">        context,            // an OpenCL context where this buffer is available</span><br><span class="line">        CL_MEM_READ_WRITE | CL_MEM_SVM_FINE_GRAIN_BUFFER,</span><br><span class="line">        size,               // amount of memory to allocate (in bytes)</span><br><span class="line">        0                   // alignment in bytes (0 means default)</span><br><span class="line">        );</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Fine-Grained-Coherent-Access"><a href="#Fine-Grained-Coherent-Access" class="headerlink" title="Fine-Grained Coherent Access"></a>Fine-Grained Coherent Access</h1><p>fine-grained SVM provides the ability to access the same memory region from host and device simultaneously.</p>
+<ul>
+<li><p>(different memory bytes in the same memory region)</p>
+</li>
+<li><p>host could enqueue a kernel that modify the a memory, without waiting its finishing, access the same memory in host at the same time.</p>
+</li>
+<li><p>host</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">    float* p = (float*)clSVMAlloc(…);</span><br><span class="line"></span><br><span class="line">    clEnqueueNDRange(…, mykernel, …);</span><br><span class="line">    clFlush(…);</span><br><span class="line"></span><br><span class="line">    // Do not wait and modify some data</span><br><span class="line">    p[0] = 0;</span><br><span class="line">    p[2] = 2;</span><br><span class="line">    p[4] = 4;</span><br><span class="line"></span><br><span class="line">    clFinish(…);</span><br><span class="line">---------------------------(time1)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>kernel</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    kernel void mykernel (global float* p)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        p[1] = 1;</span><br><span class="line">        p[3] = 3;</span><br><span class="line">        p[5] = 5;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">---------------------------(time1)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>at time1, the host and device get the same view of memory at p, which value is {0.f, 1,f, 2.f, 3.f, 4.f, 5.f}</p>
+</li>
+</ul>
+<p>If the same bytes are accessed by host and device simultaneously, additional synchonization is required.</p>
+<ul>
+<li>atomics</li>
+<li>memory fence</li>
+</ul>
+<p>After kernel is executed completely, the SVM memory will combine the modification from both host and kernel, even if those modificatoin are made in different bytes.</p>
+<h1 id="Fine-Grained-Synchronization"><a href="#Fine-Grained-Synchronization" class="headerlink" title="Fine-Grained Synchronization"></a>Fine-Grained Synchronization</h1><p>fine-grained synchonization:</p>
+<ul>
+<li>atomics<ul>
+<li>safely update the same scalar variable from the host and devices</li>
+</ul>
+</li>
+<li>memory consistency<ul>
+<li>ensure a read/write to a memory by one agent is visable to other agents and in correct order<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">For example, if a circular queue is implemented in an SVM allocation, then insertion of a new queue item and the update of the queue&apos;s next_item pointer variable made by, say, the host, must be seen by a device in the right order.</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>To use that synchonization, should allocate SVM as following. Then the SVM memory can hold variables that can be used in atomic operations.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void* p = clSVMAlloc (</span><br><span class="line">        context,            // an OpenCL context where this buffer is available</span><br><span class="line">        CL_MEM_READ_WRITE | CL_MEM_SVM_FINE_GRAIN_BUFFER | CL_MEM_SVM_ATOMICS,</span><br><span class="line">        size,               // amount of memory to allocate (in bytes)</span><br><span class="line">        0                   // alignment in bytes (0 means default)</span><br><span class="line">        );</span><br></pre></td></tr></table></figure>
+
+<h1 id="Sharing-the-Entire-Host-Address-Space"><a href="#Sharing-the-Entire-Host-Address-Space" class="headerlink" title="Sharing the Entire Host Address Space"></a>Sharing the Entire Host Address Space</h1><p>System SVM allows:</p>
+<ul>
+<li>kernel could access any data in host address space</li>
+<li>no need to call clSVMAlloc() for buffer allocation.</li>
+<li>any memory allocated in host by malloc() or new, could be acessed by kernel</li>
+<li>Even so, take care of data alignment required by OCL spec</li>
+</ul>
+<p>Buffer SVM allocation:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">float* p = (float*)clSVMAlloc(</span><br><span class="line">        context,</span><br><span class="line">        CL_MEM_READ_WRITE |</span><br><span class="line">        CL_MEM_SVM_FINE_GRAIN_BUFFER,</span><br><span class="line">        size,</span><br><span class="line">        0</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">clSetKernelArgSVMPointer(</span><br><span class="line">        mykernel, p, …);</span><br><span class="line"></span><br><span class="line">clEnqueueNDRange(…, mykernel, …);</span><br></pre></td></tr></table></figure>
+
+<p>System SVM allocation:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// _aligned_malloc is one of the</span><br><span class="line">// methods to allocate aligned</span><br><span class="line">// memory to ensure efficient data</span><br><span class="line">// processing in the kernel</span><br><span class="line">float* p = (float*)_aligned_malloc(</span><br><span class="line">        size,</span><br><span class="line">        sizeof(cl_float16)</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">clSetKernelArgSVMPointer(</span><br><span class="line">        mykernel, p, …);</span><br><span class="line"></span><br><span class="line">clEnqueueNDRange(…, mykernel, …);</span><br></pre></td></tr></table></figure>
+
+<h1 id="Implicit-Use-of-Any-SVM-Allocation"><a href="#Implicit-Use-of-Any-SVM-Allocation" class="headerlink" title="Implicit Use of Any SVM Allocation"></a>Implicit Use of Any SVM Allocation</h1><p>Host should use one of below to pass kernel parameters:</p>
+<ul>
+<li><code>clSetKernelArgSVMPointer()</code>: to pass a pointer to an SVM allocation as a kernel argument</li>
+<li><code>clSetKernelExecInfo()</code>: to pass pointers to all SVM allocations that can be reached and accessed by a specific kernel, but are not passed as kernel arguments</li>
+</ul>
+<p>fine-grained system SVM is that host is not required to explicitly allocate SVM buffer.</p>
+<ul>
+<li><p>Explicit indirect use, buffer SVM allocation</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">struct Node &#123;</span><br><span class="line">    float value;</span><br><span class="line">    Node* next;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Node* node1 = (Node*)clSVMAlloc(</span><br><span class="line">        context,</span><br><span class="line">        CL_MEM_READ_WRITE |</span><br><span class="line">        CL_MEM_SVM_FINE_GRAIN_BUFFER,</span><br><span class="line">        sizeof(Node),</span><br><span class="line">        0</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">node1-&gt;value = 1.f;</span><br><span class="line"></span><br><span class="line">Node* node2 = (Node*)clSVMAlloc(</span><br><span class="line">        context,</span><br><span class="line">        CL_MEM_READ_WRITE |</span><br><span class="line">        CL_MEM_SVM_FINE_GRAIN_BUFFER,</span><br><span class="line">        sizeof(Node),</span><br><span class="line">        0</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">node2-&gt;value = 2.f;</span><br><span class="line"></span><br><span class="line">// Link node1 to node2node1-&gt;next = node2;</span><br><span class="line">node2-&gt;next = 0;</span><br><span class="line"></span><br><span class="line">// Pass node1 as a kernel argument</span><br><span class="line">clSetKernelArgSVMPointer(</span><br><span class="line">        mykernel, node1, …);</span><br><span class="line"></span><br><span class="line">// Pass node2; it will be indirectly</span><br><span class="line">// used by a kernel through node1-&gt;next</span><br><span class="line">clSetKernelExecInfo(</span><br><span class="line">        mykernel,</span><br><span class="line">        CL_KERNEL_EXEC_INFO_SVM_PTRS,</span><br><span class="line">        sizeof(node2),</span><br><span class="line">        &amp;node2</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">clEnqueueNDRange(…, mykernel, …);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Implicit indirect use, system SVM allocation</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">struct Node &#123;</span><br><span class="line">    float value;</span><br><span class="line">    Node* next;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Node* node1 = new Node;</span><br><span class="line">node1-&gt;value = 1.f;</span><br><span class="line"></span><br><span class="line">Node* node2 = new Node;</span><br><span class="line">node2-&gt;value = 2.f;</span><br><span class="line"></span><br><span class="line">// Link node1 to node2node1-&gt;next = node2;</span><br><span class="line">node2-&gt;next = 0;</span><br><span class="line"></span><br><span class="line">// Pass node1 as a kernel argument</span><br><span class="line">clSetKernelArgSVMPointer(</span><br><span class="line">        mykernel, node1, …);</span><br><span class="line"></span><br><span class="line">// node2 is not passed explicitly,</span><br><span class="line">// however kernel can still access it</span><br><span class="line">// through node1-&gt;next</span><br><span class="line">clEnqueueNDRange(…, mykernel, …);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="https://software.intel.com/en-us/articles/opencl-20-shared-virtual-memory-overview" target="_blank" rel="noopener">opencl 2.0 shared virtual memory overview</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Compute/">Compute</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/OpenCL/">OpenCL</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjunweihit.github.io/2018/12/13/ocl-svm/" data-title="OpenCL SVM | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/12/25/compute-rocm-installation/" title="ROCm Installation Guide">
+  <strong>上一篇：</strong><br/>
+  <span>
+  ROCm Installation Guide</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/12/13/ocl-overview-md/"  title="OpenCL Overview">
+ <strong>下一篇：</strong><br/> 
+ <span>OpenCL Overview
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Detect-supported-SVM-type"><span class="toc-number">2.</span> <span class="toc-text">Detect supported SVM type</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Identifying-an-SVM-Buffer-Using-a-Regular-Pointer"><span class="toc-number">3.</span> <span class="toc-text">Identifying an SVM Buffer Using a Regular Pointer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shared-Virtual-Address-Space"><span class="toc-number">4.</span> <span class="toc-text">Shared Virtual Address Space</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Map-free-Access"><span class="toc-number">5.</span> <span class="toc-text">Map-free Access</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Fine-Grained-Coherent-Access"><span class="toc-number">6.</span> <span class="toc-text">Fine-Grained Coherent Access</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Fine-Grained-Synchronization"><span class="toc-number">7.</span> <span class="toc-text">Fine-Grained Synchronization</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sharing-the-Entire-Host-Address-Space"><span class="toc-number">8.</span> <span class="toc-text">Sharing the Entire Host Address Space</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Implicit-Use-of-Any-SVM-Allocation"><span class="toc-number">9.</span> <span class="toc-text">Implicit Use of Any SVM Allocation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">10.</span> <span class="toc-text">Reference</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Compute/" title="Compute">Compute<sup>15</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/Graphics/" title="Graphics">Graphics<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/" title="linux-dev">linux-dev<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-env/" title="linux-env">linux-env<sup>11</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ROCm/" title="ROCm">ROCm<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Wiki/" title="Wiki">Wiki<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env-misc/" title="linux-env-misc">linux-env-misc<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenCL/" title="OpenCL">OpenCL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TensorFlow/" title="TensorFlow">TensorFlow<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SCM/" title="SCM">SCM<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-dev-misc/" title="linux-dev-misc">linux-dev-misc<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env/" title="linux-env">linux-env<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graphics/" title="Graphics">Graphics<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://en.wikipedia.org" target="_blank" title="wikipedia(en)">wikipedia(en)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3230658564&verifier=93c86f97&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Running on the Linux road <br/>
+			Try everything</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3230658564" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/zjunweihit" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:zjunweihit@sina.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="zjunweihit">zjunweihit</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

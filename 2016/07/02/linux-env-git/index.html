@@ -1,0 +1,940 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>玩转git | Linux Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjunweihit">
+    
+
+    
+    <meta name="description" content="Let’s play with git ^^">
+<meta name="keywords" content="SCM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="玩转git">
+<meta property="og:url" content="http://zjunweihit.github.io/2016/07/02/linux-env-git/index.html">
+<meta property="og:site_name" content="Linux Player">
+<meta property="og:description" content="Let’s play with git ^^">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-09T00:55:29.871Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="玩转git">
+<meta name="twitter:description" content="Let’s play with git ^^">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Linux Player" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/L2_ico.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/L2.jpg" alt="Linux Player" title="Linux Player"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Linux Player">Linux Player</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:zjunweihit.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/02/linux-env-git/" title="玩转git" itemprop="url">玩转git</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-02T12:37:32.000Z" itemprop="datePublished"> Published 2016-07-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#git-config"><span class="toc-number">1.</span> <span class="toc-text">git config</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#创建你的git-repo"><span class="toc-number">2.</span> <span class="toc-text">创建你的git repo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#创建开发branch"><span class="toc-number">3.</span> <span class="toc-text">创建开发branch</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#git-patch-operations"><span class="toc-number">4.</span> <span class="toc-text">git patch operations</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#git-operations-for-daily-work"><span class="toc-number">5.</span> <span class="toc-text">git operations for daily work</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#git-bisect-二分查找bad-commit"><span class="toc-number">6.</span> <span class="toc-text">git bisect 二分查找bad commit</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">7.</span> <span class="toc-text">Reference</span></a></li></ol>
+		
+		</div>
+		
+		<p>Let’s play with git ^^</p>
+<a id="more"></a>
+
+<h1 id="git-config"><a href="#git-config" class="headerlink" title="git config"></a>git config</h1><ul>
+<li><p>git config的操作</p>
+<ul>
+<li>–global: 对所有git repo, 否则只会影响当前git repo的.git/config文件.</li>
+<li>–unset: 删除alias.XX的设置<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># git config --unset alias.XX YY_ZZ_UU</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>git config user.name “your name”</p>
+</li>
+<li><p>git config user.email yourname@email_server</p>
+</li>
+<li><p>git config core.editor vim</p>
+<ul>
+<li>默认情况下git会使用默认编辑器,如果想指定与系统不同的编辑器.</li>
+<li>就会在.git/config中增加如下内容.(当然,手动改的话也是可以的)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[core]</span><br><span class="line">	editor = vim</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>git config core.paper “less -N”</p>
+<ul>
+<li>use “less” with number<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">man less</span><br><span class="line"></span><br><span class="line">       -N or --LINE-NUMBERS</span><br><span class="line">              Causes  a  line  number to be displayed at the beginning of each</span><br><span class="line">              line in the display.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>git config color.diff true</p>
+<ul>
+<li>set color for diff</li>
+</ul>
+</li>
+<li><p>git config alias.XX YY_ZZ_UU</p>
+<ul>
+<li>git XX == git YY_ZZ_UU<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.ci commit</span><br><span class="line">git config --global alias.rs reset</span><br><span class="line">git config --global alias.st status</span><br><span class="line">git config --global alias.br branch</span><br><span class="line">git config --global alias.co checkout</span><br><span class="line">git config --global alias.lo &apos;log --oneline&apos;</span><br><span class="line">git config --global alias.rt remote</span><br><span class="line">git config --global alias.rb rebase</span><br><span class="line">git config --global alias.cp cherry-pick</span><br><span class="line">git config --global alias.rh &apos;reset --hard&apos;</span><br><span class="line">git config --global alias.cl &apos;clean -df&apos;</span><br><span class="line">git config --global alias.lou &apos;log --pretty=oneline --format=&quot;%h %s &lt;%an&gt;&quot;&apos;</span><br><span class="line">git config --global alias.ar &apos;apply --reject&apos;</span><br><span class="line">git config --global alias.la &apos;log --pretty=oneline --format=&quot;%Cred%h%Creset %Cblue%ci%Creset %s %Cgreen&lt;%an&gt;&quot;&apos;</span><br><span class="line">git config --global alias.arp &apos;apply --reject .git/rebase-apply/patch&apos;</span><br><span class="line">git config --global alias.rp &apos;reset HEAD^&apos;</span><br><span class="line">git config --global alias.rph &apos;reset --hard HEAD^&apos;</span><br><span class="line">git config --global alias.dc &apos;describe --contains&apos;</span><br><span class="line">git config --global alias.se &apos;send-email&apos;</span><br><span class="line">git config --global alias.pr &apos;pull --rebase&apos;</span><br><span class="line">git config --global alias.pusha &apos;push gerritgit HEAD:refs/for/`git rev-parse --abbrev-ref HEAD`&apos;</span><br><span class="line">git config --global alias.cia &apos;commit --amend&apos;</span><br><span class="line">git config --global alias.aa &apos;add -A&apos;</span><br><span class="line">git config --global alias.sh stash</span><br><span class="line">git config --global alias.rbi &apos;rebase -i&apos;</span><br><span class="line">git config --global alias.rbc &apos;rebase --continue&apos;</span><br><span class="line">git config --global alias.cpc &apos;cherry-pick --continue&apos;</span><br><span class="line">git config --global alias.ann annotate</span><br><span class="line">git config --global alias.diffc &apos;diff --cached&apos;</span><br><span class="line"></span><br><span class="line">git config --global sendemail.smtpserver &apos;xyz.abc.com&apos;</span><br><span class="line">git config --global sendemail.smtpserverport 25</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>git config core.autocrlf true</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">If core.autocrlf is set to true, that means that any time you add a file to the git repo that git thinks is a text file, it will turn all CRLF line endings to just LF before it stores it in the commit. Whenever you git checkout something, all text files automatically will have their LF line endings converted to CRLF endings. This allows development of a project across platforms that use different line-ending styles without commits being very noisy because each editor changes the line ending style as the line ending style is always consistently LF.</span><br><span class="line"></span><br><span class="line">The side-effect of this convenient conversion, and this is what the warning you&apos;re seeing is about, is that if a text file you authored originally had LF endings instead of CRLF, it will be stored with LF as usual, but when checked out later it will have CRLF endings. For normal text files this is usually just fine. The warning is a &quot;for your information&quot; in this case, but in case git incorrectly assesses a binary file to be a text file, it is an important warning because git would then be corrupting your binary file.</span><br><span class="line"></span><br><span class="line">If core.autocrlf is set to false, no line-ending conversion is ever performed, so text files are checked in as-is. This usually works ok, as long as all your developers are either on Linux or all on Windows. But in my experience I still tend to get text files with mixed line endings that end up causing problems.</span><br><span class="line"></span><br><span class="line">My personal preference is to leave the setting turned ON, as a Windows developer.</span><br><span class="line"></span><br><span class="line">See http://kernel.org/pub/software/scm/git/docs/git-config.html for updated info that includes the &quot;input&quot; value.</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="创建你的git-repo"><a href="#创建你的git-repo" class="headerlink" title="创建你的git repo"></a>创建你的git repo</h1><ul>
+<li><p>使用git创建仓库主要有两种方法.</p>
+<ul>
+<li>git init</li>
+<li>git inti –bare<ul>
+<li>Usually we also set followings<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config receive.denyNonFastForwards true</span><br><span class="line">git config core.sharedrepository 1</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>git init:创建work tree的snapshot在服务器端,在分机git clone到本地后,git push会出现以下错误.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">zjunwei@ubuntu:~/test/test2$ git push</span><br><span class="line">Counting objects: 5, done.</span><br><span class="line">Writing objects: 100% (3/3), 268 bytes, done.</span><br><span class="line">Total 3 (delta 0), reused 0 (delta 0)</span><br><span class="line">remote: error: refusing to update checked out branch: refs/heads/master</span><br><span class="line">remote: error: By default, updating the current branch in a non-bare repository</span><br><span class="line">remote: error: is denied, because it will make the index and work tree inconsistent</span><br><span class="line">remote: error: with what you pushed, and will require &apos;git reset --hard&apos; to match</span><br><span class="line">remote: error: the work tree to HEAD.</span><br><span class="line">remote: error:</span><br><span class="line">remote: error: You can set &apos;receive.denyCurrentBranch&apos; configuration variable to</span><br><span class="line">remote: error: &apos;ignore&apos; or &apos;warn&apos; in the remote repository to allow pushing into</span><br><span class="line">remote: error: its current branch; however, this is not recommended unless you</span><br><span class="line">remote: error: arranged to update its work tree to match what you pushed in some</span><br><span class="line">remote: error: other way.</span><br><span class="line">remote: error:</span><br><span class="line">remote: error: To squelch this message and still keep the default behaviour, set</span><br><span class="line">remote: error: &apos;receive.denyCurrentBranch&apos; configuration variable to &apos;refuse&apos;.</span><br><span class="line">To ssh://zjunwei-pc/~/test2</span><br><span class="line"> ! [remote rejected] master -&gt; master (branch is currently checked out)</span><br><span class="line"> error: failed to push some refs to &apos;ssh://zjunwei-pc/~/test2&apos;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这是由于git默认拒绝了push操作,需要修改服务器仓库的.git/config添加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[receive]</span><br><span class="line">	denyCurrentBranch = ignore</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>但是这样的话,服务器的git log会更新,而实际的代码没有更新.需要做如下操作:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git reset --hard</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>git init –bare:创建空仓库,不含有work tree.可以在分机或服务器clone work tree.</p>
+<ul>
+<li><p>服务器:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir gitrepo</span><br><span class="line">$ cd gitrepo</span><br><span class="line">$ git init --bare</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分机:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ git clone ssh://$SERVERIP/$GITREPO_PATH/gitrepo</span><br><span class="line">... Added new files ...</span><br><span class="line">$ git add -A</span><br><span class="line">$ git commit .</span><br><span class="line">$ git push</span><br><span class="line">junwei@ubuntu:~/test/test$ git push</span><br><span class="line">No refs in common and none specified; doing nothing.</span><br><span class="line">Perhaps you should specify a branch such as &apos;master&apos;.</span><br><span class="line">fatal: The remote end hung up unexpectedly</span><br><span class="line">error: failed to push some refs to &apos;ssh://zjunwei-pc/~/test&apos;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这是由于push到一个空仓库所置,git不知道要提交哪个分支(我们指定为master).</p>
+</li>
+<li><p>这时需要用如下命令(只有第一次需要,以后可以正常使用push):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>也许push的时候,会遇到以下error</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">zjunwei@ubuntu:~/gitroot/test$ git push origin master</span><br><span class="line">zjunwei@zjunwei-pc&apos;s password:</span><br><span class="line">Counting objects: 3, done.</span><br><span class="line">Writing objects: 100% (3/3), 218 bytes, done.</span><br><span class="line">Total 3 (delta 0), reused 0 (delta 0)</span><br><span class="line">error: insufficient permission for adding an object to repository database ./objects</span><br><span class="line"></span><br><span class="line">fatal: failed to write object</span><br><span class="line">error: unpack failed: unpack-objects abnormal exit</span><br><span class="line">To ssh://zjunwei-pc/gitroot/test</span><br><span class="line"> ! [remote rejected] master -&gt; master (n/a (unpacker error))</span><br><span class="line"> error: failed to push some refs to &apos;ssh://zjunwei-pc/gitroot/test&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>说明其他用户没有相应的权限,尤其是git repo设置在了root path, such as “/gitroot”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># cd /gitroot/test.git</span><br><span class="line"># chmod 777 -R *</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="创建开发branch"><a href="#创建开发branch" class="headerlink" title="创建开发branch"></a>创建开发branch</h1><ul>
+<li><p>Create new branch for development.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git branch dev</span><br><span class="line">$ git checkout dev</span><br><span class="line">or</span><br><span class="line">$ git checkout -b dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Develop in dev branch: git add, git commit</p>
+</li>
+<li><p>If review it, get the “dev” branch to another PC “tmp” branch</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">In another PC the same repo:</span><br><span class="line">$ git pull ssh://&#123;YOUR_IP&#125;/&#123;PATH&#125;/&#123;repo&#125; dev:tmp</span><br><span class="line">It needs to know the passwd &#123;YOUR_IP&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>After review, get the reviewed code from another PC “tmp” branch</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">In your PC the same repo:</span><br><span class="line">$ git checkout -b tmp</span><br><span class="line">$ git pull ssh://&#123;REVIEWER_IP&#125;/&#123;PATH&#125;/&#123;repo&#125; tmp:tmp</span><br><span class="line">It needs to know the passwd &#123;REVIEWER_IP&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Pick the “dev” branch modification to master brach</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git cherry-pick &lt;commit-id&gt;</span><br><span class="line">commit-id is the &quot;dev&quot; branch commit it. modify the commit log as you wish.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>If pick multi-commit:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from id1 to id2</span><br><span class="line">$ git cherry-pick &lt;commit-id-1&gt;..&lt;commit-id-2&gt;</span><br><span class="line">from dev HEAD~1 to HEAD</span><br><span class="line">$ git cherry-pick dev~1 dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>If not commit for each commit.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git cherry-pick -n &lt;commit-id&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>check dev branch log</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git log -b dev</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>After development, you could remove the dev branch</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch -d dev</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="git-patch-operations"><a href="#git-patch-operations" class="headerlink" title="git patch operations"></a>git patch operations</h1><ul>
+<li><p>Create patches: git format-patch</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git format-patch &lt;commit-id&gt; -o &lt;dir&gt; -n1</span><br><span class="line">&lt;commit-id&gt;: 从哪个commit开始</span><br><span class="line">-o:          输出到哪个文件</span><br><span class="line">-n1:         创建几个patch,每个为一个commit</span><br><span class="line">             也可以用origin,表示把所有本地未提交的commit都做成patch</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Apply patches:</p>
+<ul>
+<li><p>git apply: 将patch的改动,apply到源代码上.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git apply 0001-XXX.patch</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>git am: 除了git apply相应的操作外,自动commit, 并自动填写commit log.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git am 0001-XXX.patch</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Apply several patches.</p>
+<ol>
+<li><p>git am patches</p>
+<ul>
+<li>如果所有的patch都可以直接打上,那么任务完成,并且都已经提交.可以查看git log.</li>
+<li>会按顺序打patch</li>
+</ul>
+</li>
+<li><p>If it rejects, you need to apply the patch manually.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git apply --reject 0001-XXX.patch</span><br><span class="line">$ vi file.c file.c.rej &lt;fix the rejects&gt;</span><br><span class="line">$ git add -A</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>git am –resolved</p>
+<ul>
+<li><p>am会自动将当前patch(0001-XXX.patch)打上,并继续打下一个patch/commit.</p>
+</li>
+<li><p>如果又有patch出现reject,还需要再次手动fix the rejects.</p>
+</li>
+<li><p>如果想跳过当前patch</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git am --skip</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果要退出当前am操作.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git am --abort</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>如果所有patch打完,可以查看am中是否还有patch in series</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git am --continue</span><br><span class="line">Resolve operation not in progress, we are not resuming.</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="git-operations-for-daily-work"><a href="#git-operations-for-daily-work" class="headerlink" title="git operations for daily work"></a>git operations for daily work</h1><ol>
+<li><p>git rebase</p>
+<ul>
+<li><p>假设有以下commit,你想要改commit a的内容.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">commit c</span><br><span class="line">commit b</span><br><span class="line">commit a &lt;-- modify this commit</span><br><span class="line">commit 1 &lt;-- git rebase here</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>需要回退到commit 1(commit a前一个commit)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git rebase -i &lt;commit id of commit 1&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这时会显示如下内容,把pick–&gt;edit即表示要编辑缉的commit.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pick  commit c</span><br><span class="line">pick  commit b</span><br><span class="line">pick  commit a  &lt;-- modify &quot;pick&quot; as &quot;edit&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果是想从重做以上commit(a)的内容.可以reset它的操作.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git reset HEAD^</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后重新提交</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit .</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>push 所有其它的commit(在commit a之后的)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git rebase --continue</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>git pull</p>
+<ul>
+<li><p>set upstream by default</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull &lt;remote&gt; &lt;branch&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>If you wish to set tracking information for this branch you can do so with:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch --set-upstream-to=&lt;remote&gt;/&lt;branch&gt; &lt;local_branch&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>git fetch</p>
+<ul>
+<li>如果remote-tracking branches已经删除了一些branch,那么本地也可以删除相应的branch<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch -p</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>fix merge when git pull</p>
+<ul>
+<li><p>有时候,当运行git pull的时候,会出现merge failure的信息.这时就需要我们手动来merge这些操作.通常,是关于patches/serial文件的.</p>
+</li>
+<li><p>查看哪些文件需要更新或合并.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>merge manually.</p>
+</li>
+<li><p>添加改动的文件.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git add -A</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提交改动的文件到本地(commit)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git commit</span><br><span class="line">注意:不是&quot;git commit .&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提交merge及以前的改动到服务器.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>查看文件更动的记录(latest信息)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git annotate &lt;file_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看commit的tag信息, commit属于哪个kernel分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git describe --contain</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>–contain 指下一个tag,即包含当前commit的下一个最近的tag</li>
+</ul>
+</li>
+<li><p>git checkout</p>
+<ul>
+<li><p>回到之前某个版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout &lt;commit id&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>恢复到最新版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout &lt;branch name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>git diff</p>
+<ul>
+<li><p>git add之后,直接使用git diff看不到add中的内容.</p>
+</li>
+<li><p>可以使用如下命令,查看add的内容.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git diff --cached</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果,还有新的改动,没有git add,那么</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git diff            --&gt; 查看新的改动,并没有add</span><br><span class="line">git diff --cached   --&gt; 查看add的内容</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>git remote</p>
+<ul>
+<li><p>nserv is the server name(ip&lt;192.168.1.1&gt; or domain name&lt;nserv.cn&gt;)</p>
+</li>
+<li><p>查看远程仓库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br><span class="line">origin  git+ssh://nserv/export/git/linux-3.4.git (fetch)</span><br><span class="line">origin  git+ssh://nserv/export/git/linux-3.4.git (push)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加远程仓库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add [name] [url]</span><br><span class="line">$ git remote add new git+ssh://nserv/export/git/BRANCH_new.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除远程仓库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git remote rm [name]</span><br><span class="line">$ git remote rm new</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>取远程origin仓库的master分支到本地的new分支上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git pull origin master:new</span><br><span class="line">           ^^^^^^</span><br><span class="line">指的是git remote -v所列出来的远程仓库</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提交本地new分支到远程origin仓库的master分支上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin new:master</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>应用场景：将某个分支(含主分支)提交到远程仓库（以某分支创建远程仓库）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">将本地分支master提交到远程新建仓库</span><br><span class="line">---- remote(nserv) ----</span><br><span class="line"># cd /export/git/BRANCH_NEW</span><br><span class="line"># git init --bare</span><br><span class="line"></span><br><span class="line">---- local ----</span><br><span class="line">$ git remote add new git+ssh://nserv/export/git/BRANCH_NEW.git</span><br><span class="line">$ git remote -v</span><br><span class="line">new     git+ssh://nserv/export/git/BRANCH_new.git (fetch)</span><br><span class="line">new     git+ssh://nserv/export/git/BRANCH_new.git (push)</span><br><span class="line">origin  git+ssh://nserv/export/git/linux-3.4.git (fetch)</span><br><span class="line">origin  git+ssh://nserv/export/git/linux-3.4.git (push)</span><br><span class="line"></span><br><span class="line">提交本地dev分支到远程new的master分支上</span><br><span class="line">$ git push new dev:master</span><br><span class="line"></span><br><span class="line">如果左边的分支名为空，则删除远程master分支</span><br><span class="line">$ git push origin :master</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Add new remote repo to your local repo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># git remote add origin ssh://path/to/remote/repo/linux</span><br><span class="line"># git remote -v</span><br><span class="line">git	ssh://other/linux (fetch)</span><br><span class="line">git	ssh://other/linux (push)</span><br><span class="line">origin	ssh://path/to/remote/repo/linux (fetch)</span><br><span class="line">origin	ssh://path/to/remote/repo/linux (push)</span><br><span class="line"></span><br><span class="line"># git pull origin</span><br><span class="line"># git br -r &lt;to find different branch in origin repo&gt;</span><br><span class="line">  origin/a-new</span><br><span class="line">  origin/b-new</span><br><span class="line"></span><br><span class="line"># git co -b &lt;br name&gt; origin/a-new</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>git tag</p>
+<ul>
+<li><p>为你的某个提交打上标签.无论它是哪个branch中(master, branch-1, branch-2, …, branch-n. master也是一个branch嘛).</p>
+</li>
+<li><p>例如,取下来linux-stable的代码,git tag时,你会看到很多版本,它们都是在各自的分支上.如果不是长期支持的版本分支,会被维护两个小版本号(如3.1-3.3).如果是长期支持的版本,要到指定年限才停止维护.</p>
+</li>
+<li><p>创建tag</p>
+<ul>
+<li><p>轻量标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git tag tag_name_light [commit-id]</span><br><span class="line">如果带有commit-id,则给指定commit-id加上tag,否则给当前commit加上tag</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>带附注标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git tag -a tag_name -m &quot;comments for this tag&quot; [commit-id]</span><br><span class="line">如果带有commit-id,则给指定commit-id加上tag,否则给当前commit加上tag</span><br><span class="line">如果没有&quot;-m&quot;,那么会跳出默认编辑器,让你添加comments</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这两种标签区别</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">轻量级,git show的时候,看不到tag name and messages</span><br><span class="line">带附注的标签则可以</span><br><span class="line"></span><br><span class="line">$ git show tag_light</span><br><span class="line">commit 4023bfc9f351a7994fb6a7d515476c320f94a574</span><br><span class="line">Author: Al Viro &lt;viro@zeniv.linux.org.uk&gt;</span><br><span class="line">Date:   Sat Sep 13 21:59:43 2014 -0400</span><br><span class="line">...(直接是commit内容)</span><br><span class="line"></span><br><span class="line">$ git tag -a tag_comment -m &quot;tag with comments&quot;</span><br><span class="line">$ git show tag_comment</span><br><span class="line">tag with comments</span><br><span class="line">Tagger: junwei-zhang &lt;Jerry.Zhang@sony.com.cn&gt;</span><br><span class="line">Date:   Fri Sep 26 14:20:33 2014 +0900</span><br><span class="line"></span><br><span class="line">tag_comment</span><br><span class="line"></span><br><span class="line">commit 83373f702829dd9f6dcc56d275978d986fafee48</span><br><span class="line">Merge: 9226b5b 4023bfc</span><br><span class="line">Author: Linus Torvalds &lt;torvalds@linux-foundation.org&gt;</span><br><span class="line">Date:   Sun Sep 14 17:37:36 2014 -0700</span><br><span class="line">... (先是tag的信息,然后再显示commit内容)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>查看tag</p>
+<ul>
+<li><p>显示所有tag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>显示所有关心的tag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -l &quot;v3.4.*&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>显示某个tag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git show v3.4.104</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>提交tag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git push --tags</span><br><span class="line"></span><br><span class="line">git push不会提交标签到服务器</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除tag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -d tag_name</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>git log</p>
+<ul>
+<li><p>图形化git log</p>
+<ul>
+<li>gitk</li>
+<li>git log –graph<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">* 8a9794e [JetsonTK1] Refreshed defconfig refs #27317</span><br><span class="line">*   cc8673f Merge branch &apos;master&apos; of git+ssh://nserv/export/git/linux-3.10.y-BRANCH_SS</span><br><span class="line">|\</span><br><span class="line">| *   e4ef13e Merge branch &apos;master&apos; of git+ssh://nserv.sm.sony.co.jp/export/git/linux-3.10.y-BRANCH_SS</span><br><span class="line">| |\</span><br><span class="line">| * | 70ef284 [defconfig] Updated defconfig for CONFIG_R8168=m refs #27563</span><br><span class="line">* | | 9e6c9d1 [JetsonTK1] Add Add Generic PCI support for Jetson TK1 refs #27317</span><br><span class="line">| |/</span><br><span class="line">|/|</span><br><span class="line">* | ef2f0f9 [IIO] Add ak8963 to panda ext dtsi file. refs #27331</span><br><span class="line">* | 63413e1 [IIO] Applied iio-magn-ak8975-fix-unnecessary-casting-between-char.patch refs #27331</span><br><span class="line">* | 72c96df [Patch Fix] Imported iio-magn-ak8975-fix-unnecessary-casting-between-char.patch refs #27331</span><br><span class="line">* | e2b8de4 [IIO] Applied iio related patches refs #27331</span><br><span class="line">* | 7faa0ca [Patch Fix] Imported iio related patches refs #27331</span><br><span class="line">|/</span><br><span class="line">* 6a9b22e [JetsonTK1] Refreshed defconfig refs #27270</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>git log <code>--format=&lt;%T&gt;</code></p>
+<ul>
+<li>格式化log输出</li>
+<li>git log <code>--format=%H</code><ul>
+<li>只显示commit id，即commit hash</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>git log <code>&lt;from&gt;..&lt;to&gt;</code></p>
+<ul>
+<li><code>&lt;from&gt;</code> and <code>&lt;to&gt;</code> 可以是branch名，tag名，commit id.</li>
+<li>git log <code>v3.10.24..v3.10.25</code><ul>
+<li>show the log from <code>v3.10.24</code> to <code>v3.10.25</code></li>
+</ul>
+</li>
+<li>git log <code>v3.10.24</code><ul>
+<li>show the log from <code>v3.10.24</code> to <code>HEAD</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>git log <code>--grep</code></p>
+<ul>
+<li>git log <code>--grep=&lt;key&gt;</code><ul>
+<li>在commit log中grep关键字，区分大小写</li>
+</ul>
+</li>
+<li>git log <code>-i --grep=&lt;key&gt;</code><ul>
+<li>在commit log中grep关键字，不区分大小写</li>
+</ul>
+</li>
+<li>git log <code>--grep=&lt;key1&gt;</code> <code>--grep=&lt;key2&gt;</code><ul>
+<li>两个关键词为“或”的关系</li>
+</ul>
+</li>
+<li>git log <code>--grep=&lt;key1&gt;</code> <code>--grep=&lt;key2&gt;</code> <code>--all-match</code><ul>
+<li>两个关键词为“与”的关系</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>git log <code>--stat</code></p>
+<ul>
+<li>显示文件修改状态<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">commit 1e4503166c217ad5a170fcdb000a4ba3a29448bb</span><br><span class="line">Author: junwei-zhang &lt;Jerry.Zhang@...&gt;</span><br><span class="line">Date:   Mon Dec 8 08:24:39 2014 +0000</span><br><span class="line"></span><br><span class="line">    [JetsonTK1] Updated tegra12_defconfig for GPU support</span><br><span class="line">    refs #xxxxx</span><br><span class="line"></span><br><span class="line"> arch/arm/configs/tegra12_defconfig                           | 18 +++++++++++++++++-</span><br><span class="line"> patches/sony/refboard/jetsontk1/jetsontk1-tegra-config.patch | 35 ++++++++++++++++++++++++++++-------</span><br><span class="line"> 2 files changed, 45 insertions(+), 8 deletions(-)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="git-bisect-二分查找bad-commit"><a href="#git-bisect-二分查找bad-commit" class="headerlink" title="git bisect 二分查找bad commit"></a>git bisect 二分查找bad commit</h1><ul>
+<li>开始使用git git bisect后，只有master分支。</li>
+<li>选定good和bad的commit id，git会自动跳到二分查找的commit id上。</li>
+<li>当你验证后，再对当前commit进行good或bad的评价。</li>
+<li>最终你会找到出现问题的commit id。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git bisect start</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git br</span><br><span class="line">* master</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git bisect good ea8ad3ed6b412ec041ee728cc6e8e77003ff0b21</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git bisect bad 575a9193d27ff4ec42151c36923481a4694b72d1</span><br><span class="line">Bisecting: 90 revisions left to test after this (roughly 7 steps)</span><br><span class="line">[f665d86400e12e887569080c32a978f947ea1fda] [iio] ABC</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git log</span><br><span class="line">commit f665d86400e12e887569080c32a978f947ea1fda</span><br><span class="line">Author: user &lt;user@mail.com&gt;</span><br><span class="line">Date:   Tue Mar 3 13:51:25 2015 +0800</span><br><span class="line"></span><br><span class="line">    [iio] ABC</span><br><span class="line"></span><br><span class="line">commit b78c72b0024b6eefd36290c98d40739f7ca7c191</span><br><span class="line">Author: user &lt;user@mail.com&gt;</span><br><span class="line">Date:   Tue Mar 3 11:46:27 2015 +0800</span><br><span class="line"></span><br><span class="line">    [iio] DEF</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git bisect good </span><br><span class="line">Bisecting: 45 revisions left to test after this (roughly 6 steps)</span><br><span class="line">[764cabb693dcc67cdcd83f3fa8e4005484420cc9] Merge branch &apos;master&apos; of BCD</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git bisect bad </span><br><span class="line">Bisecting: 22 revisions left to test after this (roughly 5 steps)</span><br><span class="line">[282a58906e51ad430befb99799e9b49e6aabf261] [Patch Fix] Renamed A</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git bisect bad </span><br><span class="line">Bisecting: 10 revisions left to test after this (roughly 4 steps)</span><br><span class="line">[245fb92ce99164bec82adffb240570b827b65bf2] [Patch Fix] Applied B</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git bisect good </span><br><span class="line">Bisecting: 5 revisions left to test after this (roughly 3 steps)</span><br><span class="line">[e87178b8b1e19d97c4e76ecaab108498e8376964] [Spritzer] Implement C</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git bisect good </span><br><span class="line">Bisecting: 2 revisions left to test after this (roughly 2 steps)</span><br><span class="line">[084b1fc7a1bfa5c479476f1017411828e44817f2] [Patch Fix] fixed D</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git bisect bad </span><br><span class="line">Bisecting: 0 revisions left to test after this (roughly 1 step)</span><br><span class="line">[d668eb0a5ab415ff487816fdce978ff7b2a584df] [Patch Fix] Applied E</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git bisect bad</span><br><span class="line">Bisecting: 0 revisions left to test after this (roughly 0 steps)</span><br><span class="line">[e66804f035c5bf79bec6d5ab6d80e837a114888e] [Spritzer] Add F</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git bisect good</span><br><span class="line">d668eb0a5ab415ff487816fdce978ff7b2a584df is the first bad commit</span><br><span class="line">commit d668eb0a5ab415ff487816fdce978ff7b2a584df</span><br><span class="line">Author: userX &lt;userX@mail.com&gt;</span><br><span class="line">Date:   Sun Mar 15 12:46:24 2015 +0530</span><br><span class="line"></span><br><span class="line">    [Patch Fix] Applied G</span><br><span class="line"></span><br><span class="line">:040000 040000 b1f96b64b4e7e3a76c13663567d08ed73edf8131 8531a31f4fad337b4631e4f8b66040abc8ce2d99 M	.pc</span><br><span class="line">:040000 040000 1b8cf6434ed686232ac5a68c3d34d79853cce45b faa260fb320074e9d057f437093e0f6045674b0d M	Documentation</span><br><span class="line">:100644 100644 a0c19819975baeffddee43b25f596d0533ed9df3 14e14fabaf163be15bc666babc889deadc625206 M	MAINTAINERS</span><br><span class="line">:040000 040000 081a3376b6968992fa2dc8e66f46930c79cd14be f2b905ca9b2f9dc14a3033b4b1f0eadbef9dd5b5 M	arch</span><br><span class="line">:040000 040000 709e120a5b2105d740674cd47819c4c65976fbe2 e173fcc0731de2d5a4c2c47833034299471a03bd M	drivers</span><br><span class="line">:040000 040000 be5b73cadfb25147f94a05633c486032c6c54a9a 6d41fff4739d33e081d6359e063bbb9e25932e8a M	include</span><br><span class="line">:040000 040000 758c244102807cc89467a9b6721b94a14d9abbcb 25f9b48983c09866bfacf50c285b71452cd08f3e M	lib</span><br><span class="line">:040000 040000 150c59ec2fa167ea740158de30fd957323fdb598 6ad09c686504711bce3fbe36b4400dff2032c1e2 M	patches</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git bisect log</span><br><span class="line">git bisect start</span><br><span class="line"># good: [ea8ad3ed6b412ec041ee728cc6e8e77003ff0b21] [script] good</span><br><span class="line">git bisect good ea8ad3ed6b412ec041ee728cc6e8e77003ff0b21</span><br><span class="line"># bad: [575a9193d27ff4ec42151c36923481a4694b72d1] [BDKTE] bad</span><br><span class="line">git bisect bad 575a9193d27ff4ec42151c36923481a4694b72d1</span><br><span class="line"># good: [f665d86400e12e887569080c32a978f947ea1fda] [iio] ABC</span><br><span class="line">git bisect good f665d86400e12e887569080c32a978f947ea1fda</span><br><span class="line"># bad: [764cabb693dcc67cdcd83f3fa8e4005484420cc9] Merge branch &apos;master&apos; of BCD</span><br><span class="line">git bisect bad 764cabb693dcc67cdcd83f3fa8e4005484420cc9</span><br><span class="line"># bad: [282a58906e51ad430befb99799e9b49e6aabf261] [Patch Fix] Renamed A</span><br><span class="line">git bisect bad 282a58906e51ad430befb99799e9b49e6aabf261</span><br><span class="line"># good: [245fb92ce99164bec82adffb240570b827b65bf2] [Patch Fix] Applied B</span><br><span class="line">git bisect good 245fb92ce99164bec82adffb240570b827b65bf2</span><br><span class="line"># good: [e87178b8b1e19d97c4e76ecaab108498e8376964] [Spritzer] Implement C</span><br><span class="line">git bisect good e87178b8b1e19d97c4e76ecaab108498e8376964</span><br><span class="line"># bad: [084b1fc7a1bfa5c479476f1017411828e44817f2] [Patch Fix] fixed D</span><br><span class="line">git bisect bad 084b1fc7a1bfa5c479476f1017411828e44817f2</span><br><span class="line"># bad: [d668eb0a5ab415ff487816fdce978ff7b2a584df] [Patch Fix] Applied E</span><br><span class="line">git bisect bad d668eb0a5ab415ff487816fdce978ff7b2a584df</span><br><span class="line"># good: [e66804f035c5bf79bec6d5ab6d80e837a114888e] [Spritzer] Add F</span><br><span class="line">git bisect good e66804f035c5bf79bec6d5ab6d80e837a114888e</span><br><span class="line"># first bad commit: [d668eb0a5ab415ff487816fdce978ff7b2a584df] [Patch Fix] Applied G</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git bisect</span><br><span class="line">usage: git bisect [help|start|bad|good|skip|next|reset|visualize|replay|log|run]</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$ git bisect reset</span><br><span class="line">Previous HEAD position was e66804f... [Spritzer] Add the device tree node for the driver of the HIFC in spritzer refs #28237</span><br><span class="line">Switched to branch &apos;master&apos;</span><br><span class="line">Your branch is up-to-date with &apos;origin/master&apos;.</span><br><span class="line">junwei-zhang@u1404:~/gitroot/linux-3.10.y-BRANCH_SS$</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="http://blog.csdn.net/zzulp/article/details/6238527" target="_blank" rel="noopener">Git 用户手册</a></li>
+<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">Git教程</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/linux-env/">linux-env</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/SCM/">SCM</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjunweihit.github.io/2016/07/02/linux-env-git/" data-title="玩转git | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/02/linux-env-quilt/" title="玩转quilt">
+  <strong>上一篇：</strong><br/>
+  <span>
+  玩转quilt</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/02/mac-env/"  title="Mac 环境那些事">
+ <strong>下一篇：</strong><br/> 
+ <span>Mac 环境那些事
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#git-config"><span class="toc-number">1.</span> <span class="toc-text">git config</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#创建你的git-repo"><span class="toc-number">2.</span> <span class="toc-text">创建你的git repo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#创建开发branch"><span class="toc-number">3.</span> <span class="toc-text">创建开发branch</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#git-patch-operations"><span class="toc-number">4.</span> <span class="toc-text">git patch operations</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#git-operations-for-daily-work"><span class="toc-number">5.</span> <span class="toc-text">git operations for daily work</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#git-bisect-二分查找bad-commit"><span class="toc-number">6.</span> <span class="toc-text">git bisect 二分查找bad commit</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">7.</span> <span class="toc-text">Reference</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Compute/" title="Compute">Compute<sup>15</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/Graphics/" title="Graphics">Graphics<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/" title="linux-dev">linux-dev<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-env/" title="linux-env">linux-env<sup>11</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ROCm/" title="ROCm">ROCm<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Wiki/" title="Wiki">Wiki<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env-misc/" title="linux-env-misc">linux-env-misc<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenCL/" title="OpenCL">OpenCL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TensorFlow/" title="TensorFlow">TensorFlow<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SCM/" title="SCM">SCM<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-dev-misc/" title="linux-dev-misc">linux-dev-misc<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env/" title="linux-env">linux-env<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graphics/" title="Graphics">Graphics<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://en.wikipedia.org" target="_blank" title="wikipedia(en)">wikipedia(en)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3230658564&verifier=93c86f97&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Running on the Linux road <br/>
+			Try everything</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3230658564" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/zjunweihit" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:zjunweihit@sina.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="zjunweihit">zjunweihit</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

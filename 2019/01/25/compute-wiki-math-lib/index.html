@@ -1,0 +1,620 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>Math Library Introduction | Linux Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjunweihit">
+    
+
+    
+    <meta name="description" content="Introduce math library(based on CUDA), the name in () is for ROCm">
+<meta name="keywords" content="Wiki">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Math Library Introduction">
+<meta property="og:url" content="http://zjunweihit.github.io/2019/01/25/compute-wiki-math-lib/index.html">
+<meta property="og:site_name" content="Linux Player">
+<meta property="og:description" content="Introduce math library(based on CUDA), the name in () is for ROCm">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-09T00:55:29.867Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Math Library Introduction">
+<meta name="twitter:description" content="Introduce math library(based on CUDA), the name in () is for ROCm">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Linux Player" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/L2_ico.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/L2.jpg" alt="Linux Player" title="Linux Player"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Linux Player">Linux Player</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:zjunweihit.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/01/25/compute-wiki-math-lib/" title="Math Library Introduction" itemprop="url">Math Library Introduction</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
+		
+  <p class="article-time">
+    <time datetime="2019-01-25T05:45:31.000Z" itemprop="datePublished"> Published 2019-01-25</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#cuFFT-rocFFT"><span class="toc-number">1.</span> <span class="toc-text">cuFFT(rocFFT)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cuBLAS-hipblas-rocblas"><span class="toc-number">2.</span> <span class="toc-text">cuBLAS(hipblas, rocblas)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cuRAND-rocrand"><span class="toc-number">3.</span> <span class="toc-text">cuRAND(rocrand)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cuSPARSE-hipsparse-rocsparse"><span class="toc-number">4.</span> <span class="toc-text">cuSPARSE(hipsparse, rocsparse)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cuSOLVER-rocsolver"><span class="toc-number">5.</span> <span class="toc-text">cuSOLVER(rocsolver)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Thrust-hip-thrust"><span class="toc-number">6.</span> <span class="toc-text">Thrust(hip-thrust)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Eigen"><span class="toc-number">7.</span> <span class="toc-text">Eigen</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Others"><span class="toc-number">8.</span> <span class="toc-text">Others</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#cudart-NVIDIA-CUDA-Runtime-Library"><span class="toc-number">8.1.</span> <span class="toc-text">cudart(NVIDIA CUDA Runtime Library)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NVML-NVIDIA-Management-Library"><span class="toc-number">8.2.</span> <span class="toc-text">NVML(NVIDIA Management Library)</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>Introduce math library(based on CUDA), the name in () is for ROCm</p>
+<a id="more"></a>
+
+<h1 id="cuFFT-rocFFT"><a href="#cuFFT-rocFFT" class="headerlink" title="cuFFT(rocFFT)"></a>cuFFT(rocFFT)</h1><ul>
+<li><a href="http://www.360doc.com/content/10/1128/20/2226925_73234298.shtml" target="_blank" rel="noopener">2D FFT</a></li>
+<li><a href="https://blog.csdn.net/yinjianxiang/article/details/80317174" target="_blank" rel="noopener">FFT CSDN</a></li>
+<li><a href="https://blog.csdn.net/enjoy_pascal/article/details/81478582" target="_blank" rel="noopener">十分简明易懂的FFT(快速傅里叶变换)</a></li>
+</ul>
+<h1 id="cuBLAS-hipblas-rocblas"><a href="#cuBLAS-hipblas-rocblas" class="headerlink" title="cuBLAS(hipblas, rocblas)"></a>cuBLAS(hipblas, rocblas)</h1><p>Basic Linear Algebra Subprograms (BLAS) is a specification that prescribes a set of low-level routines for performing common linear algebra operations such as vector addition, scalar multiplication, dot products, linear combinations, and matrix multiplication.</p>
+<p>They are the de facto standard(非官方标准) low-level routines for linear algebra libraries; the routines have bindings for both C and Fortran.</p>
+<blockquote>
+<p>Vector: x, y; Matrix: A, B, C; Const: alpha, beta</p>
+</blockquote>
+<ul>
+<li><p>Level 1: the original presentation of BLAS (1979), which defined only <code>vector operations</code> on strided arrays: dot products, vector norms, a generalized vector addition of the form</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y = alpha * x + y</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Level 2: contains matrix-vector operations including, among other things, a generalized <code>matrix-vector</code> multiplication (<code>gemv</code>):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y = alpha * A * x + beta * y</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Level 3: 1990, contains matrix-matrix operations, including a “<code>general matrix multiplication</code>“ (<code>gemm</code>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C = alpha * A * B + beta * C</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>Ref</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms</a></li>
+</ul>
+</blockquote>
+<h1 id="cuRAND-rocrand"><a href="#cuRAND-rocrand" class="headerlink" title="cuRAND(rocrand)"></a>cuRAND(rocrand)</h1><p>The cuRAND library provides facilities that focus on the simple and efficient generation of high-quality pseudorandom and quasirandom numbers. A pseudorandom sequence of numbers satisfies most of the statistical properties of a truly random sequence but is generated by a deterministic algorithm. A quasirandom sequence of n-dimensional points is generated by a deterministic algorithm designed to fill an n-dimensional space evenly.</p>
+<p>It includes:</p>
+<ul>
+<li>host(CPU) header(/include/curand.h): generate random number on host</li>
+<li>device(GPU) header(/include/curand_kernel.h): generate random number on device for kernels</li>
+</ul>
+<ul>
+<li>Ref<ul>
+<li><a href="https://docs.nvidia.com/cuda/curand/introduction.html#introduction" target="_blank" rel="noopener">https://docs.nvidia.com/cuda/curand/introduction.html#introduction</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="cuSPARSE-hipsparse-rocsparse"><a href="#cuSPARSE-hipsparse-rocsparse" class="headerlink" title="cuSPARSE(hipsparse, rocsparse)"></a>cuSPARSE(hipsparse, rocsparse)</h1><p>The cuSPARSE library contains a set of basic linear algebra subroutines used for handling sparse matrices.<br>It is implemented on top of the NVIDIA CUDA runtime (which is part of the CUDA Toolkit) and is designed to be called from C and C++.</p>
+<blockquote>
+<p>Ref</p>
+<ul>
+<li><a href="https://docs.nvidia.com/cuda/cusparse/index.html" target="_blank" rel="noopener">https://docs.nvidia.com/cuda/cusparse/index.html</a></li>
+</ul>
+</blockquote>
+<h1 id="cuSOLVER-rocsolver"><a href="#cuSOLVER-rocsolver" class="headerlink" title="cuSOLVER(rocsolver)"></a>cuSOLVER(rocsolver)</h1><p>The intent of cuSolver is to provide useful LAPACK-like features.<br>The cuSolver library is a high-level package based on the cuBLAS and cuSPARSE libraries. It combines three separate libraries under a single umbrella, each of which can be used independently or in concert with other toolkit libraries.</p>
+<ul>
+<li>cuSolverDN: deals with dense matrix factorization(因式分解) and solve routines such as LU, QR, SVD and LDLT</li>
+<li>cuSolverSP: a new set of sparse routines based on a sparse QR factorization</li>
+<li>cuSolverRF: a sparse re-factorization package that can provide very good performance when solving a sequence of matrices where only the coefficients are changed but the sparsity pattern remains the same.</li>
+</ul>
+<blockquote>
+<p>Reference:</p>
+<ul>
+<li><a href="https://blog.csdn.net/mucai1/article/details/85242098" target="_blank" rel="noopener">几种矩阵分解算法： LU分解，Cholesky分解，QR分解，SVD分解，Jordan分解</a></li>
+</ul>
+</blockquote>
+<h1 id="Thrust-hip-thrust"><a href="#Thrust-hip-thrust" class="headerlink" title="Thrust(hip-thrust)"></a>Thrust(hip-thrust)</h1><p>Thrust is a parallel algorithms library which resembles the C++ Standard Template Library (STL).<br>Thrust is a C++ template library for parallel platforms based on the Standard Template Library (STL).</p>
+<h1 id="Eigen"><a href="#Eigen" class="headerlink" title="Eigen"></a>Eigen</h1><p>Eigen是一个高层次的C++库，有效支持线性代数，矩阵和矢量运算，数值分析及其相关的算法。</p>
+<h1 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h1><h2 id="cudart-NVIDIA-CUDA-Runtime-Library"><a href="#cudart-NVIDIA-CUDA-Runtime-Library" class="headerlink" title="cudart(NVIDIA CUDA Runtime Library)"></a>cudart(NVIDIA CUDA Runtime Library)</h2><ul>
+<li><p><a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html" target="_blank" rel="noopener">https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html</a></p>
+<blockquote>
+<p> 3.2. CUDA C Runtime<br> The runtime is implemented in the cudart library, which is linked to the application, either statically via cudart.lib or libcudart.a, or dynamically via cudart.dll or libcudart.so. Applications that require cudart.dll and/or cudart.so for dynamic linking typically include them as part of the application installation package. It is only safe to pass the address of CUDA runtime symbols between components that link to the same instance of the CUDA runtime.</p>
+</blockquote>
+</li>
+<li><p>Ubuntu 18.04</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">libcudart9.1/bionic 9.1.85-3ubuntu1 amd64</span><br><span class="line">  NVIDIA CUDA Runtime Library</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="NVML-NVIDIA-Management-Library"><a href="#NVML-NVIDIA-Management-Library" class="headerlink" title="NVML(NVIDIA Management Library)"></a>NVML(NVIDIA Management Library)</h2><p>It is a C-based programmatic interface for monitoring and managing various states within NVIDIA Tesla GPUs.<br>It is intended to be a platform for building 3rd party applications, and is also the underlying library for the NVIDIA-supported nvidia-smi tool.</p>
+<blockquote>
+<p>Ref</p>
+<ul>
+<li><a href="https://developer.nvidia.com/nvidia-management-library-nvml" target="_blank" rel="noopener">https://developer.nvidia.com/nvidia-management-library-nvml</a></li>
+</ul>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Compute/">Compute</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Wiki/">Wiki</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjunweihit.github.io/2019/01/25/compute-wiki-math-lib/" data-title="Math Library Introduction | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2019/01/25/compute-wiki-hpc-app/" title="HPC Application Introduction">
+  <strong>上一篇：</strong><br/>
+  <span>
+  HPC Application Introduction</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2019/01/25/compute-wiki-neural-network/"  title="Neural Network Introduction">
+ <strong>下一篇：</strong><br/> 
+ <span>Neural Network Introduction
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#cuFFT-rocFFT"><span class="toc-number">1.</span> <span class="toc-text">cuFFT(rocFFT)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cuBLAS-hipblas-rocblas"><span class="toc-number">2.</span> <span class="toc-text">cuBLAS(hipblas, rocblas)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cuRAND-rocrand"><span class="toc-number">3.</span> <span class="toc-text">cuRAND(rocrand)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cuSPARSE-hipsparse-rocsparse"><span class="toc-number">4.</span> <span class="toc-text">cuSPARSE(hipsparse, rocsparse)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cuSOLVER-rocsolver"><span class="toc-number">5.</span> <span class="toc-text">cuSOLVER(rocsolver)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Thrust-hip-thrust"><span class="toc-number">6.</span> <span class="toc-text">Thrust(hip-thrust)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Eigen"><span class="toc-number">7.</span> <span class="toc-text">Eigen</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Others"><span class="toc-number">8.</span> <span class="toc-text">Others</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#cudart-NVIDIA-CUDA-Runtime-Library"><span class="toc-number">8.1.</span> <span class="toc-text">cudart(NVIDIA CUDA Runtime Library)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NVML-NVIDIA-Management-Library"><span class="toc-number">8.2.</span> <span class="toc-text">NVML(NVIDIA Management Library)</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Compute/" title="Compute">Compute<sup>15</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/Graphics/" title="Graphics">Graphics<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/" title="linux-dev">linux-dev<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-env/" title="linux-env">linux-env<sup>11</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ROCm/" title="ROCm">ROCm<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Wiki/" title="Wiki">Wiki<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env-misc/" title="linux-env-misc">linux-env-misc<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenCL/" title="OpenCL">OpenCL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TensorFlow/" title="TensorFlow">TensorFlow<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SCM/" title="SCM">SCM<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-dev-misc/" title="linux-dev-misc">linux-dev-misc<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env/" title="linux-env">linux-env<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graphics/" title="Graphics">Graphics<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://en.wikipedia.org" target="_blank" title="wikipedia(en)">wikipedia(en)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3230658564&verifier=93c86f97&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Running on the Linux road <br/>
+			Try everything</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3230658564" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/zjunweihit" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:zjunweihit@sina.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="zjunweihit">zjunweihit</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

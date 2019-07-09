@@ -1,0 +1,670 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>TensorFlow Installation Guide | Linux Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjunweihit">
+    
+
+    
+    <meta name="description" content="How to install TensorFlow. (Verified in Ubuntu 18.04)">
+<meta name="keywords" content="TensorFlow,ROCm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow Installation Guide">
+<meta property="og:url" content="http://zjunweihit.github.io/2018/12/25/compute-env-tensorflow-install-guide/index.html">
+<meta property="og:site_name" content="Linux Player">
+<meta property="og:description" content="How to install TensorFlow. (Verified in Ubuntu 18.04)">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-09T02:39:33.168Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorFlow Installation Guide">
+<meta name="twitter:description" content="How to install TensorFlow. (Verified in Ubuntu 18.04)">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Linux Player" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/L2_ico.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/L2.jpg" alt="Linux Player" title="Linux Player"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Linux Player">Linux Player</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:zjunweihit.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/12/25/compute-env-tensorflow-install-guide/" title="TensorFlow Installation Guide" itemprop="url">TensorFlow Installation Guide</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
+		
+  <p class="article-time">
+    <time datetime="2018-12-25T02:33:56.000Z" itemprop="datePublished"> Published 2018-12-25</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Software-in-Ubuntu-18-04"><span class="toc-number">1.</span> <span class="toc-text">Software in Ubuntu 18.04</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TensorFlow-for-CPU"><span class="toc-number">2.</span> <span class="toc-text">TensorFlow for CPU</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TensorFlow-for-ROCm"><span class="toc-number">3.</span> <span class="toc-text">TensorFlow for ROCm</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-ROCm"><span class="toc-number">3.1.</span> <span class="toc-text">Install ROCm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-TensorFlow-ROCm"><span class="toc-number">3.2.</span> <span class="toc-text">Install TensorFlow ROCm</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TensorFlow-for-CUDA"><span class="toc-number">4.</span> <span class="toc-text">TensorFlow for CUDA</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-Nvidia-CUDA-driver"><span class="toc-number">4.1.</span> <span class="toc-text">Install Nvidia CUDA driver</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-CUDA-Toolkit"><span class="toc-number">4.2.</span> <span class="toc-text">Install CUDA Toolkit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-cuDNN-Optional"><span class="toc-number">4.3.</span> <span class="toc-text">Install cuDNN (Optional)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-TensorFlow-CUDA"><span class="toc-number">4.4.</span> <span class="toc-text">Install TensorFlow CUDA</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Verify-TensorFlow-by-hello-example"><span class="toc-number">5.</span> <span class="toc-text">Verify TensorFlow by hello example</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Issues"><span class="toc-number">6.</span> <span class="toc-text">Issues</span></a></li></ol>
+		
+		</div>
+		
+		<p>How to install TensorFlow. (Verified in Ubuntu 18.04)</p>
+<a id="more"></a>
+<h1 id="Software-in-Ubuntu-18-04"><a href="#Software-in-Ubuntu-18-04" class="headerlink" title="Software in Ubuntu 18.04"></a>Software in Ubuntu 18.04</h1><ul>
+<li>tensorflow 1.12.0</li>
+<li>ROCm 2.0.89</li>
+<li>CUDA Toolkit 9.0(required by tensorflow-gpu in 1.12)</li>
+<li>Python3 3.6.5 is installed by default<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install python3-pip</span><br><span class="line"></span><br><span class="line">The following NEW packages will be installed:</span><br><span class="line">  dh-python libexpat1-dev libpython3-dev libpython3.6-dev python-pip-whl python3-dev python3-distutils python3-lib2to3 python3-pip python3-setuptools python3-wheel python3.6-dev</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="TensorFlow-for-CPU"><a href="#TensorFlow-for-CPU" class="headerlink" title="TensorFlow for CPU"></a>TensorFlow for CPU</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pip3 install tensorflow</span><br><span class="line"></span><br><span class="line">Installing collected packages: astor, six, numpy, keras-preprocessing, h5py, keras-applications, setuptools, protobuf, wheel, markdown, werkzeug, grpcio, tensorboard, gast, termcolor, absl-py, tensorflow</span><br><span class="line">Successfully installed absl-py-0.6.1 astor-0.7.1 gast-0.2.0 grpcio-1.17.1 h5py-2.9.0 keras-applications-1.0.6 keras-preprocessing-1.0.5 markdown-3.0.1 numpy-1.15.4 protobuf-3.6.1 setuptools-40.6.3 six-1.12.0 tensorboard-1.12.1 tensorflow-1.12.0 termcolor-1.1.0 werkzeug-0.14.1 wheel-0.32.3</span><br></pre></td></tr></table></figure>
+
+<h1 id="TensorFlow-for-ROCm"><a href="#TensorFlow-for-ROCm" class="headerlink" title="TensorFlow for ROCm"></a>TensorFlow for ROCm</h1><h2 id="Install-ROCm"><a href="#Install-ROCm" class="headerlink" title="Install ROCm"></a>Install ROCm</h2><ul>
+<li><a href="https://zjunweihit.github.io/2018/12/25/compute-rocm-installation/">ROCm Installation Guide</a></li>
+<li><strong>includes ROCm libs</strong></li>
+</ul>
+<h2 id="Install-TensorFlow-ROCm"><a href="#Install-TensorFlow-ROCm" class="headerlink" title="Install TensorFlow ROCm"></a>Install TensorFlow ROCm</h2><ul>
+<li><p>Install miopen</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install rocm-libs miopen-hip cxlactivitylogger</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Install tensorflow-rocm whl package from PyPI</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pip3 install --user tensorflow-rocm</span><br><span class="line"></span><br><span class="line">Installing collected packages: wheel, six, setuptools, protobuf, markdown, grpcio, werkzeug, numpy, tensorboard, gast, keras-preprocessing, absl-py, astor, termcolor, h5py, keras-applications, tensorflow-rocm</span><br><span class="line">Successfully installed absl-py-0.6.1 astor-0.7.1 gast-0.2.0 grpcio-1.17.1 h5py-2.9.0 keras-applications-1.0.6 keras-preprocessing-1.0.5 markdown-3.0.1 numpy-1.15.4 protobuf-3.6.1 setuptools-40.6.3 six-1.12.0 tensorboard-1.12.1 tensorflow-rocm-1.12.0 termcolor-1.1.0 werkzeug-0.14.1 wheel-0.32.3</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="TensorFlow-for-CUDA"><a href="#TensorFlow-for-CUDA" class="headerlink" title="TensorFlow for CUDA"></a>TensorFlow for CUDA</h1><h2 id="Install-Nvidia-CUDA-driver"><a href="#Install-Nvidia-CUDA-driver" class="headerlink" title="Install Nvidia CUDA driver"></a>Install Nvidia CUDA driver</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install nvidia-cuda-dev</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">The following additional packages will be installed:</span><br><span class="line">  libaccinj64-9.1 libcublas9.1 libcudart9.1 libcufft9.1 libcufftw9.1 libcuinj64-9.1 libcurand9.1 libcusolver9.1 libcusparse9.1 libnppc9.1 libnppial9.1 libnppicc9.1 libnppicom9.1 libnppidei9.1</span><br><span class="line">  libnppif9.1 libnppig9.1 libnppim9.1 libnppist9.1 libnppisu9.1 libnppitc9.1 libnpps9.1 libnvblas9.1 libnvgraph9.1 libnvidia-compute-390 libnvrtc9.1 libnvtoolsext1 libnvvm3 libthrust-dev libvdpau-dev</span><br><span class="line">Suggested packages:</span><br><span class="line">  nvidia-cuda-toolkit libvdpau-doc</span><br><span class="line">Recommended packages:</span><br><span class="line">  libnvcuvid1</span><br><span class="line">The following NEW packages will be installed:</span><br><span class="line">  libaccinj64-9.1 libcublas9.1 libcudart9.1 libcufft9.1 libcufftw9.1 libcuinj64-9.1 libcurand9.1 libcusolver9.1 libcusparse9.1 libnppc9.1 libnppial9.1 libnppicc9.1 libnppicom9.1 libnppidei9.1</span><br><span class="line">  libnppif9.1 libnppig9.1 libnppim9.1 libnppist9.1 libnppisu9.1 libnppitc9.1 libnpps9.1 libnvblas9.1 libnvgraph9.1 libnvidia-compute-390 libnvrtc9.1 libnvtoolsext1 libnvvm3 libthrust-dev libvdpau-dev</span><br><span class="line">  nvidia-cuda-dev</span><br></pre></td></tr></table></figure>
+
+<h2 id="Install-CUDA-Toolkit"><a href="#Install-CUDA-Toolkit" class="headerlink" title="Install CUDA Toolkit"></a>Install CUDA Toolkit</h2><p>It includes libs required by <code>tensorflow-gpu</code>, e.g. libcublas.<br>In tensorflow 1.12, it requires libcublas:9.0. By default in Ubuntu18.04 it has libcublas:9.1, not supported.</p>
+<ul>
+<li><p>Download the CUDA toolkit</p>
+<ul>
+<li><a href="https://developer.nvidia.com/cuda-toolkit-archive" target="_blank" rel="noopener">CUDA Toolkit 9.0 (Sept 2017)</a></li>
+<li>Linux &gt; X86_64 &gt; Ubuntu &gt; 16.04 &gt; runfile &gt; Base Installer(1.6GB)</li>
+</ul>
+</li>
+<li><p>Install dependent libs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Install cuda 9.0 toolkit</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 777 cuda_9.0.176_384.81_linux.run</span><br><span class="line">sudo ./cuda_9.0.176_384.81_linux.run -toolkit -samples -silent -override</span><br><span class="line"></span><br><span class="line">(Installer must be in silent mode to use the toolkit, samples or driver command-line flags. Please also pass -silent to the installer.)</span><br><span class="line"></span><br><span class="line">lrwxrwxrwx 1 root root 19 Dec 25 13:10 /usr/local/cuda -&gt; /usr/local/cuda-9.0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Remove cuda 9.0 toolkit<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/local/cuda/bin/uninstall_cuda_9.0.pl</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Set environment variables</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/usr/local/cuda/bin$&#123;PATH:+:$&#123;PATH&#125;&#125;</span><br><span class="line">export LD_LIBRARY_PATH=/usr/local/cuda/lib64 $&#123;LD_LIBRARY_PATH:+:$&#123;LD_LIBRARY_PATH&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Install-cuDNN-Optional"><a href="#Install-cuDNN-Optional" class="headerlink" title="Install cuDNN (Optional)"></a>Install cuDNN (Optional)</h2><ul>
+<li><p>Download cuDNN v7.0.5 (Dec 5, 2017), for CUDA 9.0</p>
+<ul>
+<li><a href="https://developer.nvidia.com/rdp/cudnn-archive" target="_blank" rel="noopener">cuDNN Archive</a></li>
+<li>cuDNN v7.0.5 Runtime Library for Ubuntu16.04 (Deb)</li>
+<li>cuDNN v7.0.5 Developer Library for Ubuntu16.04 (Deb)</li>
+<li>cuDNN v7.0.5 Code Samples and User Guide for Ubuntu16.04 (Deb)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i .deb</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Install dependent libs for ministCUDNN</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libfreeimage3 libfreeimage-dev</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Install-TensorFlow-CUDA"><a href="#Install-TensorFlow-CUDA" class="headerlink" title="Install TensorFlow CUDA"></a>Install TensorFlow CUDA</h2><ul>
+<li><p>Install tensorflow-gpu</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pip3 install tensorflow-gpu</span><br><span class="line"></span><br><span class="line">Installing collected packages: numpy, six, h5py, keras-applications, wheel, werkzeug, grpcio, setuptools, protobuf, markdown, tensorboard, astor, gast, absl-py, keras-preprocessing, termcolor, tensorflow-gpu</span><br><span class="line">Successfully installed absl-py-0.6.1 astor-0.7.1 gast-0.2.0 grpcio-1.17.1 h5py-2.9.0 keras-applications-1.0.6 keras-preprocessing-1.0.5 markdown-3.0.1 numpy-1.15.4 protobuf-3.6.1 setuptools-40.6.3 six-1.12.0 tensorboard-1.12.1 tensorflow-gpu-1.12.0 termcolor-1.1.0 werkzeug-0.14.1 wheel-0.32.3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Install libcupti-dev</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libcupti-dev</span><br><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/extras/CUPTI/lib64</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Verify-TensorFlow-by-hello-example"><a href="#Verify-TensorFlow-by-hello-example" class="headerlink" title="Verify TensorFlow by hello example"></a>Verify TensorFlow by hello example</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line">hello = tf.constant(&apos;Hello, TensorFlow&apos;)</span><br><span class="line">sess = tf.Session()</span><br><span class="line"># show gpu support if anyG</span><br><span class="line">sess.run(hello)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>CPU</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ python3</span><br><span class="line">Python 3.6.7 (default, Oct 22 2018, 11:32:17) </span><br><span class="line">[GCC 8.2.0] on linux</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">&gt;&gt;&gt; import tensorflow as tf</span><br><span class="line">&gt;&gt;&gt; hello = tf.constant(&apos;Hello, TensorFlow&apos;)</span><br><span class="line">&gt;&gt;&gt; sess = tf.Session()</span><br><span class="line">2018-12-25 10:51:13.340471: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA</span><br><span class="line">&gt;&gt;&gt; sess.run(hello)</span><br><span class="line">b&apos;Hello, TensorFlow&apos;</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ROCm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$ python3</span><br><span class="line">Python 3.6.7 (default, Oct 22 2018, 11:32:17) </span><br><span class="line">[GCC 8.2.0] on linux</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">&gt;&gt;&gt; import tensorflow as tf</span><br><span class="line">&gt;&gt;&gt; hello = tf.constant(&apos;Hello, TensorFlow&apos;)</span><br><span class="line">&gt;&gt;&gt; sess = tf.Session()</span><br><span class="line">2018-12-25 11:10:41.247769: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA</span><br><span class="line">2018-12-25 11:10:41.249605: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1530] Found device 0 with properties: </span><br><span class="line">name: Vega [Radeon RX Vega]</span><br><span class="line">AMDGPU ISA: gfx900</span><br><span class="line">memoryClockRate (GHz) 1.59</span><br><span class="line">pciBusID 0000:03:00.0</span><br><span class="line">Total memory: 7.98GiB</span><br><span class="line">Free memory: 7.73GiB</span><br><span class="line">2018-12-25 11:10:41.249675: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1641] Adding visible gpu devices: 0</span><br><span class="line">2018-12-25 11:10:41.249722: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1051] Device interconnect StreamExecutor with strength 1 edge matrix:</span><br><span class="line">2018-12-25 11:10:41.249749: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1057]      0 </span><br><span class="line">2018-12-25 11:10:41.249766: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1070] 0:   N </span><br><span class="line">2018-12-25 11:10:41.249865: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1189] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 7524 MB memory) -&gt; physical GPU (device: 0, name: Vega [Radeon RX Vega], pci bus id: 0000:03:00.0)</span><br><span class="line">&gt;&gt;&gt; sess.run(hello)</span><br><span class="line">b&apos;Hello, TensorFlow&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>CUDA(Not verified yet)</p>
+</li>
+</ul>
+<h1 id="Issues"><a href="#Issues" class="headerlink" title="Issues"></a>Issues</h1><blockquote>
+<p>error: import tensorflow</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ImportError: libCXLActivityLogger.so: cannot open shared object file: No such file or directory</span><br><span class="line">ImportError: libhiprand.so.1: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>fix: install ROCm libs<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install rocm-libs miopen-hip cxlactivitylogger</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>Error: import tensorflow</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ImportError: libcublas.so.9.0: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Fix: install CUDA Toolkit 9.0 when use CUDA stack</li>
+</ul>
+<blockquote>
+<p>Error: Import keras</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">No module named &apos;tensorflow.python.framework&apos;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Fix: re-install any of tensorflow, as it’s a common lib for all tensorflow backend.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip3 install tensorflow</span><br><span class="line">pip3 install tensorflow-gpu</span><br><span class="line">pip3 install tensorflow-rocm</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>Error: import tensorflow</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3: Relink &apos;/lib/x86_64-linux-gnu/libudev.so.1&apos; with &apos;/lib/x86_64-linux-gnu/librt.so.1&apos; for IFUNC symbol &apos;clock_gettime&apos;</span><br><span class="line">Segmentation fault (core dumped)</span><br><span class="line">exit python3</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Fix: install nvidia cuda driver, including nvidia-cuda-dev<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install python3-pycuda</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>Which tensorflow is used? gpu or rocm</p>
+</blockquote>
+<ul>
+<li>install tensorflow-rocm again, switching to tensorflow-rocm by default</li>
+<li>if tensorflow-gpu is installed along with tensorflow-rocm, we need to install cuda toolkit and nvidia cuda driver, as tensorflow-gpu is called now.</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Compute/">Compute</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/TensorFlow/">TensorFlow</a><a href="/tags/ROCm/">ROCm</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjunweihit.github.io/2018/12/25/compute-env-tensorflow-install-guide/" data-title="TensorFlow Installation Guide | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/12/25/compute-rocm-neural-style/" title="TensorFlow Example&gt; Neural Style">
+  <strong>上一篇：</strong><br/>
+  <span>
+  TensorFlow Example&gt; Neural Style</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/12/25/compute-rocm-installation/"  title="ROCm Installation Guide">
+ <strong>下一篇：</strong><br/> 
+ <span>ROCm Installation Guide
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Software-in-Ubuntu-18-04"><span class="toc-number">1.</span> <span class="toc-text">Software in Ubuntu 18.04</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TensorFlow-for-CPU"><span class="toc-number">2.</span> <span class="toc-text">TensorFlow for CPU</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TensorFlow-for-ROCm"><span class="toc-number">3.</span> <span class="toc-text">TensorFlow for ROCm</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-ROCm"><span class="toc-number">3.1.</span> <span class="toc-text">Install ROCm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-TensorFlow-ROCm"><span class="toc-number">3.2.</span> <span class="toc-text">Install TensorFlow ROCm</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TensorFlow-for-CUDA"><span class="toc-number">4.</span> <span class="toc-text">TensorFlow for CUDA</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-Nvidia-CUDA-driver"><span class="toc-number">4.1.</span> <span class="toc-text">Install Nvidia CUDA driver</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-CUDA-Toolkit"><span class="toc-number">4.2.</span> <span class="toc-text">Install CUDA Toolkit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-cuDNN-Optional"><span class="toc-number">4.3.</span> <span class="toc-text">Install cuDNN (Optional)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install-TensorFlow-CUDA"><span class="toc-number">4.4.</span> <span class="toc-text">Install TensorFlow CUDA</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Verify-TensorFlow-by-hello-example"><span class="toc-number">5.</span> <span class="toc-text">Verify TensorFlow by hello example</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Issues"><span class="toc-number">6.</span> <span class="toc-text">Issues</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Compute/" title="Compute">Compute<sup>15</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/Graphics/" title="Graphics">Graphics<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/" title="linux-dev">linux-dev<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-env/" title="linux-env">linux-env<sup>11</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ROCm/" title="ROCm">ROCm<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Wiki/" title="Wiki">Wiki<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env-misc/" title="linux-env-misc">linux-env-misc<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenCL/" title="OpenCL">OpenCL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TensorFlow/" title="TensorFlow">TensorFlow<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SCM/" title="SCM">SCM<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-dev-misc/" title="linux-dev-misc">linux-dev-misc<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env/" title="linux-env">linux-env<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graphics/" title="Graphics">Graphics<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://en.wikipedia.org" target="_blank" title="wikipedia(en)">wikipedia(en)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3230658564&verifier=93c86f97&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Running on the Linux road <br/>
+			Try everything</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3230658564" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/zjunweihit" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:zjunweihit@sina.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="zjunweihit">zjunweihit</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

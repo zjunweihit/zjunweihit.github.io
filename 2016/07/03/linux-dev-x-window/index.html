@@ -1,0 +1,794 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>X window | Linux Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjunweihit">
+    
+
+    
+    <meta name="description" content="Everything about X window in code.">
+<meta name="keywords" content="Xorg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="X window">
+<meta property="og:url" content="http://zjunweihit.github.io/2016/07/03/linux-dev-x-window/index.html">
+<meta property="og:site_name" content="Linux Player">
+<meta property="og:description" content="Everything about X window in code.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-09T00:55:29.867Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="X window">
+<meta name="twitter:description" content="Everything about X window in code.">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Linux Player" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/L2_ico.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/L2.jpg" alt="Linux Player" title="Linux Player"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Linux Player">Linux Player</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:zjunweihit.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/03/linux-dev-x-window/" title="X window" itemprop="url">X window</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-03T06:17:20.000Z" itemprop="datePublished"> Published 2016-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#X-Window-Extension"><span class="toc-number">1.</span> <span class="toc-text">X Window Extension</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Initialize-Extension"><span class="toc-number">1.1.</span> <span class="toc-text">Initialize Extension</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AddExtension"><span class="toc-number">1.2.</span> <span class="toc-text">AddExtension</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Referrence"><span class="toc-number">1.3.</span> <span class="toc-text">Referrence</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#devPrivate"><span class="toc-number">2.</span> <span class="toc-text">devPrivate</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#XID"><span class="toc-number">3.</span> <span class="toc-text">XID</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Client-ID"><span class="toc-number">3.1.</span> <span class="toc-text">Client ID</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Resource-ID"><span class="toc-number">3.2.</span> <span class="toc-text">Resource ID</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Common-Functions"><span class="toc-number">4.</span> <span class="toc-text">Common Functions</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Acronym"><span class="toc-number">6.</span> <span class="toc-text">Acronym</span></a></li></ol>
+		
+		</div>
+		
+		<p>Everything about X window in code.</p>
+<a id="more"></a>
+
+<h1 id="X-Window-Extension"><a href="#X-Window-Extension" class="headerlink" title="X Window Extension"></a>X Window Extension</h1><h2 id="Initialize-Extension"><a href="#Initialize-Extension" class="headerlink" title="Initialize Extension"></a>Initialize Extension</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">main() (dix/stubmain.c)</span><br><span class="line">  dix_main (dix/main.c)</span><br><span class="line">    InitOutput (hw/xfree86/common/xf86Init.c)</span><br><span class="line">      xf86ExtensionInit (hw/xfree86/common/xf86Extensions.c)</span><br><span class="line">        to initialize the extension in list of extensionModules via LoadExtension()</span><br><span class="line">    InitExtension (mi/miinitext.c)</span><br><span class="line">      AddStaticExtensions (mi/miinitext.c)</span><br><span class="line">        to initialize the extension in list of staticExtensions via LoadExtension()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>The list of extensionModules includes merely DRI2 and related lagency modules</li>
+<li>The list of staticExtensions includes most of extesion modules<ul>
+<li>Randr</li>
+<li>Composite</li>
+<li>Damage</li>
+<li>Present</li>
+<li>DRI3</li>
+</ul>
+</li>
+<li>LoadExtension<ul>
+<li>Create(realloc) a new module in global module list of ExtensionModuleList</li>
+<li>Register name, initFunc, disablePtr</li>
+<li>Call (*initFunc), such as dri3_extension_init()<ul>
+<li>To add the Extension via AddExtension()</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="AddExtension"><a href="#AddExtension" class="headerlink" title="AddExtension"></a>AddExtension</h2><ul>
+<li><p>Add the extension into the ProcVector</p>
+<ul>
+<li>Before adding the extension to the ProcVector, there are some extension available. AddExtension() will add the exension module dynamically to the ProcVector.</li>
+<li>The X server will recieve the request from the Client and dispatch it to the coresponding extension looking through the ProcVector.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">i = NumExtensions;</span><br><span class="line">newexts = (ExtensionEntry **) realloc(extensions,</span><br><span class="line">		(i + 1) * sizeof(ExtensionEntry *));</span><br><span class="line">if (!newexts) &#123;</span><br><span class="line">	free(ext-&gt;name);</span><br><span class="line">	dixFreePrivates(ext-&gt;devPrivates, PRIVATE_EXTENSION);</span><br><span class="line">	free(ext);</span><br><span class="line">	return ((ExtensionEntry *) NULL);</span><br><span class="line">[[&#125;]]</span><br><span class="line">NumExtensions++;</span><br><span class="line">extensions = newexts;</span><br><span class="line">extensions[i] = ext;</span><br><span class="line">ext-&gt;index = i;</span><br><span class="line">ext-&gt;base = i + EXTENSION_BASE;</span><br><span class="line">ext-&gt;CloseDown = CloseDownProc;</span><br><span class="line">ext-&gt;MinorOpcode = MinorOpcodeProc;</span><br><span class="line">ProcVector[i + EXTENSION_BASE] = MainProc;</span><br><span class="line">SwappedProcVector[i + EXTENSION_BASE] = SwappedMainProc;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>AddExtension()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">AddExtension(const char *name, int NumEvents, int NumErrors,</span><br><span class="line">             int (*MainProc) (ClientPtr c1),</span><br><span class="line">             int (*SwappedMainProc) (ClientPtr c2),</span><br><span class="line">             void (*CloseDownProc) (ExtensionEntry * e),</span><br><span class="line">             unsigned short (*MinorOpcodeProc) (ClientPtr c3))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Name: 插件的名称。</li>
+<li>NumEvents: 为扩展保留的事件数。</li>
+<li>NumErrors: 为扩展保留的错误码数。</li>
+<li><strong>MainProc</strong>: 扩展的处理函数。</li>
+<li>SwappedMainProc: 扩展的处理函数，在处理前先交换字节顺序。</li>
+<li>CloseDownProc: 扩展的析构函数。</li>
+<li>MinorOpcodeProc: 用来得到子处理号，一般没有什么用处，在出错时，设置到错误信息里。</li>
+</ul>
+</li>
+<li><p>Take DRI3 as an example:</p>
+<ul>
+<li>After AddExtension, DRI3 proc interfaces are available in ProcVector as a sperate portion.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">extension = AddExtension(DRI3_NAME, DRI3NumberEvents, DRI3NumberErrors,</span><br><span class="line">                         proc_dri3_dispatch, sproc_dri3_dispatch,</span><br><span class="line">                         NULL, StandardMinorOpcode);</span><br><span class="line"></span><br><span class="line">int (*proc_dri3_vector[DRI3NumberRequests]) (ClientPtr) = &#123;</span><br><span class="line">    proc_dri3_query_version,            /* 0 */</span><br><span class="line">    proc_dri3_open,                     /* 1 */</span><br><span class="line">    proc_dri3_pixmap_from_buffer,       /* 2 */</span><br><span class="line">    proc_dri3_buffer_from_pixmap,       /* 3 */</span><br><span class="line">    proc_dri3_fence_from_fd,            /* 4 */</span><br><span class="line">    proc_dri3_fd_from_fence,            /* 5 */</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int</span><br><span class="line">proc_dri3_dispatch(ClientPtr client)</span><br><span class="line">&#123;</span><br><span class="line">    REQUEST(xReq);</span><br><span class="line">    if (stuff-&gt;data &gt;= DRI3NumberRequests || !proc_dri3_vector[stuff-&gt;data])</span><br><span class="line">        return BadRequest;</span><br><span class="line">    return (*proc_dri3_vector[stuff-&gt;data]) (client);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Referrence"><a href="#Referrence" class="headerlink" title="Referrence"></a>Referrence</h2><ul>
+<li><a href="http://blog.csdn.net/absurd/article/details/1796672" target="_blank" rel="noopener">10.X Window扩展机制－－扩展(Extension)</a></li>
+</ul>
+<h1 id="devPrivate"><a href="#devPrivate" class="headerlink" title="devPrivate"></a>devPrivate</h1><ul>
+<li><p>有很多结构体都有自己的Private数据，X server提供了一套Key-Value的模式来管理所有结构体与Private数据的关联。</p>
+</li>
+<li><p>Overview</p>
+<ul>
+<li>global_keys: 所有key的集合list</li>
+<li>这些key分为以下几类：<ul>
+<li>XSELINUX: XSELinux uses the same private keys for numerous objects.</li>
+<li>Others: get a private in just the requested structure<ul>
+<li>These can have objects created before all of the keys are registered</li>
+<li>These cannot have any objects before all relevant keys are registered</li>
+<li>extension privates<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">global_keys[PRIVATE_LAST]</span><br><span class="line">---------------</span><br><span class="line">|  XSELINUX   | .key--&gt; key(n) -&gt; key(n-1) -&gt; ... -&gt; key(0)</span><br><span class="line">---------------</span><br><span class="line">|  SCREEN     |</span><br><span class="line">---------------</span><br><span class="line">|    ...      |</span><br><span class="line">---------------</span><br><span class="line">|  [Type]     |</span><br><span class="line">---------------</span><br><span class="line">|             |</span><br><span class="line">---------------</span><br><span class="line"></span><br><span class="line">the type of global_keys is below:</span><br><span class="line"></span><br><span class="line">typedef struct _DevPrivateSetRec &#123;</span><br><span class="line">	DevPrivateKey key;	/* related key, 指向最新注册的key，当然是当前同一类型的 */</span><br><span class="line">	unsigned offset;	/* 主要用于XSELINUX，下一组key的offset */</span><br><span class="line">	int created;		/* 每次初始化后加1 */</span><br><span class="line">	int allocated;		/* 每次申请Private后加1 */</span><br><span class="line">&#125; DevPrivateSetRec, *DevPrivateSetPtr;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在使用所有devPrivate前，X server将所有数据清零dixResetPrivates()</p>
+<ul>
+<li>相关数据都清为0</li>
+</ul>
+</li>
+<li><p>申请Private空间dixAllocatePrivate</p>
+<ul>
+<li>初始化Private(_dixInitPrivates)时，<ul>
+<li>global_keys[type].created++</li>
+<li>private = addr = 0, 这是因为之后要使用realloc申请内存</li>
+</ul>
+</li>
+<li>++global_keys[type].allocated</li>
+</ul>
+</li>
+<li><p>注册Private key(dixRegisterPrivateKey)时会创建key，并添加到当前type的key list中去。</p>
+<ul>
+<li>key list 是一个单向逆序的list，global_keys[type].key始终指向最后一个key</li>
+<li>allocate key from private via dixReallocPrivates()<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">	/* above is XSELINUX */</span><br><span class="line">    else &#123;</span><br><span class="line">        /* Resize if we can, or make sure nothing&apos;s allocated if we can&apos;t */</span><br><span class="line">        if (!allocated_early[type])</span><br><span class="line">            assert(!global_keys[type].created);</span><br><span class="line">        else if (!allocated_early[type] (dixReallocPrivates, bytes))</span><br><span class="line">            return FALSE;</span><br><span class="line">        offset = global_keys[type].offset;</span><br><span class="line">        global_keys[type].offset += bytes;</span><br><span class="line">        grow_screen_specific_set(type, bytes);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /* Setup this key */</span><br><span class="line">    key-&gt;offset = offset;</span><br><span class="line">    key-&gt;size = size;</span><br><span class="line">    key-&gt;initialized = TRUE;</span><br><span class="line">    key-&gt;type = type;</span><br><span class="line">    key-&gt;allocated = FALSE; /* Why it is not TRUE?? */</span><br><span class="line">    key-&gt;next = global_keys[type].key;</span><br><span class="line"></span><br><span class="line">Question:</span><br><span class="line">目前来看只有dixRegisterScreenPrivateKey()在调用了dixRegisterPrivateKey()后，将key-&gt;allocated=TRUE.</span><br><span class="line">其它情况下，并没有理会该值。可能没什么特别的影响??</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>通常，调用dixAllocatePrivate()申请某一type的key in global_keys[]，然后可以多次注册到相同type中许多不同的key。</p>
+</li>
+<li><p>以上，完成了初始化与注册的部分。其实平时使用较多的是以下函数：</p>
+<ul>
+<li>dixSetPrivate: Associate ‘val’ with ‘key’ in ‘privates’ so that later calls to dixLookupPrivate(privates, key) will return ‘val’.</li>
+<li>dixLookupPrivate: Lookup a pointer to the private record.<ul>
+<li>dixGetPrivate: Fetch a private pointer stored in the object.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="XID"><a href="#XID" class="headerlink" title="XID"></a>XID</h1><ul>
+<li>XID是X系统中区别于他物的识别号，例如一个Window会有一个唯一的XID。</li>
+<li>XID由两个有效内容组成。<ul>
+<li>共32bit，其中高3位为无效位，其它29位为XID有效内容: mask as 0x1FFF_FFFF<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">     | &lt;---------------------- (a) ------------------------------&gt; |</span><br><span class="line"> 111b| &lt;----- (b) ------&gt; | &lt;--------------- (c) ----------------&gt; |</span><br><span class="line">-----+--------------------------------------------------------------</span><br><span class="line">| 3  |       6 bits       |               23 bits                  |</span><br><span class="line">--------------------------------------------------------------------</span><br><span class="line">           Client ID                     Source ID</span><br><span class="line">      RESOURCE_CLIENT_MASK         RESOURCE_ID_MASK</span><br><span class="line">      (0x1F80_0000)                (0x007F_FFFF)</span><br><span class="line"></span><br><span class="line">(a) RESOURCE_AND_CLIENT_COUNT		29 /* The total bits of XID */</span><br><span class="line">(b) RESOURCE_CLIENT_BITS		6  /* Client ID bits */</span><br><span class="line">    also can be 7, 8, 9, according to MAXCLIENTS as 128, 256, 512</span><br><span class="line">(c) CLIENTOFFSET			(RESOURCE_AND_CLIENT_COUNT - RESOURCE_CLIENT_BITS)</span><br><span class="line">    in another word, the Source ID</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Client-ID"><a href="#Client-ID" class="headerlink" title="Client ID"></a>Client ID</h2><ul>
+<li>每个Client都有唯一的ID，可与其它Client区别开来，也可以在引用时方便查找。</li>
+<li>对于SeverClient，ID是0，其它Client的ID都是从1开始依次累加生成。</li>
+<li>Client ID是在创建新的连接Connection时创建<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">WaitForSomething</span><br><span class="line">  EstablishNewConnections</span><br><span class="line">    AllocNewConnection</span><br><span class="line">      NextAvailableClient</span><br><span class="line">        nextFreeClientID (Start from 1 in Dispatch(), always set by the next available Client ID)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Resource-ID"><a href="#Resource-ID" class="headerlink" title="Resource ID"></a>Resource ID</h2><ul>
+<li>对于每个XID都可以拥有许多resources，为了方便管理多个resource资源，建立了resource专用的HashTable</li>
+<li>InitClientResources()初始化每个Client的resource by clientTable, static global array in dix/resource.c<ul>
+<li>client-&gt;index: Client ID</li>
+<li>clientTable以Client ID为index，保存每个client ID相关的resource hash table</li>
+<li>用.resources[]作为.hassize bits的hash table，每个element之间以单链表方式联接。</li>
+<li>当AddResource时，以HashResourceID方式来生成hash table的id，可以能是顺序（刚开始时），也可能是跳序的（溢出之后），如1,3,2,5,4,7。而生成的hash id是由XID决定的。如果需要查找的resource XID在hash table中，那么就应该在以其生成的hash ID处，如果不在的话，那么，就要遍历其all elements with the same hash ID via “-&gt;next”。<ul>
+<li>通常，resource的XID为fake ID也是每次新创建时加1得到的，所以新加的resource依次添加入hash table当hash table不够用的时候，才会overwrite某个element。所以，如果生成的hash ID不能在hash table中直接命中所需要的resource，那就遍历吧。</li>
+<li>根据HashResourceID的规则得到的相同的hash ID的resource，hash table(.resources[hash ID]) 将会保留最近一次添加的resource，之前相同hash ID的resource将以单链表联接。</li>
+</ul>
+</li>
+<li>Fake ID: 用来标识属于当前client的resource，也是XID，但添加了无效位，SERVER_BIT(0x4000_0000)<ul>
+<li>如果Client XID is 0x0100_0000，那么fakeID=0x4100_0000, endFakeID=0x4200_0000。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">InitClientResources()</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">    clientTable[i = client-&gt;index].resources =	/* Hash table for resources */</span><br><span class="line">        malloc(INITBUCKETS * sizeof(ResourcePtr));</span><br><span class="line">    if (!clientTable[i].resources)</span><br><span class="line">        return FALSE;</span><br><span class="line">    clientTable[i].buckets = INITBUCKETS;	/* 64 elements in the hash table */</span><br><span class="line">    clientTable[i].elements = 0;		/* the total number of resources related to the client ID, adding 1 once AddResourc() */</span><br><span class="line">    clientTable[i].hashsize = INITHASHSIZE;	/* the number of bits for has table, 6 bits for 64 elements stored in hash table */</span><br><span class="line">    /* Many IDs allocated from the server client are visible to clients,</span><br><span class="line">     * so we don&apos;t use the SERVER_BIT for them, but we have to start</span><br><span class="line">     * past the magic value constants used in the protocol.  For normal</span><br><span class="line">     * clients, we can start from zero, with SERVER_BIT set.</span><br><span class="line">     */</span><br><span class="line">    clientTable[i].fakeID = client-&gt;clientAsMask |</span><br><span class="line">        (client-&gt;index ? SERVER_BIT : SERVER_MINID);</span><br><span class="line">    clientTable[i].endFakeID = (clientTable[i].fakeID | RESOURCE_ID_MASK) + 1;                                                          |</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Common-Functions"><a href="#Common-Functions" class="headerlink" title="Common Functions"></a>Common Functions</h1><ul>
+<li>dixAllocateObjectWithPrivates<ul>
+<li>allocate a void* memory block with devPrivate registered</li>
+<li>returen the void* for the specific type as assigned</li>
+</ul>
+</li>
+<li>dixLookupWindow</li>
+<li>swapl</li>
+<li>WriteToClient</li>
+<li>Prepare for reply</li>
+<li>AddResource</li>
+<li>DevPrivate<ul>
+<li><a href="http://www.x.org/wiki/Development/Documentation/DevPrivates/" target="_blank" rel="noopener">http://www.x.org/wiki/Development/Documentation/DevPrivates/</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="http://www.x.org/releases/X11R7.7/doc/xorg-server/ddxDesign.html" target="_blank" rel="noopener">DDX design X11R7.7</a></li>
+<li><a href="http://www.x.org/wiki/guide/" target="_blank" rel="noopener">The X New Developer’s Guide</a></li>
+</ul>
+<h1 id="Acronym"><a href="#Acronym" class="headerlink" title="Acronym"></a>Acronym</h1><ul>
+<li>BDF<ul>
+<li>Bitmap Distribution Format</li>
+</ul>
+</li>
+<li>DBE<ul>
+<li>Double Buffer Extension</li>
+</ul>
+</li>
+<li>DIX<ul>
+<li>Device Independent</li>
+</ul>
+</li>
+<li>DDX<ul>
+<li>Device Dependent</li>
+</ul>
+</li>
+<li>ICCCM<ul>
+<li>The Inter-Client Communication Conventions Manual</li>
+</ul>
+</li>
+<li>DMX<ul>
+<li>distributed multihead X system</li>
+</ul>
+</li>
+<li>DMPS<ul>
+<li>Display Power Management Signaling</li>
+</ul>
+</li>
+<li>DPS<ul>
+<li>Display Postscript</li>
+</ul>
+</li>
+<li>DRI<ul>
+<li>Direct Rendering Interface</li>
+</ul>
+</li>
+<li>EVI<ul>
+<li>Extended Visual Information</li>
+</ul>
+</li>
+<li>FS<ul>
+<li>Font Service</li>
+</ul>
+</li>
+<li>ICE<ul>
+<li>Inter-Client Exchange</li>
+</ul>
+</li>
+<li>RX<ul>
+<li>remote execute</li>
+</ul>
+</li>
+<li>CUP<ul>
+<li>Colormap Utilization Policy and Extension</li>
+</ul>
+</li>
+<li>DMCP<ul>
+<li>Display Manager Control Protocol</li>
+</ul>
+</li>
+<li>XIM<ul>
+<li>X Input Method Protocol</li>
+</ul>
+</li>
+<li>XI<ul>
+<li>X11 Input Extension Protocol</li>
+</ul>
+</li>
+<li>XSMP<ul>
+<li>X Session Management Protocol</li>
+</ul>
+</li>
+<li>XP<ul>
+<li>X Print Service</li>
+</ul>
+</li>
+<li>XPM<ul>
+<li>X PixMap Format</li>
+</ul>
+</li>
+<li>XTrans<ul>
+<li>X Transport Interface</li>
+</ul>
+</li>
+<li>GC<ul>
+<li>Graphic context</li>
+</ul>
+</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/linux-dev/">linux-dev</a>►<a class="article-category-link" href="/categories/linux-dev/Graphics/">Graphics</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Xorg/">Xorg</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjunweihit.github.io/2016/07/03/linux-dev-x-window/" data-title="X window | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/03/linux-dev-xrandr/" title="xrandr">
+  <strong>上一篇：</strong><br/>
+  <span>
+  xrandr</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/02/linux-env-minicom/"  title="minicom的多彩世界">
+ <strong>下一篇：</strong><br/> 
+ <span>minicom的多彩世界
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#X-Window-Extension"><span class="toc-number">1.</span> <span class="toc-text">X Window Extension</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Initialize-Extension"><span class="toc-number">1.1.</span> <span class="toc-text">Initialize Extension</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AddExtension"><span class="toc-number">1.2.</span> <span class="toc-text">AddExtension</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Referrence"><span class="toc-number">1.3.</span> <span class="toc-text">Referrence</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#devPrivate"><span class="toc-number">2.</span> <span class="toc-text">devPrivate</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#XID"><span class="toc-number">3.</span> <span class="toc-text">XID</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Client-ID"><span class="toc-number">3.1.</span> <span class="toc-text">Client ID</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Resource-ID"><span class="toc-number">3.2.</span> <span class="toc-text">Resource ID</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Common-Functions"><span class="toc-number">4.</span> <span class="toc-text">Common Functions</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Acronym"><span class="toc-number">6.</span> <span class="toc-text">Acronym</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Compute/" title="Compute">Compute<sup>15</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/Graphics/" title="Graphics">Graphics<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/" title="linux-dev">linux-dev<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-env/" title="linux-env">linux-env<sup>11</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ROCm/" title="ROCm">ROCm<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Wiki/" title="Wiki">Wiki<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env-misc/" title="linux-env-misc">linux-env-misc<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenCL/" title="OpenCL">OpenCL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TensorFlow/" title="TensorFlow">TensorFlow<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SCM/" title="SCM">SCM<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-dev-misc/" title="linux-dev-misc">linux-dev-misc<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env/" title="linux-env">linux-env<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graphics/" title="Graphics">Graphics<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://en.wikipedia.org" target="_blank" title="wikipedia(en)">wikipedia(en)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3230658564&verifier=93c86f97&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Running on the Linux road <br/>
+			Try everything</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3230658564" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/zjunweihit" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:zjunweihit@sina.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="zjunweihit">zjunweihit</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

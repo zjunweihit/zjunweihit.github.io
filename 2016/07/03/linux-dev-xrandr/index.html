@@ -1,0 +1,554 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>xrandr | Linux Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjunweihit">
+    
+
+    
+    <meta name="description" content="X Resize and Rotate, is a extension for X server. xrandr is a tool of x11-xserver-utils.">
+<meta name="keywords" content="Xorg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xrandr">
+<meta property="og:url" content="http://zjunweihit.github.io/2016/07/03/linux-dev-xrandr/index.html">
+<meta property="og:site_name" content="Linux Player">
+<meta property="og:description" content="X Resize and Rotate, is a extension for X server. xrandr is a tool of x11-xserver-utils.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-09T00:55:29.871Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="xrandr">
+<meta name="twitter:description" content="X Resize and Rotate, is a extension for X server. xrandr is a tool of x11-xserver-utils.">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Linux Player" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/L2_ico.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/L2.jpg" alt="Linux Player" title="Linux Player"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Linux Player">Linux Player</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:zjunweihit.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/03/linux-dev-xrandr/" title="xrandr" itemprop="url">xrandr</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-03T06:34:55.000Z" itemprop="datePublished"> Published 2016-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#How-does-xrandr-get-modes"><span class="toc-number">1.</span> <span class="toc-text">How does xrandr get modes</span></a></li></ol>
+		
+		</div>
+		
+		<p>X Resize and Rotate, is a extension for X server. xrandr is a tool of x11-xserver-utils.</p>
+<a id="more"></a>
+<h1 id="How-does-xrandr-get-modes"><a href="#How-does-xrandr-get-modes" class="headerlink" title="How does xrandr get modes"></a>How does xrandr get modes</h1><ul>
+<li><p><code>modes</code> indicates the resolution and refreshing for a monitor.</p>
+</li>
+<li><p>xinit or startx to start X server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ xrandr</span><br><span class="line">or</span><br><span class="line">$ xrandr -q</span><br><span class="line">Screen 0: minimum 320 x 200, current 1920 x 1200, maximum 16384 x 16384</span><br><span class="line">VGA-0 connected 1920x1200+0+0 (normal left inverted right x axis y axis) 518mm x 324mm</span><br><span class="line">   1920x1200      60.0*+</span><br><span class="line">   1600x1200      60.0</span><br><span class="line">   1280x1024      75.0     60.0</span><br><span class="line">   1152x864       75.0</span><br><span class="line">   1024x768       75.1     60.0</span><br><span class="line">   800x600        75.0     60.3</span><br><span class="line">   640x480        75.0     60.0</span><br><span class="line">   720x400        70.1</span><br><span class="line">DisplayPort-0 disconnected (normal left inverted right x axis y axis)</span><br><span class="line">HDMI-A-0 disconnected (normal left inverted right x axis y axis)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>The basic process of getting modes</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xrandr -&gt; X server(xrandr extension) -&gt; libdrm -&gt; kernel(DRM) -&gt; get EDID from the monitor</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Code path</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">--------------------------------------------------</span><br><span class="line">xrandr</span><br><span class="line"></span><br><span class="line">  main() [xrandr.c]</span><br><span class="line">  &#123;</span><br><span class="line">    /* to show mode name, such as 1920x1200 */</span><br><span class="line">    jmode = find_mode_by_xid (output_info-&gt;modes[j]);</span><br><span class="line">    printf (&quot; &quot;);</span><br><span class="line">    printf (&quot;  %-12s&quot;, jmode-&gt;name);</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    /* If the name is same, continue</span><br><span class="line">     * There is 12 modes in the mode list, skipping the mode with same name</span><br><span class="line">     **/</span><br><span class="line">    for (k = j; k &lt; output_info-&gt;nmode; k++)</span><br><span class="line">    &#123;</span><br><span class="line">        ...</span><br><span class="line">        if (strcmp (jmode-&gt;name, kmode-&gt;name) != 0) continue;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  -&gt; get_screen()</span><br><span class="line">     -&gt; XRRGetScreenResourcesCurrent()</span><br><span class="line">        or</span><br><span class="line">        XRRGetScreenResources()</span><br><span class="line"></span><br><span class="line">--------------------------------------------------</span><br><span class="line">X server</span><br><span class="line"></span><br><span class="line">  get the command from ProcRandrVector[] [randr/rrdispatch.c]</span><br><span class="line">  ProcRRGetScreenResources() [randr/rrscreen.c]</span><br><span class="line">    rrGetScreenResources()</span><br><span class="line">      RRGetInfo() [randr/rrinfo.c]</span><br><span class="line">        *pScrPriv-&gt;rrGetInfo()</span><br><span class="line">        It&apos;s xf86RandR12GetInfo12() [hw/xfree86/modes/xf86RandR12.c]</span><br><span class="line">          xf86ProbeOutputModes() [hw/xfree86/modes/xf86Crtc.c]</span><br><span class="line">            output_modes = (*output-&gt;funcs-&gt;get_modes) (output); [hw/xfree86/modes/xf86Crtc.c]</span><br><span class="line"></span><br><span class="line">        ddx</span><br><span class="line">        ------------------------------------------</span><br><span class="line">            .get_modes = drmmode_output_get_modes in ddx</span><br><span class="line">              &#123;</span><br><span class="line">              mode is converted from kmode via drmmode_ConvertFromKMode(, &amp;koutput-&gt;modes[i], )</span><br><span class="line">              drmModeConnectorPtr koutput = drmmode_output-&gt;mode_output;</span><br><span class="line">              drmmode_output_private_ptr drmmode_output = output-&gt;driver_private;</span><br><span class="line"></span><br><span class="line">              drmmode_output-&gt;mode_output = koutput; in drmmode_output_init()</span><br><span class="line">              output-&gt;driver_private = drmmode_output</span><br><span class="line">              koutput = drmModeGetConnector();</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">--------------------------------------------------</span><br><span class="line">libdrm</span><br><span class="line"></span><br><span class="line">  drmModeGetConnector() [xf86drmMode.c]</span><br><span class="line">    _drmModeGetConnector()</span><br><span class="line">      drmIoctl(fd, DRM_IOCTL_MODE_GETCONNECTOR, &amp;conn)</span><br><span class="line"></span><br><span class="line">--------------------------------------------------</span><br><span class="line">kernel(DRM)</span><br><span class="line"></span><br><span class="line">  drm_mode_getconnector() [drivers/gpu/drm/drm_crtc.c]</span><br><span class="line">    connector-&gt;funcs-&gt;fill_modes()</span><br><span class="line">    it&apos;s drm_helper_probe_single_connector_modes() [drivers/gpu/drm/drm_probe_helper.c]</span><br><span class="line">      drm_helper_probe_single_connector_modes_merge_bits()</span><br><span class="line">        drm_load_edid_firmware(connector);</span><br><span class="line">        count = (*connector_funcs-&gt;get_modes)(connector);</span><br><span class="line">        it&apos;s amdgpu_connector_dp_get_modes() [drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c]</span><br><span class="line">          amdgpu_connector_encoder_get_dp_bridge_encoder_id() to setup ddc on the bridge</span><br><span class="line">          amdgpu_connector_get_edid()</span><br><span class="line">          amdgpu_connector_ddc_get_modes()</span><br><span class="line">            drm_add_edid_modes() add modes from EDID data [drivers/gpu/drm/drm_edid.c]</span><br><span class="line">              add_detailed_modes()</span><br><span class="line">              add_cvt_modes()</span><br><span class="line">              ...</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/linux-dev/">linux-dev</a>►<a class="article-category-link" href="/categories/linux-dev/Graphics/">Graphics</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Xorg/">Xorg</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjunweihit.github.io/2016/07/03/linux-dev-xrandr/" data-title="xrandr | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/03/linux-dev-screensaver/" title="Screensaver">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Screensaver</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/03/linux-dev-x-window/"  title="X window">
+ <strong>下一篇：</strong><br/> 
+ <span>X window
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#How-does-xrandr-get-modes"><span class="toc-number">1.</span> <span class="toc-text">How does xrandr get modes</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Compute/" title="Compute">Compute<sup>15</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/Graphics/" title="Graphics">Graphics<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/" title="linux-dev">linux-dev<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-env/" title="linux-env">linux-env<sup>11</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ROCm/" title="ROCm">ROCm<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Wiki/" title="Wiki">Wiki<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env-misc/" title="linux-env-misc">linux-env-misc<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenCL/" title="OpenCL">OpenCL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TensorFlow/" title="TensorFlow">TensorFlow<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SCM/" title="SCM">SCM<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-dev-misc/" title="linux-dev-misc">linux-dev-misc<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env/" title="linux-env">linux-env<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graphics/" title="Graphics">Graphics<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://en.wikipedia.org" target="_blank" title="wikipedia(en)">wikipedia(en)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3230658564&verifier=93c86f97&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Running on the Linux road <br/>
+			Try everything</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3230658564" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/zjunweihit" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:zjunweihit@sina.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="zjunweihit">zjunweihit</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

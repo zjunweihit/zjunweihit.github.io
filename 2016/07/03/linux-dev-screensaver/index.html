@@ -1,0 +1,633 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>Screensaver | Linux Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjunweihit">
+    
+
+    
+    <meta name="description" content="This document describes the screensaver work flow.">
+<meta name="keywords" content="Xorg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Screensaver">
+<meta property="og:url" content="http://zjunweihit.github.io/2016/07/03/linux-dev-screensaver/index.html">
+<meta property="og:site_name" content="Linux Player">
+<meta property="og:description" content="This document describes the screensaver work flow.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-09T00:55:29.867Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Screensaver">
+<meta name="twitter:description" content="This document describes the screensaver work flow.">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Linux Player" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/L2_ico.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/L2.jpg" alt="Linux Player" title="Linux Player"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Linux Player">Linux Player</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:zjunweihit.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/03/linux-dev-screensaver/" title="Screensaver" itemprop="url">Screensaver</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-03T06:39:19.000Z" itemprop="datePublished"> Published 2016-07-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Summary"><span class="toc-number">1.</span> <span class="toc-text">Summary</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gnome-screensaver"><span class="toc-number">2.</span> <span class="toc-text">gnome-screensaver</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#xscreensaver"><span class="toc-number">3.</span> <span class="toc-text">xscreensaver</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#xset"><span class="toc-number">4.</span> <span class="toc-text">xset</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Screensaver-extension"><span class="toc-number">5.</span> <span class="toc-text">Screensaver extension</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">6.</span> <span class="toc-text">Reference</span></a></li></ol>
+		
+		</div>
+		
+		<p>This document describes the screensaver work flow.</p>
+<a id="more"></a>
+
+<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><p>Usually there are 2 stages for the process of screen saver.</p>
+<ul>
+<li>stage 1: the application to call the screensaver daemon to show the screensaver, such as a picture.</li>
+<li>stege 2: to shutdown the monitor, which will call the DDX from X server.</li>
+</ul>
+<p>Below are screensaver applications:</p>
+<ul>
+<li>gnome-screensaver</li>
+<li>xscreensaver<br>Both of them will NOT call DDX driver xf86IsUnblank() as <a href="http://www.x.org/releases/X11R7.7/doc/xorg-server/ddxDesign.html" target="_blank" rel="noopener">DDX Design</a>.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Returns TRUE when the screen saver mode specified by mode requires the screen be unblanked, and FALSE otherwise. The screen saver modes that require blanking are SCREEN_SAVER_ON and SCREEN_SAVER_CYCLE, and the screen saver modes that require unblanking are SCREEN_SAVER_OFF and SCREEN_SAVER_FORCER. Drivers may call this helper from their SaveScreen() function to interpret the screen saver modes.</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>Helper command:</p>
+<ul>
+<li>xset<br>DDX driver will be called.</li>
+</ul>
+<p>There is a screen saver extension in X server.</p>
+<ul>
+<li>Currently I didn’t find it is enabled during the work.</li>
+<li>If it works, the *(pScreen-&gt;screensaver.ExternalScreenSaver) will be called during dixSaveScreens().</li>
+</ul>
+<p>Anyway, whether screen saver extension enabled or not, the related setting will be done in dixSaveScreens()<br>to check the type is SCREEN_SAVER_ON, SCREEN_SAVER_OFF or others.</p>
+<ul>
+<li>xset will go through this path.</li>
+<li>xscreensaver will only show the screensaver as application.</li>
+</ul>
+<h1 id="gnome-screensaver"><a href="#gnome-screensaver" class="headerlink" title="gnome-screensaver"></a>gnome-screensaver</h1><p>It’s default screensaver in Ubuntu system.</p>
+<ul>
+<li><p>The daemon will start as <code>root</code> when system boot</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root      2095  0.0  1.2 562416 42520 ?        Sl   04:20   0:01 /usr/bin/gnome-screensaver --no-daemon</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>gnome-screensaver command to show blank screen by default</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Usage:</span><br><span class="line">gnome-screensaver-command [OPTION...]</span><br><span class="line"></span><br><span class="line">Help Options:</span><br><span class="line">-h, --help           Show help options</span><br><span class="line"></span><br><span class="line">Application Options:</span><br><span class="line">--exit               Causes the screensaver to exit gracefully</span><br><span class="line">-q, --query          Query the state of the screensaver</span><br><span class="line">-t, --time           Query the length of time the screensaver has been active</span><br><span class="line">-l, --lock           Tells the running screensaver process to lock the screen immediately</span><br><span class="line">-a, --activate       Turn the screensaver on (blank the screen)</span><br><span class="line">-d, --deactivate     If the screensaver is active then deactivate it (un-blank the screen)</span><br><span class="line">-V, --version        Version of this application</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="xscreensaver"><a href="#xscreensaver" class="headerlink" title="xscreensaver"></a>xscreensaver</h1><p>If you like, you can install xscreensaver, co-existing with the gnome-screensaver, or remove it.</p>
+<ul>
+<li><p>xscreensaver will call <code>libGL.so</code> to show the screensaver.</p>
+<ul>
+<li>If loading libGL.so is failed, no screensaver will be shown.</li>
+</ul>
+</li>
+<li><p>Install xscreensaver</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install xscreensaver</span><br><span class="line"></span><br><span class="line">Optional:</span><br><span class="line">$ sudo apt-get install xscreensaver-data-extra xscreensaver-gl-extra</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Start xscreensaver daemon as <code>non-root</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ xscreensaver -nosplash &amp;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>start configuration GUI and start daemon automatically.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ xscreensaver-demo</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xscreensaver command to show the screensaver with random picture by default</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">usage: xscreensaver-command -&lt;option&gt;</span><br><span class="line"></span><br><span class="line">This program provides external control of a running xscreensaver process.</span><br><span class="line">Version 5.15, copyright (c) 1991-2008 Jamie Zawinski &lt;jwz@jwz.org&gt;.</span><br><span class="line"></span><br><span class="line">The xscreensaver program is a daemon that runs in the background.</span><br><span class="line">You control a running xscreensaver process by sending it messages</span><br><span class="line">with this program, xscreensaver-command.  See the man pages for</span><br><span class="line">details.  These are the arguments understood by xscreensaver-command:</span><br><span class="line"></span><br><span class="line">-activate     Turn on the screensaver (blank the screen), as if the user</span><br><span class="line">              had been idle for long enough.</span><br><span class="line"></span><br><span class="line">-deactivate   Turns off the screensaver (un-blank the screen), as if user</span><br><span class="line">              activity had been detected.</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="xset"><a href="#xset" class="headerlink" title="xset"></a>xset</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">usage:  xset [-display host:dpy] option ...</span><br><span class="line"></span><br><span class="line">To control Energy Star (DPMS) features:</span><br><span class="line">  -dpms      Energy Star features off</span><br><span class="line">  +dpms      Energy Star features on</span><br><span class="line">   dpms [standby [suspend [off]]]</span><br><span class="line">        force standby </span><br><span class="line">        force suspend </span><br><span class="line">        force off </span><br><span class="line">        force on </span><br><span class="line">        (also implicitly enables DPMS features) </span><br><span class="line">        a timeout value of zero disables the mode </span><br><span class="line">For screen-saver control:</span><br><span class="line">  s [timeout [cycle]]  s default    s on</span><br><span class="line">  s blank              s noblank    s off</span><br><span class="line">  s expose             s noexpose</span><br><span class="line">  s activate           s reset</span><br><span class="line">For status information:  q</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>xset s activate</p>
+<ul>
+<li>Turn off the monitor<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dix_main</span><br><span class="line">  Dispatch</span><br><span class="line">    dixSaveScreens</span><br><span class="line">      AMDGPUSaveScreen_KMS</span><br><span class="line">        xf86IsUnblank</span><br><span class="line">          crtc-&gt;funcs-&gt;dpms</span><br><span class="line">          output-&gt;funcs-&gt;dpms</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>xset s reset</p>
+<ul>
+<li>Recovery the monitor</li>
+</ul>
+</li>
+<li><p>xset dpms force off</p>
+<ul>
+<li>Turn off the monitor, wait for keyboard or mouse to activate<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dix_main</span><br><span class="line">  Dispatch</span><br><span class="line">    ProcDPMSForceLevel</span><br><span class="line">      DPMSSet</span><br><span class="line">        dixSaveScreens</span><br><span class="line">          AMDGPUSaveScreen_KMS</span><br><span class="line">            xf86IsUnblank</span><br><span class="line">              crtc-&gt;funcs-&gt;dpms</span><br><span class="line">              output-&gt;funcs-&gt;dpms</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Screensaver-extension"><a href="#Screensaver-extension" class="headerlink" title="Screensaver extension"></a>Screensaver extension</h1><p>X server has a extension for screensaver.</p>
+<ul>
+<li>The initial function ScreenSaverExtensionInit() in Xext/saver.c</li>
+<li>By default it looks no screensaver extension in X server.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CreateRootWindow(ScreenPtr pScreen)</span><br><span class="line">&#123;</span><br><span class="line">...</span><br><span class="line">pScreen-&gt;screensaver.ExternalScreenSaver = NULL;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="https://systembash.com/how-to-turn-off-your-monitor-via-command-line-in-ubuntu/" target="_blank" rel="noopener">https://systembash.com/how-to-turn-off-your-monitor-via-command-line-in-ubuntu/</a></li>
+<li><a href="http://unix.stackexchange.com/questions/79240/starting-screensaver-from-terminal" target="_blank" rel="noopener">http://unix.stackexchange.com/questions/79240/starting-screensaver-from-terminal</a></li>
+<li><a href="https://wiki.edubuntu.org/DebuggingScreenLocking/HowScreenLockingWorks" target="_blank" rel="noopener">https://wiki.edubuntu.org/DebuggingScreenLocking/HowScreenLockingWorks</a></li>
+<li><a href="http://askubuntu.com/questions/64086/how-can-i-change-or-install-screensavers" target="_blank" rel="noopener">http://askubuntu.com/questions/64086/how-can-i-change-or-install-screensavers</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/linux-dev/">linux-dev</a>►<a class="article-category-link" href="/categories/linux-dev/Graphics/">Graphics</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Xorg/">Xorg</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjunweihit.github.io/2016/07/03/linux-dev-screensaver/" data-title="Screensaver | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/03/linux-dev-graphic-basis/" title="Graphics Basis">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Graphics Basis</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/03/linux-dev-xrandr/"  title="xrandr">
+ <strong>下一篇：</strong><br/> 
+ <span>xrandr
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Summary"><span class="toc-number">1.</span> <span class="toc-text">Summary</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gnome-screensaver"><span class="toc-number">2.</span> <span class="toc-text">gnome-screensaver</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#xscreensaver"><span class="toc-number">3.</span> <span class="toc-text">xscreensaver</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#xset"><span class="toc-number">4.</span> <span class="toc-text">xset</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Screensaver-extension"><span class="toc-number">5.</span> <span class="toc-text">Screensaver extension</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">6.</span> <span class="toc-text">Reference</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Compute/" title="Compute">Compute<sup>15</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/Graphics/" title="Graphics">Graphics<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/" title="linux-dev">linux-dev<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-env/" title="linux-env">linux-env<sup>11</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ROCm/" title="ROCm">ROCm<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Wiki/" title="Wiki">Wiki<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env-misc/" title="linux-env-misc">linux-env-misc<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenCL/" title="OpenCL">OpenCL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TensorFlow/" title="TensorFlow">TensorFlow<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SCM/" title="SCM">SCM<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-dev-misc/" title="linux-dev-misc">linux-dev-misc<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env/" title="linux-env">linux-env<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graphics/" title="Graphics">Graphics<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://en.wikipedia.org" target="_blank" title="wikipedia(en)">wikipedia(en)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3230658564&verifier=93c86f97&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Running on the Linux road <br/>
+			Try everything</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3230658564" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/zjunweihit" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:zjunweihit@sina.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="zjunweihit">zjunweihit</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

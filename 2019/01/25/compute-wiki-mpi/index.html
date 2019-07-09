@@ -1,0 +1,650 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>MPI introduction | Linux Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjunweihit">
+    
+
+    
+    <meta name="description" content="Message Passing Interface (MPI) is a standardized and portable message-passing standard designed by a group of researchers from academia and industry to function on a wide variety of parallel computin">
+<meta name="keywords" content="Wiki">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MPI introduction">
+<meta property="og:url" content="http://zjunweihit.github.io/2019/01/25/compute-wiki-mpi/index.html">
+<meta property="og:site_name" content="Linux Player">
+<meta property="og:description" content="Message Passing Interface (MPI) is a standardized and portable message-passing standard designed by a group of researchers from academia and industry to function on a wide variety of parallel computin">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-09T00:55:29.867Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MPI introduction">
+<meta name="twitter:description" content="Message Passing Interface (MPI) is a standardized and portable message-passing standard designed by a group of researchers from academia and industry to function on a wide variety of parallel computin">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Linux Player" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/L2_ico.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/L2.jpg" alt="Linux Player" title="Linux Player"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Linux Player">Linux Player</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:zjunweihit.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/01/25/compute-wiki-mpi/" title="MPI introduction" itemprop="url">MPI introduction</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
+		
+  <p class="article-time">
+    <time datetime="2019-01-25T09:09:58.000Z" itemprop="datePublished"> Published 2019-01-25</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MPI-Implementation"><span class="toc-number">1.</span> <span class="toc-text">MPI Implementation</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ARMCI"><span class="toc-number">1.1.</span> <span class="toc-text">ARMCI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ARMCI-MPI"><span class="toc-number">1.1.1.</span> <span class="toc-text">ARMCI-MPI</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UCX"><span class="toc-number">1.2.</span> <span class="toc-text">UCX</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MPI-Communication"><span class="toc-number">2.</span> <span class="toc-text">MPI Communication</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Point-to-point-communication"><span class="toc-number">2.1.</span> <span class="toc-text">Point-to-point communication</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broadcast"><span class="toc-number">2.2.</span> <span class="toc-text">Broadcast</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scatter"><span class="toc-number">2.3.</span> <span class="toc-text">Scatter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gather"><span class="toc-number">2.4.</span> <span class="toc-text">Gather</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Allgather"><span class="toc-number">2.5.</span> <span class="toc-text">Allgather</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reduce"><span class="toc-number">2.6.</span> <span class="toc-text">Reduce</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Allreduce"><span class="toc-number">2.7.</span> <span class="toc-text">Allreduce</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NCCL"><span class="toc-number">3.</span> <span class="toc-text">NCCL</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Ref"><span class="toc-number">4.</span> <span class="toc-text">Ref</span></a></li></ol>
+		
+		</div>
+		
+		<p>Message Passing Interface (MPI) is a standardized and portable message-passing standard designed by a group of researchers from academia and industry to function on a wide variety of parallel computing architectures.</p>
+<a id="more"></a>
+
+<h1 id="MPI-Implementation"><a href="#MPI-Implementation" class="headerlink" title="MPI Implementation"></a>MPI Implementation</h1><ul>
+<li><p>OpenMPI</p>
+<ul>
+<li>One of implementation of MPI</li>
+<li><a href="https://en.wikipedia.org/wiki/Open_MPI" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Open_MPI</a></li>
+</ul>
+</li>
+<li><p>MPICH</p>
+<ul>
+<li>MPICH is one of the most popular implementations of MPI</li>
+<li><a href="https://en.wikipedia.org/wiki/MPICH" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/MPICH</a></li>
+</ul>
+</li>
+<li><p>Diff of OpenMPI and MPICH</p>
+<blockquote>
+<p>It is important to recognize how MPICH and Open-MPI are different, i.e. that they are designed to meet different needs. MPICH is supposed to be high-quality reference implementation of the latest MPI standard and the basis for derivative implementations to meet special purpose needs. Open-MPI targets the common case, both in terms of usage and network conduits.</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/2427399/mpich-vs-openmpi" target="_blank" rel="noopener">https://stackoverflow.com/questions/2427399/mpich-vs-openmpi</a></li>
+</ul>
+</blockquote>
+</li>
+<li><p>Others</p>
+<ul>
+<li>MPICH 3.0.4 and later on Mac, Linux SMPs and SGI SMPs.</li>
+<li>MVAPICH2 2.0a and later on Linux InfiniBand clusters.</li>
+<li>CrayMPI 6.1.0 and later on Cray XC30.</li>
+<li>SGI MPT 2.09 on SGI SMPs.</li>
+<li>OpenMPI development version on Mac.</li>
+</ul>
+</li>
+</ul>
+<h2 id="ARMCI"><a href="#ARMCI" class="headerlink" title="ARMCI"></a>ARMCI</h2><p>ARMCI: Aggregate Remote Memory Copy Interface<br>The purpose of the Aggregate Remote Memory Copy (ARMCI) library is to provide a general-purpose, efficient, and widely portable remote memory access (RMA) operations (one-sided communication) optimized for contiguous and noncontiguous (strided, scatter/gather, I/O vector) data transfers.<br>ARMCI is compatible with MPI.<br>ARMCI is a standalone system that could be used to support user-level<br>libraries and applications that use MPI or PVM(Parrallel Virtual Machine).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MPI (Message Passing Interface) is a description of an interface that can be used to communicate between computational nodes to coordinate calculations. MPI alone is not a framework that can be used, you need an implementation of this Interface, which is available for a lot of systems and programming languages.</span><br><span class="line">PVM is a complete system that can be used to distribute a calculation on multiple computers, from what I know about PVM it uses a messaging protocol, similar to MPI, internally. I think an advantage of PVM is that it handles a lot of overhead, that you would have to implement manually with MPI.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a href="http://hpc.pnl.gov/armci/" target="_blank" rel="noopener">http://hpc.pnl.gov/armci/</a><h3 id="ARMCI-MPI"><a href="#ARMCI-MPI" class="headerlink" title="ARMCI-MPI"></a>ARMCI-MPI</h3></li>
+<li>is completely rewritten implementation of ARMCI</li>
+<li><a href="https://wiki.mpich.org/armci-mpi/index.php/Main_Page" target="_blank" rel="noopener">https://wiki.mpich.org/armci-mpi/index.php/Main_Page</a></li>
+</ul>
+<h2 id="UCX"><a href="#UCX" class="headerlink" title="UCX"></a>UCX</h2><ul>
+<li>It’s ROCm-aware</li>
+<li><a href="http://www.openucx.org/introduction/" target="_blank" rel="noopener">http://www.openucx.org/introduction/</a></li>
+</ul>
+<h1 id="MPI-Communication"><a href="#MPI-Communication" class="headerlink" title="MPI Communication"></a>MPI Communication</h1><h2 id="Point-to-point-communication"><a href="#Point-to-point-communication" class="headerlink" title="Point-to-point communication"></a>Point-to-point communication</h2><ul>
+<li><p><code>MPI_Send</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">MPI_Send(</span><br><span class="line">    void* data,</span><br><span class="line">    int count,</span><br><span class="line">    MPI_Datatype datatype,</span><br><span class="line">    int destination,</span><br><span class="line">    int tag,</span><br><span class="line">    MPI_Comm communicator)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>tag: indicate a specific message<blockquote>
+<p>Sometimes there are cases when A might have to send many different types of messages to B. Instead of B having to go through extra measures to differentiate all these messages, MPI allows senders and receivers to also specify message IDs with the message (known as tags). When process B only requests a message with a certain tag number, messages with different tags will be buffered by the network until B is ready for them.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><code>MPI_Recv</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MPI_Recv(</span><br><span class="line">    void* data,</span><br><span class="line">    int count,</span><br><span class="line">    MPI_Datatype datatype,</span><br><span class="line">    int source,</span><br><span class="line">    int tag,</span><br><span class="line">    MPI_Comm communicator,</span><br><span class="line">    MPI_Status* status)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>Even though the message is routed to B, process B still has to acknowledge that it wants to receive A’s data. Once it does this, the data has been transmitted. Process A is acknowledged that the data has been transmitted and may go back to work.</p>
+</blockquote>
+<h2 id="Broadcast"><a href="#Broadcast" class="headerlink" title="Broadcast"></a>Broadcast</h2><ul>
+<li><code>MPI_Bcast</code>: one process(root) sends same data to all processes in a communicator.<ul>
+<li>One of the main uses of broadcasting is to send out user input to a parallel program, or send out configuration parameters to all processes.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">        +-&gt; 0 (A)</span><br><span class="line">        |</span><br><span class="line">        +-&gt; 1 (A)</span><br><span class="line">0(A) =&gt; |</span><br><span class="line">        +-&gt; 2 (A)</span><br><span class="line">        |</span><br><span class="line">        +-&gt; 3 (A)</span><br><span class="line"></span><br><span class="line">MPI_Bcast(</span><br><span class="line">    void* data,</span><br><span class="line">    int count,</span><br><span class="line">    MPI_Datatype datatype</span><br><span class="line">    int root,</span><br><span class="line">    MPI_Comm communicator)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Scatter"><a href="#Scatter" class="headerlink" title="Scatter"></a>Scatter</h2><ul>
+<li><code>MPI_Scatter</code>: similar as <code>MPI_Bcast</code>, but sends chunks of an array to different processes <strong>in the order of process rank</strong>.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">              +-&gt; 0 (A)</span><br><span class="line">              |</span><br><span class="line">              +-&gt; 1 (B)</span><br><span class="line">0(A,B,C,D) =&gt; |</span><br><span class="line">              +-&gt; 2 (C)</span><br><span class="line">              |</span><br><span class="line">              +-&gt; 3 (D)</span><br><span class="line"></span><br><span class="line">MPI_Scatter(</span><br><span class="line">    void* send_data,</span><br><span class="line">    int send_count,</span><br><span class="line">    MPI_Datatype send_datatype,</span><br><span class="line">    void* recv_data,</span><br><span class="line">    int recv_count,</span><br><span class="line">    MPI_Datatype recv_datatype,</span><br><span class="line">    int root,</span><br><span class="line">    MPI_Comm communicator)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Gather"><a href="#Gather" class="headerlink" title="Gather"></a>Gather</h2><ul>
+<li><code>MPI_Gather</code>: inverse of <code>MPI_Scatter</code>, gather data from all processes to single one process(root).<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">0 (A) --+</span><br><span class="line">        |</span><br><span class="line">1 (B) --+</span><br><span class="line">        | =&gt; 0(A,B,C,D)</span><br><span class="line">2 (C) --+</span><br><span class="line">        |</span><br><span class="line">3 (D) --+</span><br><span class="line"></span><br><span class="line">MPI_Gather(</span><br><span class="line">    void* send_data,</span><br><span class="line">    int send_count,</span><br><span class="line">    MPI_Datatype send_datatype,</span><br><span class="line">    void* recv_data,</span><br><span class="line">    int recv_count,</span><br><span class="line">    MPI_Datatype recv_datatype,</span><br><span class="line">    int root,</span><br><span class="line">    MPI_Comm communicator)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Allgather"><a href="#Allgather" class="headerlink" title="Allgather"></a>Allgather</h2><ul>
+<li><code>MPI_Allgather</code>: like <code>MPI_Gather</code> + <code>MPI_Bcast</code>, similar as <code>MPI_Gather</code> without the root process.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">0 (A) --+    +-- 0 (A,B,C,D)</span><br><span class="line">        |    |</span><br><span class="line">1 (B) --+    +-- 1 (A,B,C,D)</span><br><span class="line">        | =&gt; |</span><br><span class="line">2 (C) --+    +-- 2 (A,B,C,D)</span><br><span class="line">        |    |</span><br><span class="line">3 (D) --+    +-- 3 (A,B,C,D)</span><br><span class="line"></span><br><span class="line">MPI_Allgather(</span><br><span class="line">    void* send_data,</span><br><span class="line">    int send_count,</span><br><span class="line">    MPI_Datatype send_datatype,</span><br><span class="line">    void* recv_data,</span><br><span class="line">    int recv_count,</span><br><span class="line">    MPI_Datatype recv_datatype,</span><br><span class="line">    MPI_Comm communicator)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Reduce"><a href="#Reduce" class="headerlink" title="Reduce"></a>Reduce</h2><ul>
+<li><code>MPI_Reduce</code>: similar to <code>MPI_Gather</code> with the reduced result of all data.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">0 (3) --+</span><br><span class="line">        |</span><br><span class="line">1 (2) --+ (MPI_SUM)</span><br><span class="line">        | ========&gt; 0(12)</span><br><span class="line">2 (5) --+</span><br><span class="line">        |</span><br><span class="line">3 (2) --+</span><br><span class="line"></span><br><span class="line">0 (3, 1) --+</span><br><span class="line">           |</span><br><span class="line">1 (2, 3) --+ (MPI_SUM)</span><br><span class="line">           | ========&gt; 0(12, 9)</span><br><span class="line">2 (5, 4) --+</span><br><span class="line">           |</span><br><span class="line">3 (2, 1) --+</span><br><span class="line"></span><br><span class="line">MPI_Reduce(</span><br><span class="line">    void* send_data,</span><br><span class="line">    void* recv_data,</span><br><span class="line">    int count,</span><br><span class="line">    MPI_Datatype datatype,</span><br><span class="line">    MPI_Op op,</span><br><span class="line">    int root,</span><br><span class="line">    MPI_Comm communicator)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Allreduce"><a href="#Allreduce" class="headerlink" title="Allreduce"></a>Allreduce</h2><ul>
+<li><code>MPI_Allreduce</code>: reduce the values and distribute the results to all processes.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">0 (3, 1) --+           +-- 0 (12, 9)</span><br><span class="line">           |           |</span><br><span class="line">1 (2, 3) --+ (MPI_SUM) +-- 1 (12, 9)</span><br><span class="line">           | ========&gt; |</span><br><span class="line">2 (5, 4) --+           +-- 2 (12, 9)</span><br><span class="line">           |           |</span><br><span class="line">3 (2, 1) --+           +-- 3 (12, 9)</span><br><span class="line"></span><br><span class="line">MPI_Allreduce(</span><br><span class="line">    void* send_data,</span><br><span class="line">    void* recv_data,</span><br><span class="line">    int count,</span><br><span class="line">    MPI_Datatype datatype,</span><br><span class="line">    MPI_Op op,</span><br><span class="line">    MPI_Comm communicator)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="NCCL"><a href="#NCCL" class="headerlink" title="NCCL"></a>NCCL</h1><ul>
+<li><a href="https://docs.nvidia.com/deeplearning/sdk/nccl-developer-guide/docs/overview.html" target="_blank" rel="noopener">https://docs.nvidia.com/deeplearning/sdk/nccl-developer-guide/docs/overview.html</a></li>
+<li><a href="https://developer.nvidia.com/nccl" target="_blank" rel="noopener">https://developer.nvidia.com/nccl</a></li>
+<li><a href="https://devblogs.nvidia.com/fast-multi-gpu-collectives-nccl/" target="_blank" rel="noopener">https://devblogs.nvidia.com/fast-multi-gpu-collectives-nccl/</a></li>
+<li><a href="https://my.oschina.net/u/1459307/blog/1650028" target="_blank" rel="noopener">https://my.oschina.net/u/1459307/blog/1650028</a></li>
+<li><a href="https://baijiahao.baidu.com/s?id=1581386178946489641&amp;wfr=spider&amp;for=pc" target="_blank" rel="noopener">https://baijiahao.baidu.com/s?id=1581386178946489641&amp;wfr=spider&amp;for=pc</a></li>
+</ul>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<li><a href="https://en.wikipedia.org/wiki/Message_Passing_Interface" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Message_Passing_Interface</a></li>
+<li><a href="http://pages.tacc.utexas.edu/~eijkhout/pcse/html/" target="_blank" rel="noopener">http://pages.tacc.utexas.edu/~eijkhout/pcse/html/</a></li>
+<li><a href="http://mpitutorial.com/" target="_blank" rel="noopener">http://mpitutorial.com/</a></li>
+<li><a href="http://www.cnblogs.com/jpcflyer/archive/2012/03/04/2379048.html" target="_blank" rel="noopener">http://www.cnblogs.com/jpcflyer/archive/2012/03/04/2379048.html</a></li>
+<li><a href="https://www.cnblogs.com/earthhouge/p/9275250.html" target="_blank" rel="noopener">https://www.cnblogs.com/earthhouge/p/9275250.html</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Compute/">Compute</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Wiki/">Wiki</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjunweihit.github.io/2019/01/25/compute-wiki-mpi/" data-title="MPI introduction | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2019/02/12/compute-blas-sgemm/" title="Matrix Multiplication by sgemm">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Matrix Multiplication by sgemm</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2019/01/25/compute-wiki-hpc-app/"  title="HPC Application Introduction">
+ <strong>下一篇：</strong><br/> 
+ <span>HPC Application Introduction
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MPI-Implementation"><span class="toc-number">1.</span> <span class="toc-text">MPI Implementation</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ARMCI"><span class="toc-number">1.1.</span> <span class="toc-text">ARMCI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ARMCI-MPI"><span class="toc-number">1.1.1.</span> <span class="toc-text">ARMCI-MPI</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UCX"><span class="toc-number">1.2.</span> <span class="toc-text">UCX</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MPI-Communication"><span class="toc-number">2.</span> <span class="toc-text">MPI Communication</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Point-to-point-communication"><span class="toc-number">2.1.</span> <span class="toc-text">Point-to-point communication</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broadcast"><span class="toc-number">2.2.</span> <span class="toc-text">Broadcast</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scatter"><span class="toc-number">2.3.</span> <span class="toc-text">Scatter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gather"><span class="toc-number">2.4.</span> <span class="toc-text">Gather</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Allgather"><span class="toc-number">2.5.</span> <span class="toc-text">Allgather</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reduce"><span class="toc-number">2.6.</span> <span class="toc-text">Reduce</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Allreduce"><span class="toc-number">2.7.</span> <span class="toc-text">Allreduce</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NCCL"><span class="toc-number">3.</span> <span class="toc-text">NCCL</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Ref"><span class="toc-number">4.</span> <span class="toc-text">Ref</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Compute/" title="Compute">Compute<sup>15</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/Graphics/" title="Graphics">Graphics<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/" title="linux-dev">linux-dev<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-env/" title="linux-env">linux-env<sup>11</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ROCm/" title="ROCm">ROCm<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Wiki/" title="Wiki">Wiki<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env-misc/" title="linux-env-misc">linux-env-misc<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenCL/" title="OpenCL">OpenCL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TensorFlow/" title="TensorFlow">TensorFlow<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SCM/" title="SCM">SCM<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-dev-misc/" title="linux-dev-misc">linux-dev-misc<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env/" title="linux-env">linux-env<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graphics/" title="Graphics">Graphics<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://en.wikipedia.org" target="_blank" title="wikipedia(en)">wikipedia(en)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3230658564&verifier=93c86f97&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Running on the Linux road <br/>
+			Try everything</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3230658564" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/zjunweihit" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:zjunweihit@sina.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="zjunweihit">zjunweihit</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

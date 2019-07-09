@@ -1,0 +1,638 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>HPC Application Introduction | Linux Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjunweihit">
+    
+
+    
+    <meta name="description" content="Introduce HPC applications.">
+<meta name="keywords" content="Wiki">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HPC Application Introduction">
+<meta property="og:url" content="http://zjunweihit.github.io/2019/01/25/compute-wiki-hpc-app/index.html">
+<meta property="og:site_name" content="Linux Player">
+<meta property="og:description" content="Introduce HPC applications.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-09T00:55:29.867Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HPC Application Introduction">
+<meta name="twitter:description" content="Introduce HPC applications.">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Linux Player" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/L2_ico.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/L2.jpg" alt="Linux Player" title="Linux Player"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Linux Player">Linux Player</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:zjunweihit.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/01/25/compute-wiki-hpc-app/" title="HPC Application Introduction" itemprop="url">HPC Application Introduction</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
+		
+  <p class="article-time">
+    <time datetime="2019-01-25T07:35:58.000Z" itemprop="datePublished"> Published 2019-01-25</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NWChem"><span class="toc-number">1.</span> <span class="toc-text">NWChem</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GROMACS"><span class="toc-number">2.</span> <span class="toc-text">GROMACS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RELION"><span class="toc-number">3.</span> <span class="toc-text">RELION</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lattice-QCD"><span class="toc-number">4.</span> <span class="toc-text">Lattice QCD</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NAMD"><span class="toc-number">5.</span> <span class="toc-text">NAMD</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HOOMD-Blue"><span class="toc-number">6.</span> <span class="toc-text">HOOMD-Blue</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LAMMPS"><span class="toc-number">7.</span> <span class="toc-text">LAMMPS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OpenFOAM"><span class="toc-number">8.</span> <span class="toc-text">OpenFOAM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CP2K"><span class="toc-number">9.</span> <span class="toc-text">CP2K</span></a></li></ol>
+		
+		</div>
+		
+		<p>Introduce HPC applications.</p>
+<a id="more"></a>
+
+<h1 id="NWChem"><a href="#NWChem" class="headerlink" title="NWChem"></a>NWChem</h1><p>Open Source High-Performance Computational Chemistry</p>
+<p>运行在高性能并行超级计算机和通常工作站集群上的计算化学软件，可以用在大多数计算平台上。NWChem使用标准量子力学描述电子波函或密度，计算分子和周期性系统的特性，还可以进行经典分子动力学和自由能模拟。</p>
+<p>NWChem software can handle:</p>
+<ul>
+<li>Biomolecules, nanostructures, and solid-state</li>
+<li>From quantum to classical, and all combinations</li>
+<li>Ground and excited-states</li>
+<li>Gaussian basis functions or plane-waves</li>
+<li>Scaling from one to thousands of processors</li>
+<li>Properties and relativistic effects</li>
+</ul>
+<blockquote>
+<p>Ref</p>
+<ul>
+<li><a href="http://www.nwchem-sw.org/index.php/Main_Page" target="_blank" rel="noopener">main page</a></li>
+<li><a href="https://baike.baidu.com/item/NWChem/248346?fr=aladdin" target="_blank" rel="noopener">baike</a></li>
+</ul>
+</blockquote>
+<h1 id="GROMACS"><a href="#GROMACS" class="headerlink" title="GROMACS"></a>GROMACS</h1><p>GROMACS is a molecular dynamics application designed to simulate Newtonian equations of motion for systems with hundreds to millions of particles. GROMACS is designed to simulate biochemical molecules like proteins, lipids, and nucleic acids that have a lot of complicated bonded interactions.</p>
+<p>GROMACS是用于研究生物分子体系的分子动力学程序包。它可以用分子动力学、随机动力学或者路径积分方法模拟溶液或晶体中的任意分子，进行分子能量的最小化，分析构象等。它的模拟程序包包含GROMACS力场(蛋白质、核苷酸、糖等)，研究的范围可以包括玻璃和液晶、到聚合物、晶体和生物分子溶液。GROMACS是一个功能强大的分子动力学的模拟软件，其在模拟大量分子系统的牛顿运动方面具有极大的优势。</p>
+<blockquote>
+<p>Ref</p>
+<ul>
+<li><a href="https://www.nvidia.com/en-us/data-center/gpu-accelerated-applications/gromacs/" target="_blank" rel="noopener">https://www.nvidia.com/en-us/data-center/gpu-accelerated-applications/gromacs/</a></li>
+<li><a href="https://baike.baidu.com/item/GROMACS/2243638?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/GROMACS/2243638?fr=aladdin</a></li>
+<li><a href="http://www.gromacs.org/" target="_blank" rel="noopener">http://www.gromacs.org/</a></li>
+</ul>
+</blockquote>
+<h1 id="RELION"><a href="#RELION" class="headerlink" title="RELION"></a>RELION</h1><p>RELION (REgularized LIkelihood OptimizatioN) implements an empirical Bayesian approach for analysis of electron cryo-microscopy (Cryo-EM 冷冻电镜). Specifically it provides methods of refinement of singular or multiple 3D reconstructions as well as 2D class averages. RELION is an important tool in the study of living cells.</p>
+<p>基于贝叶斯理论的冷冻电镜三维图像处理</p>
+<blockquote>
+<p>Ref</p>
+<ul>
+<li><a href="https://ngc.nvidia.com/catalog/containers/hpc:relion" target="_blank" rel="noopener">https://ngc.nvidia.com/catalog/containers/hpc:relion</a></li>
+</ul>
+</blockquote>
+<h1 id="Lattice-QCD"><a href="#Lattice-QCD" class="headerlink" title="Lattice QCD"></a>Lattice QCD</h1><p>Lattice(格子) QCD is a well-established non-perturbative(非微扰) approach to solving the quantum chromodynamics (QCD 量子色动力学) theory of quarks and gluons(胶子，理论上假设无质量的粒子). It is a lattice gauge(测量) theory formulated on a grid or lattice of points in space and time.</p>
+<blockquote>
+<p>Ref</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Lattice_QCD" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Lattice_QCD</a></li>
+<li><a href="https://wenku.baidu.com/view/500ae080f71fb7360b4c2e3f5727a5e9846a2712.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/500ae080f71fb7360b4c2e3f5727a5e9846a2712.html</a></li>
+</ul>
+</blockquote>
+<h1 id="NAMD"><a href="#NAMD" class="headerlink" title="NAMD"></a>NAMD</h1><p>NAMD (NAnoscale Molecular Dynamics) is a production-quality molecular dynamics application designed for high-performance simulation of large biomolecular systems. Developed by University of Illinois at Urbana-Champaign (UIUC), NAMD is distributed free of charge with binaries and source code.</p>
+<p>NAMD（NAnoscale Molecular Dynamics）是用于在大规模并行计算机上快速模拟大分子体系的并行分子动力学代码。NAMD用经验力场，如Amber，CHARMM和Dreiding，通过数值求解运动方程计算原子轨迹。</p>
+<blockquote>
+<p>Ref</p>
+<ul>
+<li><a href="http://www.ks.uiuc.edu/Research/namd/" target="_blank" rel="noopener">http://www.ks.uiuc.edu/Research/namd/</a></li>
+<li><a href="https://baike.baidu.com/item/NAMD/1297990" target="_blank" rel="noopener">https://baike.baidu.com/item/NAMD/1297990</a></li>
+<li><a href="https://www.nvidia.com/en-us/data-center/gpu-accelerated-applications/namd/" target="_blank" rel="noopener">https://www.nvidia.com/en-us/data-center/gpu-accelerated-applications/namd/</a></li>
+</ul>
+</blockquote>
+<h1 id="HOOMD-Blue"><a href="#HOOMD-Blue" class="headerlink" title="HOOMD-Blue"></a>HOOMD-Blue</h1><p>HOOMD-blue is a general-purpose particle simulation toolkit. It scales from a single CPU core to thousands of GPUs.<br>You define particle initial conditions and interactions in a high-level python script. Then tell HOOMD-blue how you want to execute the job and it takes care of the rest.</p>
+<blockquote>
+<p>Ref</p>
+<ul>
+<li><a href="http://glotzerlab.engin.umich.edu/hoomd-blue/" target="_blank" rel="noopener">http://glotzerlab.engin.umich.edu/hoomd-blue/</a></li>
+</ul>
+</blockquote>
+<h1 id="LAMMPS"><a href="#LAMMPS" class="headerlink" title="LAMMPS"></a>LAMMPS</h1><p>LAMMPS is a classical molecular dynamics code with a focus on materials modeling. It’s an acronym for Large-scale Atomic/Molecular Massively Parallel Simulator.</p>
+<p>LAMMPS has potentials for solid-state materials (metals, semiconductors) and soft matter (biomolecules, polymers) and coarse-grained or mesoscopic systems. It can be used to model atoms or, more generically, as a parallel particle simulator at the atomic, meso, or continuum scale. </p>
+<p>LAMMPS即Large-scale Atomic/Molecular Massively Parallel Simulator，可以翻译为大规模原子分子并行模拟器，主要用于分子动力学相关的一些计算和模拟工作，一般来讲，分子动力学所涉及到的领域，LAMMPS代码也都涉及到了。<br>LAMMPS由美国Sandia国家实验室开发，以GPL license发布。可以支持包括气态，液态或者固态相形态下、各种系综下、百万级的原子分子体系，并提供支持多种势函数。且LAMMPS有良好的并行扩展性。</p>
+<blockquote>
+<p>Ref</p>
+<ul>
+<li><a href="https://lammps.sandia.gov/" target="_blank" rel="noopener">https://lammps.sandia.gov/</a></li>
+<li><a href="https://baike.baidu.com/item/LAMMPS/153102" target="_blank" rel="noopener">https://baike.baidu.com/item/LAMMPS/153102</a></li>
+</ul>
+</blockquote>
+<h1 id="OpenFOAM"><a href="#OpenFOAM" class="headerlink" title="OpenFOAM"></a>OpenFOAM</h1><p>OpenFOAM is the leading free, open source software for computational fluid dynamics (CFD), owned by the OpenFOAM Foundation and distributed exclusively under the General Public Licence (GPL). The GPL gives users the freedom to modify and redistribute the software and a guarantee of continued free use, within the terms of the licence.</p>
+<p>OpenFOAM是一个完全由C++编写，在linux下运行，面向对象的计算流体力学（CFD）类库。<br>OpenFOAM跟商用的CFD软件Ansys Fluent，CFX类似，但其为开源的，采用类似于我们日常习惯的方法在软件中描述偏微分方程的有限体积离散化。2004年开始OpenFOAM一直作为免费使用的开源软件，目前有OpenFOAM和OpenFOAM-Extened两个版本，分别有Henry Weller负责的OpenCFD以及Hrvoje Jasak负责的Wikki公司分别维护。</p>
+<blockquote>
+<p>Ref</p>
+<ul>
+<li><a href="https://baike.baidu.com/item/OpenFOAM/3052023?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/OpenFOAM/3052023?fr=aladdin</a></li>
+<li><a href="https://openfoam.org/" target="_blank" rel="noopener">https://openfoam.org/</a></li>
+</ul>
+</blockquote>
+<h1 id="CP2K"><a href="#CP2K" class="headerlink" title="CP2K"></a>CP2K</h1><p>CP2K is a freely available (GPL) program, written in Fortran 2003, to perform atomistic simulations of solid state, liquid, molecular and biological systems.</p>
+<p>用于固态、液体、分子和生物体系的原子和分子模拟。方法包括从第一定律密度泛函方法，到参量化经典双体、多体势。CP2K并不执行传统的Car-Parrinello分子动力学。</p>
+<p>使用的交换-相关泛含有：</p>
+<ul>
+<li>交换部分：Slater, VWN, Pade; Becke88, Perdew86, PBE</li>
+<li>相关部分：VWN, Pade; LYP, Perdew86, PBE</li>
+<li>其中自旋极化只用于Becke88。</li>
+</ul>
+<p>CP2k包含Quickstep，使用高斯基和平面波混合基组，对大体系进行线性标度的密度泛函计算。<br>DKH1至DKH5全电子标量相对论方法。</p>
+<blockquote>
+<p>Ref</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/CP2K" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/CP2K</a></li>
+<li><a href="http://www.quantumchemistry.net/node/62" target="_blank" rel="noopener">http://www.quantumchemistry.net/node/62</a></li>
+<li><a href="https://www.cp2k.org/" target="_blank" rel="noopener">https://www.cp2k.org/</a></li>
+</ul>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Compute/">Compute</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Wiki/">Wiki</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjunweihit.github.io/2019/01/25/compute-wiki-hpc-app/" data-title="HPC Application Introduction | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2019/01/25/compute-wiki-mpi/" title="MPI introduction">
+  <strong>上一篇：</strong><br/>
+  <span>
+  MPI introduction</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2019/01/25/compute-wiki-math-lib/"  title="Math Library Introduction">
+ <strong>下一篇：</strong><br/> 
+ <span>Math Library Introduction
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NWChem"><span class="toc-number">1.</span> <span class="toc-text">NWChem</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GROMACS"><span class="toc-number">2.</span> <span class="toc-text">GROMACS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RELION"><span class="toc-number">3.</span> <span class="toc-text">RELION</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lattice-QCD"><span class="toc-number">4.</span> <span class="toc-text">Lattice QCD</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NAMD"><span class="toc-number">5.</span> <span class="toc-text">NAMD</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HOOMD-Blue"><span class="toc-number">6.</span> <span class="toc-text">HOOMD-Blue</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LAMMPS"><span class="toc-number">7.</span> <span class="toc-text">LAMMPS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OpenFOAM"><span class="toc-number">8.</span> <span class="toc-text">OpenFOAM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CP2K"><span class="toc-number">9.</span> <span class="toc-text">CP2K</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Compute/" title="Compute">Compute<sup>15</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/Graphics/" title="Graphics">Graphics<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/" title="linux-dev">linux-dev<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-env/" title="linux-env">linux-env<sup>11</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ROCm/" title="ROCm">ROCm<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Wiki/" title="Wiki">Wiki<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env-misc/" title="linux-env-misc">linux-env-misc<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenCL/" title="OpenCL">OpenCL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TensorFlow/" title="TensorFlow">TensorFlow<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SCM/" title="SCM">SCM<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-dev-misc/" title="linux-dev-misc">linux-dev-misc<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env/" title="linux-env">linux-env<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graphics/" title="Graphics">Graphics<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://en.wikipedia.org" target="_blank" title="wikipedia(en)">wikipedia(en)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3230658564&verifier=93c86f97&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Running on the Linux road <br/>
+			Try everything</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3230658564" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/zjunweihit" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:zjunweihit@sina.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="zjunweihit">zjunweihit</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,1385 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>OpenCL Overview | Linux Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjunweihit">
+    
+
+    
+    <meta name="description" content="OpenCL Summary">
+<meta name="keywords" content="OpenCL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenCL Overview">
+<meta property="og:url" content="http://zjunweihit.github.io/2018/12/13/ocl-overview-md/index.html">
+<meta property="og:site_name" content="Linux Player">
+<meta property="og:description" content="OpenCL Summary">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-09T01:05:11.294Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OpenCL Overview">
+<meta name="twitter:description" content="OpenCL Summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Linux Player" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/L2_ico.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/L2.jpg" alt="Linux Player" title="Linux Player"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Linux Player">Linux Player</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:zjunweihit.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/12/13/ocl-overview-md/" title="OpenCL Overview" itemprop="url">OpenCL Overview</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
+		
+  <p class="article-time">
+    <time datetime="2018-12-13T14:17:18.000Z" itemprop="datePublished"> Published 2018-12-13</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Platform-model"><span class="toc-number">1.</span> <span class="toc-text">Platform model</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Platform-model-HW"><span class="toc-number">2.</span> <span class="toc-text">Platform model(HW)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Execution-model"><span class="toc-number">3.</span> <span class="toc-text">Execution model</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How-to-build"><span class="toc-number">4.</span> <span class="toc-text">How to build</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A-general-way-of-OCL-app"><span class="toc-number">5.</span> <span class="toc-text">A general way of OCL app</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Platform"><span class="toc-number">6.</span> <span class="toc-text">Platform</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Device"><span class="toc-number">7.</span> <span class="toc-text">Device</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Context"><span class="toc-number">8.</span> <span class="toc-text">Context</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Program-with-OpenCL-C"><span class="toc-number">9.</span> <span class="toc-text">Program with OpenCL C</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OpenCL-C-Build-In-Functions"><span class="toc-number">10.</span> <span class="toc-text">OpenCL C Build-In Functions</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Programs-and-Kernels"><span class="toc-number">11.</span> <span class="toc-text">Programs and Kernels</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Program"><span class="toc-number">11.1.</span> <span class="toc-text">Program</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kernel"><span class="toc-number">11.2.</span> <span class="toc-text">Kernel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Thread-safty"><span class="toc-number">11.3.</span> <span class="toc-text">Thread safty</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Buffers-and-Sub-Buffers"><span class="toc-number">12.</span> <span class="toc-text">Buffers and Sub-Buffers</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer-creation"><span class="toc-number">12.1.</span> <span class="toc-text">Buffer creation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Read-write-and-copy"><span class="toc-number">12.2.</span> <span class="toc-text">Read, write and copy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Map"><span class="toc-number">12.3.</span> <span class="toc-text">Map</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Events"><span class="toc-number">13.</span> <span class="toc-text">Events</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Barrier"><span class="toc-number">13.1.</span> <span class="toc-text">Barrier</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Marker"><span class="toc-number">13.2.</span> <span class="toc-text">Marker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Synchronization"><span class="toc-number">13.3.</span> <span class="toc-text">Synchronization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Event-Object"><span class="toc-number">13.4.</span> <span class="toc-text">Event Object</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-defined-event"><span class="toc-number">13.5.</span> <span class="toc-text">User defined event</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set-Callback"><span class="toc-number">13.6.</span> <span class="toc-text">Set Callback</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Usage"><span class="toc-number">13.7.</span> <span class="toc-text">Usage</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Profiling"><span class="toc-number">13.8.</span> <span class="toc-text">Profiling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Events-In-Kernel"><span class="toc-number">13.9.</span> <span class="toc-text">Events In Kernel</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Images-and-Samplers"><span class="toc-number">14.</span> <span class="toc-text">Images and Samplers</span></a></li></ol>
+		
+		</div>
+		
+		<p>OpenCL Summary</p>
+<a id="more"></a>
+
+<h1 id="Platform-model"><a href="#Platform-model" class="headerlink" title="Platform model"></a>Platform model</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">                     +-----------+</span><br><span class="line">                     |           |</span><br><span class="line">               +-----+ Device 1  |</span><br><span class="line">               |     |           |         +------------------------+</span><br><span class="line">  +------+     |     +-----------+         |     Compute Unit 1     |</span><br><span class="line">  |      |     |                           +------------------------+</span><br><span class="line">  |      |     |     +-----------+         |  +--+  +--+      +--+  |</span><br><span class="line">  |      |     |     |           |         |  |  |  |  |      |  |  |</span><br><span class="line">  | host +-----+-----+ Device 2  +-----+---+  |PE|  |PE| ...  |PE|  |</span><br><span class="line">  |      |     |     |           |     |   |  |  |  |  |      |  |  |</span><br><span class="line">  |      |     |     +-----------+     |   |  +--+  +--+      +--+  |</span><br><span class="line">  |      |     |                       |   +------------------ -----+</span><br><span class="line">  +------+     |                       |   ...</span><br><span class="line">               |     ...               |   +------------------------+</span><br><span class="line">               |                       |   |     Compute Unit N     |</span><br><span class="line">               |     +-----------+     |   +------------------------+</span><br><span class="line">               |     |           |     |   |  +--+  +--+      +--+  |</span><br><span class="line">               +-----+ Device N  |     |   |  |  |  |  |      |  |  |</span><br><span class="line">                     |           |     +---+  |PE|  |PE| ...  |PE|  |</span><br><span class="line">                     +-----------+         |  |  |  |  |      |  |  |</span><br><span class="line">                                           |  +--+  +--+      +--+  |</span><br><span class="line">                                           +------------------------+</span><br><span class="line"></span><br><span class="line">Computations occurs within PEs</span><br><span class="line"></span><br><span class="line">PE -&gt; work-item(threads) -&gt; private memory</span><br><span class="line">CU -&gt; work-group -&gt; local memory</span><br><span class="line">Device -&gt; Command queue, one to one -&gt; global memory</span><br></pre></td></tr></table></figure>
+
+<h1 id="Platform-model-HW"><a href="#Platform-model-HW" class="headerlink" title="Platform model(HW)"></a>Platform model(HW)</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">                                          +-----------------------------+</span><br><span class="line">                                          |        Shader Engine        |</span><br><span class="line">                                          +-----------------------------+</span><br><span class="line">               +---------------------+    | +------------------------+  |</span><br><span class="line">            +-&gt;|        CPC          |--+-+&gt;|     Compute Unit       |  |</span><br><span class="line">            |  +---------------------+  | | +------------------------+  |</span><br><span class="line">            |  |                     |  | | | +--+  +--+  +--+  +--+ |  |</span><br><span class="line">            |  |                     |  | | | |S |  |S |  |S |  |S | |  |</span><br><span class="line">            |  |        (ACE)        |  | | | |I1|  |I1|  |I1|  |I1| |  |</span><br><span class="line">            |  |  MEC X PIPE X QUEUE |  | | | |M6|  |M6|  |M6|  |M6| |  |</span><br><span class="line">            |  |   2     4       8   |  | | | |D |  |D |  |D |  |D | |  |</span><br><span class="line"> +-----+    |  |                     |  | | | +--+  +--+  +--+  +--+ |  |</span><br><span class="line"> |     |    |  +---------------------+  | | +------------------------+  |</span><br><span class="line"> | CPF +----+  +-----+                  | |                             |</span><br><span class="line"> |     |    |  |     |                  | | ...                         |</span><br><span class="line"> +-----+    +-&gt;| CPG |                  | | +------------------------+  |</span><br><span class="line">               |     |                  +-+&gt;|     Compute Unit       |  |</span><br><span class="line">               +-----+                    | +------------------------+  |</span><br><span class="line">                                          | | +--+  +--+  +--+  +--+ |  |</span><br><span class="line">                                          | | |S |  |S |  |S |  |S | |  |</span><br><span class="line">                                          | | |I1|  |I1|  |I1|  |I1| |  |</span><br><span class="line">                                          | | |M6|  |M6|  |M6|  |M6| |  |</span><br><span class="line">                                          | | |D |  |D |  |D |  |D | |  |</span><br><span class="line">                                          | | +--+  +--+  +--+  +--+ |  |</span><br><span class="line">                                          | +------------------------+  |</span><br><span class="line">                                          |                             |</span><br><span class="line">                                          +-----------------------------+</span><br><span class="line"></span><br><span class="line">amdgpu only owns MEC0, queue[0,1]</span><br><span class="line">(MEC0 is ring-&gt;me1: ring-&gt;me = mec + 1)</span><br><span class="line"></span><br><span class="line">  amdgpu 0000:03:00.0: ring 1(comp_1.0.0) uses VM inv eng 5 on hub 0</span><br><span class="line">  amdgpu 0000:03:00.0: ring 2(comp_1.1.0) uses VM inv eng 6 on hub 0</span><br><span class="line">  amdgpu 0000:03:00.0: ring 3(comp_1.2.0) uses VM inv eng 7 on hub 0</span><br><span class="line">  amdgpu 0000:03:00.0: ring 4(comp_1.3.0) uses VM inv eng 8 on hub 0</span><br><span class="line">  amdgpu 0000:03:00.0: ring 5(comp_1.0.1) uses VM inv eng 9 on hub 0</span><br><span class="line">  amdgpu 0000:03:00.0: ring 6(comp_1.1.1) uses VM inv eng 10 on hub 0</span><br><span class="line">  amdgpu 0000:03:00.0: ring 7(comp_1.2.1) uses VM inv eng 11 on hub 0</span><br><span class="line">  amdgpu 0000:03:00.0: ring 8(comp_1.3.1) uses VM inv eng 12 on hub 0</span><br><span class="line"></span><br><span class="line">pre-GCN, VLIW is used in CU as SIMD</span><br><span class="line"></span><br><span class="line">* SQ in each CU schedules the execution of waves and processing of work items</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>AQL: Architecture Queuing Language<ul>
+<li>HSA defines AQL to run CPU and GPU by Apps.</li>
+</ul>
+</li>
+<li>ACE<ul>
+<li>dispatches one wavefront from a workgroup to one CU</li>
+</ul>
+</li>
+<li>SIMD<ul>
+<li>SIMD-16, includes 16 64-bit ALU, if the package is 32/16/8-bit, it could be several of them in a cycle.</li>
+<li>each SIMD can work on a separate wavefront</li>
+<li>several PEs</li>
+</ul>
+</li>
+<li>wavefront(aka warp for NV)<ul>
+<li>the size of wavefront is (a width of SIMD unit * number of SIMD units) in CU(aligned with CU)<ul>
+<li>16 * 4 = 64 (threads or work-items, VALU)<ul>
+<li>( <strong>could</strong> be 16 ~ 64, also for 1 SMID-16 or 1 CU(4 SIMD-16)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Each SIMD unit is assigned its own 40-bit program counter and instruction buffer for 10 wavefronts.</li>
+<li>the whole CU <strong>can</strong> have 40 wavefronts(?? generally 1 wavefront) in flight, a GPU with 64 CUs, can be working on up to 163,840(64<em>40</em>64) work items at a time.</li>
+</ul>
+</li>
+<li>GDS: synchronize and communicate between tasks running on different SE. Between CUs and SEs.</li>
+<li>LDS: synchronize and communicate inside CU, LDS is 64KB.</li>
+<li>SE(shader engine)<ul>
+<li>1 SIMD array(SH: shader array, generally 1 per SE)<ul>
+<li>CUs(16 per SH)<ul>
+<li>SIMD(4 per CU)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">GPU has 4 SE, 16 CU per SE, 4 SIMD-16 units for 64-bit vector processing per CU, 16 VALU(64-bit) per SIMD-16.</span><br><span class="line">It contains 4 SEs, 64 CUs, 256 SIMD-16, 4096 64-bit VALU blocks.</span><br><span class="line"></span><br><span class="line"># cat /sys/class/kfd/kfd/topology/nodes/1/properties</span><br><span class="line">cpu_cores_count 0</span><br><span class="line">simd_count 256              --  Total processor(VALU) number = 256 smid *  16 (vectors per smid)</span><br><span class="line">mem_banks_count 1</span><br><span class="line">caches_count 96</span><br><span class="line">io_links_count 1</span><br><span class="line">cpu_core_id_base 0</span><br><span class="line">simd_id_base 2147487744</span><br><span class="line">max_waves_per_simd 10</span><br><span class="line">lds_size_in_kb 64</span><br><span class="line">gds_size_in_kb 0</span><br><span class="line">wave_front_size 64          --  Total wave items runing in one SIMD per cycle</span><br><span class="line">array_count 4               --  Total 4 SIMD arrays (in this case, it has 4 shader engines too, since 1 SH per SE below)</span><br><span class="line">simd_arrays_per_engine 1    --  SIMD arrays number per shdaer engine</span><br><span class="line">cu_per_simd_array 16</span><br><span class="line">simd_per_cu 4               -- total simd count = 4(SIMD/CU) * 16(CU) * 4(SE) = 256</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Execution-model"><a href="#Execution-model" class="headerlink" title="Execution model"></a>Execution model</h1><ul>
+<li>Kernel types<ul>
+<li>OpenCL kernels: functions written in OpenCL C</li>
+<li>Native kernels: functions created outside of OpenCL and accessed within OpenCL through a function pointer.<ul>
+<li>Functions are defined in host soruce code or exported from a specified library.</li>
+<li>Option feature</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>How a Kernel executes on an OpenCL device<ul>
+<li>work-item: an instance of an excuting kernel<ul>
+<li>running on a PE</li>
+<li>it can be identified by a global ID or the combination of workgroup ID and local ID</li>
+<li>each work-item uses the same sequence of the instructions defined by a kernel</li>
+<li>but the behavrior can vary due to branch statements within the code or data selected through the global ID.</li>
+</ul>
+</li>
+<li>work-groups: evenly divides the global size in each dimension<ul>
+<li>concurrently execute on a single CU</li>
+</ul>
+</li>
+<li>NDRange: the index space spans an N-dimensioned range<ul>
+<li>N: 1, 2, 3</li>
+<li>global ID: starts from 0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Context<ul>
+<li>Devices: OpenCL devices to be used by the host</li>
+<li>Kernels:</li>
+<li>Program objects:</li>
+<li>Memory objects:</li>
+</ul>
+</li>
+<li>Command queue<ul>
+<li>is created by a host and attached to a single OpenCL device</li>
+<li>command type support<ul>
+<li>kernel execution commands</li>
+<li>memory commands:<ul>
+<li>transfer data between the host and memory objects</li>
+<li>move data between memory objects</li>
+<li>map/unmap memory objects from the host address space</li>
+</ul>
+</li>
+<li>synchronization commands</li>
+</ul>
+</li>
+<li>commands are executed asynchronously<ul>
+<li>the host could continuous without waiting for commands to finish. If necessary, a explicit synchronization command is required.</li>
+</ul>
+</li>
+<li>commands within a single queue execute relative to each orther in one of two modes<ul>
+<li>in-order execution: commands are launched in order in which they appear in the command queue and complete in order</li>
+<li>out-of-order(optional) execution: commands are issued in order but do not wait to complete before the following commands execute.<ul>
+<li>automatic load balancing: if a CU finishes its work early, it can immediately fetch a new command and start a new kernel.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>An application is not done until all of kernels complete.</li>
+</ul>
+</li>
+<li>Memory model<ul>
+<li>buffer object: contiguous block to store any data the programmer like</li>
+<li>image object: hold images, including strage format<ul>
+<li>it’s an opaque object manipulated by functions provided by OpenCL framework.</li>
+</ul>
+</li>
+<li>memory region:<ul>
+<li>host memmory: visible only to the host</li>
+<li>global memory: read/write access to all work-items in all work-groups.</li>
+<li>constant memroy: region of global memory remains constant during kernel execution.<ul>
+<li>Host allocates and initializes the memory objects.</li>
+<li>Work-items have read-only to these objects.</li>
+</ul>
+</li>
+<li>local memory: local to work-group. allocates variables shared by all work-items in that work-group.<ul>
+<li>values in local memory are guaranteed to be consistent at work-group synchoronization points.</li>
+<li>e.g. work group barrier requires all loads/stores defined before the barrier complete before any work-items in the group proceed past the barrier.</li>
+</ul>
+</li>
+<li>private memory: private to a work-item.<ul>
+<li>load/store memory into private memory canno be re-ordered to appear in any order</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>memory access:<ul>
+<li>copy/map/unmap as blocking or non-blocking.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Programing model<ul>
+<li>data parallelism<ul>
+<li>no branch statements, each work-item will execute identical operations selected by its global ID. SIMD, Single Instruction Multiple Data.</li>
+<li>with branch statements, each work-item uses the same “program”. SPMD, Singlpe Program Multiple Data.</li>
+</ul>
+</li>
+<li>task parallelism, optional<ul>
+<li>many tasks are sent to out-of-order queue, it will be effective.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="How-to-build"><a href="#How-to-build" class="headerlink" title="How to build"></a>How to build</h1><ul>
+<li>Mac<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clang++ -g -framework OpenCL HelloWorld.cpp</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="A-general-way-of-OCL-app"><a href="#A-general-way-of-OCL-app" class="headerlink" title="A general way of OCL app"></a>A general way of OCL app</h1><ul>
+<li>Query present platforms</li>
+<li>Query a set of devices supported by each platform:<ul>
+<li>Select devices, clGetDeviceInfo() on specific capabilities.</li>
+</ul>
+</li>
+<li>Create contexts from a selected devices, each context must be created with devices from the a <strong>single</strong> platform.<ul>
+<li>create one or more command queues</li>
+<li>create programs to run on one or more associated devices</li>
+<li>Create a kernel from those programs</li>
+<li>Allocate memory buffers and images, either on the host or on the devices.</li>
+<li>Write or copy data to and from a particular devices</li>
+<li>Submit kernels to a command queue for execution</li>
+</ul>
+</li>
+</ul>
+<h1 id="Platform"><a href="#Platform" class="headerlink" title="Platform"></a>Platform</h1><p>Get the list of platform</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cl_int clGetPlatformIDs (cl_uint num_entries,</span><br><span class="line">                         cl_platform_id *platforms,</span><br><span class="line">                         cl_uint *num_platforms)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>num_entries: the number of cl_platform_id entries that can be added to platforms</li>
+<li>platforms: the array of platform</li>
+<li>num_platforms: the number of platforms<br>e.g.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// get the number of platforms</span><br><span class="line">errNum = clGetPlatformIDs(0, NULL, &amp;numPlatforms);</span><br><span class="line">platformIds = (cl_platform_id *)alloca(sizeof(cl_platform_id) * numPlatforms);</span><br><span class="line"></span><br><span class="line">// get platformIds</span><br><span class="line">errNum = clGetPlatformIDs(numPlatforms, platformIds, NULL);</span><br><span class="line"></span><br><span class="line">// now we can iterate each platform</span><br><span class="line">for (cl_unit i = 0; i &lt; numPlatforms; i++) &#123;</span><br><span class="line">    Display(platformIds[i]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// get the first platform directly</span><br><span class="line">errNum = clGetPlatformIDs(1, &amp;firstPlatformId, &amp;numPlatforms);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>Get the platform information</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cl_int clGetPlatformInfo (cl_platform_id platform,</span><br><span class="line">                          cl_platform_info param_name,</span><br><span class="line">                          size_t param_value_size,</span><br><span class="line">                          void *param_value,</span><br><span class="line">                          size_t *param_value_size_ret)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>the info may be different size, get size and get actual info<br>e.g.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// get platform name</span><br><span class="line">err = clGetPlatformInfo(id, CL_PLATFORM_NAME, 0, NULL, &amp;size);</span><br><span class="line">char *name = (char *)alloca(sizeof(char) * size);</span><br><span class="line">err = clGetPlatformInfo(id, CL_PLATFORM_NAME, size, name, NULL);</span><br><span class="line"></span><br><span class="line">// get vendor name</span><br><span class="line">err = clGetPlatformInfo(id, CL_PLATFORM_VENDOR, 0, NULL, &amp;size);</span><br><span class="line">char *vname = (char *)alloca(sizeof(char) * size);</span><br><span class="line">err = clGetPlatformInfo(id, CL_PLATFORM_VENDOR, size, vname, NULL);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Device"><a href="#Device" class="headerlink" title="Device"></a>Device</h1><p>Given a platform, a list of supported devices can be queried with the command:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cl_int clGetDeviceIDs (cl_platform_id platform,</span><br><span class="line">                       cl_device_type device_type,</span><br><span class="line">                       cl_uint num_entries,</span><br><span class="line">                       cl_device_id *devices,</span><br><span class="line">                       cl_uint *num_devices)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>each devicie share the same execution and memory model.</li>
+<li>the “default” and “all” device option allow OCL runtime to assign a preferred device and all available devices respectively.<br>e.g.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cl_int errNum;</span><br><span class="line">cl_uint numDevices;</span><br><span class="line">cl_device_id deviceIds[1];</span><br><span class="line"></span><br><span class="line">// get the number of devices</span><br><span class="line">errNum = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 0, NULL, &amp;numDevices);</span><br><span class="line"></span><br><span class="line">// get the first device</span><br><span class="line">errNum = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &amp;deviceIds[0], NULL);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>Get device info</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cl_int clGetDeviceInfo (cl_device_id device,</span><br><span class="line">                        cl_device_info param_name,</span><br><span class="line">                        size_t param_value_size,</span><br><span class="line">                        void *param_value,</span><br><span class="line">                        size_t *param_value_size_ret)</span><br></pre></td></tr></table></figure>
+
+<p>e.g. <em>all clGetXXInfo() will use the same way to get the size and info</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">err = clGetDeviceInfo(deviceID, CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(cl_unit), &amp;maxComputeUnits, &amp;size);</span><br></pre></td></tr></table></figure>
+
+<p>practice: App to get clinfo</p>
+<ul>
+<li>CL_DEVICE_MAX_WORK_ITEM_SIZES:  array for each dimention</li>
+<li>CL_DEVICE_MAX_WORK_GROUP_SIZE: the max number for a kernel to execute within a work group<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">      CL_DEVICE_MAX_WORK_ITEM_SIZES       CL_DEVICE_MAX_WORK_GROUP_SIZE</span><br><span class="line">CPU:        1024    1       1                         1024</span><br><span class="line">iGPU:       512     512     512                       512</span><br><span class="line">dGPU:       1024    1024    1024                      256</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h1><p>Contexts provide a container for associated devices, memory objects and command queues(interface between ctx and dev).</p>
+<ul>
+<li>OCL memory guarantees that all devices within the same context, will see these updates at well-defined synchronizatoin points. (memory in ctx could be synced among devices)</li>
+<li>memory objects cannot be shared by different contexts(regardless of the same platform or not)</li>
+<li>any data that is to be shared across contexts must be manually moved between contexts.</li>
+</ul>
+<p>Create a context</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cl_context clCreateContext (const cl_context_properties *properties,</span><br><span class="line">                            cl_uint num_devices,</span><br><span class="line">                            const cl_device_id *devices,</span><br><span class="line">                            void (CL_CALLBACK *pfn_notify)(const char *errinfo,</span><br><span class="line">                                                           const void *private_info,</span><br><span class="line">                                                           size_t cb,</span><br><span class="line">                                                           void *user_data),</span><br><span class="line">                            void *user_data, cl_int *errcode_ret)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cl_context clCreateContextFromType (const cl_context_properties *properties,</span><br><span class="line">                                    cl_device_type device_type,</span><br><span class="line">                                    void (CL_CALLBACK *pfn_notify)(const char *errinfo,</span><br><span class="line">                                                                   const void *private_info,</span><br><span class="line">                                                                   size_t cb,</span><br><span class="line">                                                                   void *user_data),</span><br><span class="line">                                    void *user_data, cl_int *errcode_ret)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>the <code>properties</code> are limited to below, other context properties are defined with certain OCL extensions.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">| cl_context_properties | Property value | Description                 |</span><br><span class="line">| CL_CONTEXT_PLATFORM   | cl_platform_id | specify the platform to use |</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>pfn_notify</code> and <code>user_data</code> are used together to defince a callback to report info on errors.</p>
+</li>
+</ul>
+<p>e.g.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">clGetDeviceInfo(platform, CL_DEVICE_TYPE_GPU, 0, NULL, &amp;num);</span><br><span class="line">if (num &gt; 0) &#123;</span><br><span class="line">    devices = (cl_device_id *) alloca(num);</span><br><span class="line">    // get all GPU devices</span><br><span class="line">    clGetPlatformIDs(</span><br><span class="line">        platform,</span><br><span class="line">        CL_DEVICE_TYPE_GPU,</span><br><span class="line">        num,</span><br><span class="line">        &amp;devices[0],</span><br><span class="line">        NULL);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cl_context_properties properties[] = &#123;</span><br><span class="line">    CL_CONTEXT_PLATFORM, (cl_context_properties) platform, 0</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// create ctx for all GPU devices</span><br><span class="line">context = clCreateContext(</span><br><span class="line">    properties,</span><br><span class="line">    size / sizeof(cl_device_id),</span><br><span class="line">    devices,</span><br><span class="line">    NULL,</span><br><span class="line">    NULL,</span><br><span class="line">    NULL);</span><br></pre></td></tr></table></figure>
+
+<p>Get context info</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cl_int clGetContextInfo (cl_context context,</span><br><span class="line">                         cl_context_info param_name,</span><br><span class="line">                         size_t param_value_size,</span><br><span class="line">                         void *param_value,</span><br><span class="line">                         size_t *param_value_size_ret)</span><br></pre></td></tr></table></figure>
+
+<p>Context reference count: like all OCL objects, it’s also ref-counted.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cl_int clRetainContext(cl_context context)</span><br><span class="line">cl_int clReleaseContext(cl_context context)</span><br></pre></td></tr></table></figure>
+
+<h1 id="Program-with-OpenCL-C"><a href="#Program-with-OpenCL-C" class="headerlink" title="Program with OpenCL C"></a>Program with OpenCL C</h1><p>Data Type</p>
+<ul>
+<li><p>scalar: float</p>
+</li>
+<li><p>vector: float4</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">float4 c;</span><br><span class="line">c.xyzw = (float4)(1.0f, 2.0f, 3.0f, 4.0f);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>others:</p>
+<ul>
+<li>image2d_t</li>
+<li>image3d_t</li>
+<li>sampler_t</li>
+<li>event_t</li>
+</ul>
+</li>
+<li><p>derived type</p>
+<ul>
+<li>the struct type cannot contain any pointers, if the struct or pointer to a struct is used as kernel argument.</li>
+</ul>
+</li>
+</ul>
+<p>Address Space Qualifiers</p>
+<ul>
+<li>global: allocated from global memroy region<ul>
+<li>allow read/write access to all work-items in all work-groups executing a kernel.</li>
+<li>global should <em>not</em> be used for image types</li>
+<li>inside a generic function variables cannot be allocated in global address space, but global pointer is fine.</li>
+</ul>
+</li>
+<li>constant: allocated from global memory as read-only<ul>
+<li>image type cannot be allocated in the constant address space. (constant image2d_t imgA)</li>
+<li>in program variables can be allocated only in constant address space rather than global</li>
+<li>can be arguments for kernel, inside kernel as well with initialized value in compiling time.</li>
+</ul>
+</li>
+<li>local: allocated from local memory sharing by all work-items of a work-group, but not across work-groups<ul>
+<li>can be arguments for kernal and inside kernel <em>without</em> initialized value</li>
+<li>must be allocated at kernel function scope(not in if block inside a kernel even)</li>
+<li>lifetime is same asa work-group executing the kernel</li>
+</ul>
+</li>
+<li>private<ul>
+<li>by default, the generic address space for arguments to functions in a program, or local variables in a function.</li>
+<li>private to a work-item, not shared between work-items or across work-groups.</li>
+</ul>
+</li>
+<li>casting<ul>
+<li>casting a pointer to another pointer in the <em>same</em> address space<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kernel void my_func(global float4 *q)</span><br><span class="line">&#123;</span><br><span class="line">    global float *p = (global float *)q;</span><br><span class="line">    float *priv = (float *)q; // illegal</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>Access Qualifier</p>
+<ul>
+<li>read_only(or __read_only)</li>
+<li>write_only(or __write_only)</li>
+</ul>
+<h1 id="OpenCL-C-Build-In-Functions"><a href="#OpenCL-C-Build-In-Functions" class="headerlink" title="OpenCL C Build-In Functions"></a>OpenCL C Build-In Functions</h1><p>Terms:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">                          get_work_dim = 1</span><br><span class="line">                       get_global_size = 16</span><br><span class="line">|&lt;--------------------------------------------------------------------&gt;|</span><br><span class="line">| 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |</span><br><span class="line">+---+---+---+---+---+---+---+---+---+----+----+----+----+----+----+----+</span><br><span class="line">| 6 | 3 | 4 | 9 | 1 | 1 | 2 | 2 | 4 | 5  | 8  | 3  | 4  | 2  | 5  | 7  |</span><br><span class="line">|&lt;-----------------------------&gt;|&lt;------------------------------------&gt;|</span><br><span class="line">       get_group_id = 0                    | get_local_size = 8</span><br><span class="line">                                           |</span><br><span class="line">                                           V</span><br><span class="line">                                  get_local_id = 3</span><br><span class="line">                                 get_global_id = 11</span><br></pre></td></tr></table></figure>
+
+<p>Execute the kernel on the command queue:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cl_int clEnqueueNDRangeKernel (cl_command_queue command_queue,</span><br><span class="line">                               cl_kernel kernel,</span><br><span class="line">                               cl_uint work_dim,                    // generally 1~3</span><br><span class="line">                               const size_t *global_work_offset,    // start offset(0, ...), default is 0</span><br><span class="line">                               const size_t *global_work_size,      // the total size of all data</span><br><span class="line">                               const size_t *local_work_size,</span><br><span class="line">                               cl_uint num_events_in_wait_list,</span><br><span class="line">                               const cl_event *event_wait_list,</span><br><span class="line">                               cl_event *event)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>global_work_offset: start offet for global work items, default is 0.</li>
+<li>global_work_size: the total size in each dimentions for caculation, regardless of offset, absolute number of global work items.<ul>
+<li>the total number of work-items in a work-group is computed as all dimentions of global_work_size[work_dim]</li>
+</ul>
+</li>
+<li>local_work_size: the number of work-items that make up a work-group, aka, the size of work-group<ul>
+<li>the total number of work-items in a work-group is computed as all dimentions of local_work_size[work_dim]</li>
+<li>the total number(all dim) &lt;= CL_DEVICE_MAX_WORK_GROUP_SIZE</li>
+<li>for each dimention, local_work_size[work_dim] &lt;= CL_DEVICE_MAX_WORK_ITEM_SIZES[work_dim]</li>
+<li>if it’s NULL, OCL will decide how to break the global work-items</li>
+<li>it it’s out of range(MAX size)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error queuing kernel for execution.</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>e.g.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">kernel:</span><br><span class="line"></span><br><span class="line">__kernel void hello_kernel(__global const float *a,</span><br><span class="line">                           __global float *result)</span><br><span class="line">&#123;</span><br><span class="line">    int gid = get_global_id(0);</span><br><span class="line"></span><br><span class="line">    result[gid] = a[gid];// + b[gid];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#define ARRAY_SIZE  1024</span><br><span class="line"></span><br><span class="line">for (int i = 0; i &lt; ARRAY_SIZE; i++) &#123;</span><br><span class="line">    a[i] = (float)i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">errNum = clSetKernelArg(kernel, 0, sizeof(cl_mem), &amp;memObjects[0]);</span><br><span class="line"></span><br><span class="line">size_t globalWorkOffset[1] = &#123; 0 &#125;;</span><br><span class="line">size_t globalWorkSize[1] = &#123; 1024 &#125;;</span><br><span class="line">size_t localWorkSize[1] = &#123; 1 &#125;;</span><br><span class="line"></span><br><span class="line">errNum = clEnqueueNDRangeKernel(commandQueue, kernel, 1,</span><br><span class="line">                                globalWorkOffset,</span><br><span class="line">                                globalWorkSize,</span><br><span class="line">                                localWorkSize,</span><br><span class="line">                                0, NULL, NULL);</span><br><span class="line"></span><br><span class="line">CL_DEVICE_MAX_WORK_ITEM_SIZES:  512 512 512</span><br><span class="line">CL_DEVICE_MAX_WORK_GROUP_SIZE:  512</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>print all with result memory</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 1 2 3 4 5 6 ... 1023</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>size_t globalWorkOffset[1] = { 3 };</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 0 3 4 5 6 7 8 9 10 11 12 13 ... 1023</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>size_t globalWorkSize[1] = { 256 };</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 1 2 3 4 5 6 ... 255 0 0 ... 0(1023nd)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>globalWorkOffset[1] = { 3 } &amp;&amp; globalWorkSize[1] = { 256 };</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 0 3 4 5 6 7 8 9 10 11 12 13 ... 255 256 257 258</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>globalWorkSize[1] = { 513 };</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error queuing kernel for execution.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ARRAY_SIZE = 1000, even if globalWorkSize &gt; ARRAY_SIZE</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 1 2 3 4 5 6 ... 999</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Programs-and-Kernels"><a href="#Programs-and-Kernels" class="headerlink" title="Programs and Kernels"></a>Programs and Kernels</h1><ul>
+<li>kernel(__kernel): the functions that will execute in parallel on a device</li>
+<li>kernel object(cl_kernel): set kernel arguments and query kernel info, created from kernel function</li>
+<li>program: includes many kernel functions, building into a program object</li>
+<li>program object(cl_program): can be created by either source code or a program binary<ul>
+<li>a container that stores the compiled executable code for each kernel on each device attached to it.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Program"><a href="#Program" class="headerlink" title="Program"></a>Program</h2><ul>
+<li><p>Create a program from external source code, usually *.cl file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cl_program clCreateProgramWithSource (cl_context context,       // inside a specific context</span><br><span class="line">                                      cl_uint count,            // line number of source code</span><br><span class="line">                                      const char **strings,     // all strings in a fulll source code</span><br><span class="line">                                      const size_t *lengths,    // the length of each line, null-terminated</span><br><span class="line">                                      cl_int *errcode_ret)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>strings: from which the program object will be created.</li>
+</ul>
+</li>
+<li><p>Build program</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cl_int clBuildProgram (cl_program program,</span><br><span class="line">                       cl_uint num_devices,                     // number of device listed in device_list</span><br><span class="line">                       const cl_device_id *device_list,         // device list for a program, NULL means for all devices</span><br><span class="line">                       const char *options,                     // null-terminated string for building options</span><br><span class="line">                       void (CL_CALLBACK *pfn_notify)(cl_program program,</span><br><span class="line">                                                      void *user_data),</span><br><span class="line">                       void *user_data)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>return CL_SUCCESS if successful building</li>
+<li>pfn_notify:<ul>
+<li>NULL, block to wait for building completion.</li>
+<li>non-NULL, return directly, call pfn_notify when building is complete.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Get build info, if build error, get build log by CL_PROGRAM_BUILD_LOG</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cl_int clGetProgramBuildInfo (cl_program program,</span><br><span class="line">                              cl_device_id device,              // specify the device for which building info is required</span><br><span class="line">                                                                // it must be one of devices for which the program was built</span><br><span class="line">                              cl_program_build_info param_name,</span><br><span class="line">                              size_t param_value_size,</span><br><span class="line">                              void *param_value,</span><br><span class="line">                              size_t *param_value_size_ret)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>others: CL_PROGRAM_BUILD_STATUS, CL_PROGRAM_BUILD_OPTIONS, CL_PROGRAM_BUILD_LOG</li>
+</ul>
+</li>
+<li><p>Program build options</p>
+<ul>
+<li>preprocessor option<ul>
+<li><code>-D name</code></li>
+<li><code>-D name=value</code></li>
+<li><code>-I dir</code></li>
+<li><em>Note</em>: the kernel fuction signatures(arguments list) must be the same for each device for which a single program object is built.</li>
+</ul>
+</li>
+<li>floating-point option<ul>
+<li><code>cl-single-precision-constant</code>: if a constant is defined as double, treat it as single.<ul>
+<li>if (a &lt;= 0.0) // 0.0 will be treated as single</li>
+</ul>
+</li>
+<li><code>-cl-denorms-are-zero</code>: single and double numbers can be flushed to zero, except images.</li>
+</ul>
+</li>
+<li>optimizatin option<ul>
+<li><code>-cl-opt-disable</code>: disable all optimizations, may by useful for debug</li>
+<li><code>-cl-strict-aliasing</code>: enable strict aliasing, careful that it may break the code. Below are different pointers.<ul>
+<li>short *ptr1</li>
+<li>int *ptr2</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Miscellaneous option<ul>
+<li><code>-w</code>: disable the display of warning messages.</li>
+<li><code>Werror</code>: treat warnings as errors.</li>
+<li><code>-cl-std=version</code>: set the version of OCL C for compiler, e.g. CL1.1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Get program info:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cl_int clGetProgramInfo (cl_program program,</span><br><span class="line">                         cl_program_info param_name,</span><br><span class="line">                         size_t param_value_size,</span><br><span class="line">                         void *param_value,</span><br><span class="line">                         size_t *param_value_size_ret)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Create program from binary</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cl_program clCreateProgramWithBinary (cl_context context,</span><br><span class="line">                                      cl_uint num_devices,</span><br><span class="line">                                      const cl_device_id *device_list,</span><br><span class="line">                                      const size_t *lengths,</span><br><span class="line">                                      const unsigned char **binaries,</span><br><span class="line">                                      cl_int *binary_status,</span><br><span class="line">                                      cl_int *errcode_ret)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>we may create some helper func to save program binary and create program from binary</li>
+<li>Note:<ul>
+<li>a program binary is valid only for the device with which it was created.</li>
+<li>not safe to assume that a binary will work across other devices unless vendor specially gives this gurantee.</li>
+<li>a program binary may or may not contain executable code. If it’s an intermediate representation, OCL still need to compile it into the final executable.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>update reference count(init as 1)<ul>
+<li>cl_int clReleaseProgram (cl_program program)</li>
+<li>cl_int clRetainProgram (cl_program program)</li>
+</ul>
+</li>
+<li>it can finish compiler to unload any resouces consumed by the compiler.<ul>
+<li>cl_int clUnloadCompiler(void)</li>
+</ul>
+</li>
+</ul>
+<h2 id="Kernel"><a href="#Kernel" class="headerlink" title="Kernel"></a>Kernel</h2><ul>
+<li><p>Create kernel object</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cl_kernel clCreateKernel (cl_program program,</span><br><span class="line">                          const char *kernel_name,  // the exact function name following __kernel keyword</span><br><span class="line">                          cl_int *errcode_ret)      // non-NULL is error</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>set kernel arguments</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cl_int clSetKernelArg (cl_kernel kernel,</span><br><span class="line">                       cl_uint arg_index,       // the index of kernel func, starting from 0</span><br><span class="line">                       size_t arg_size,         // size of argument, which is determined by how the argument is declared in kernel function</span><br><span class="line">                       const void *arg_value)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>arg_size: <strong>is determined by how the argument is declared in kernel function</strong><ul>
+<li>local qualified(variables): <em>number of bytes</em>, e.g. sizeof(cl_int) * NUM_OF_ARRAY</li>
+<li>object: size of object type, e.g. sizeof(cl_mem)</li>
+<li>sampler: sizeof(cl_sampler)</li>
+<li>regular type: size of argument type. e.g. sizeof(cl_int)</li>
+</ul>
+</li>
+<li>arg_value<ul>
+<li>local qualified(variables): <strong>must be NULL</strong></li>
+<li>object: a pointer to the memory object</li>
+<li>sampler: a pointer to the sampler object</li>
+<li>regular type: a ponter to the argument value</li>
+</ul>
+</li>
+<li>Note:<ul>
+<li>when it’s called, the argument value will be internally copied by OCL, so it’s safe to reuse the ponter for others.</li>
+</ul>
+</li>
+<li>e.g.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">__kernel void func (global int *vertexArray,</span><br><span class="line">                    int vertexCount,</span><br><span class="line">                    float weight,</span><br><span class="line">                    local float *localArray)</span><br><span class="line">&#123; ... &#125;</span><br><span class="line"></span><br><span class="line">kernel = clCreateKernel(program, &quot;func&quot;, NULL);</span><br><span class="line"></span><br><span class="line">cl_int vertexCount;</span><br><span class="line">cl_float weight;</span><br><span class="line">cl_mem vertexArray;</span><br><span class="line">cl_int localWorksize[1] = &#123; 32 &#125;;</span><br><span class="line"></span><br><span class="line">errNum = clSetKernelArg(kernel, 0, sizeof(cl_mem), &amp;vertexArray);</span><br><span class="line">errNum |= clSetKernelArg(kernel, 1, sizeof(cl_int), &amp;vertexCount);</span><br><span class="line">errNum |= clSetKernelArg(kernel, 2, sizeof(cl_float), &amp;weight);</span><br><span class="line">errNum |= clSetKernelArg(kernel, 3, sizeof(cl_float) * localWorkSize[0], &amp;weight);</span><br><span class="line"></span><br><span class="line">index 0: a point to cl_mem is a global pointer</span><br><span class="line">index 3: local argument is only available inside a kernel function, value must be NULL</span><br><span class="line">         type of localArray is cl_float, and the number of that is 32.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>create objects for all kernel functions in a program</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cl_int clCreateKernelsInProgram (cl_program program,</span><br><span class="line">                                 cl_uint num_kernels,   // NULL, to get the number of kernels in the program</span><br><span class="line">                                 cl_kernel *kernels,</span><br><span class="line">                                 cl_uint *num_kernels_ret)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>get kernel info</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">clGetKernelInfo (cl_kernel kernel,</span><br><span class="line">                 cl_kernel_info param_name,</span><br><span class="line">                 size_t param_value_size,</span><br><span class="line">                 void *param_value,</span><br><span class="line">                 size_t *param_value_size_ret)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>get kernel workgroup info</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cl_int clGetKernelWorkGroupInfo (cl_kernel kernel,</span><br><span class="line">                                 cl_device_id device,</span><br><span class="line">                                 cl_kernel_work_group_info param_name,</span><br><span class="line">                                 size_t param_value_size,</span><br><span class="line">                                 void *param_value,</span><br><span class="line">                                 size_t *param_value_size_ret)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>release kernel: a program object cannot be rebuilt until all of kernel objects associated with it have been released.</p>
+<ul>
+<li>cl_int clReleaseKernel(cl_kernel kernel)</li>
+</ul>
+</li>
+</ul>
+<h2 id="Thread-safty"><a href="#Thread-safty" class="headerlink" title="Thread safty"></a>Thread safty</h2><p>All OCL API except clSetKernelArg() are thread thread-safe, that an App can have multiple threads simultineously call the same function without having to provide mutual exclusion.</p>
+<p>clSetKernelArg()</p>
+<ul>
+<li>the most frequently called function, to define it non-thread-safe to make it as fast as possible</li>
+<li>no reason to set arguments for the same function in differetn theads</li>
+<li>it could be used in multiple threads, but for different kernel functions</li>
+</ul>
+<h1 id="Buffers-and-Sub-Buffers"><a href="#Buffers-and-Sub-Buffers" class="headerlink" title="Buffers and Sub-Buffers"></a>Buffers and Sub-Buffers</h1><ul>
+<li>Memory object read/write can be marked as blocking util the enqueued command has completed</li>
+<li>Memory written to a particular device is visible to all devices in the same context<ul>
+<li>It’s not possible to access other memory objects in different context.</li>
+<li>Because a context is created for a particular platform, memory objects cannot be shared across different platform devices.</li>
+<li>Solution:<ul>
+<li>copy data from dev1 in ctx1 to host</li>
+<li>copy data from host to dev2 in ctx2</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Non-blocking thread will return before the enqueued command has completed, then it has to use below synchronization the ensure the command has completed:<ul>
+<li>cl_int <code>clFinish</code>(cl_command_queue queue): block until all pending commmands in the queue have completed.</li>
+<li>cl_int <code>clWaitForEvents</code>(cl_unit num_events, const cl_event *event_list): block until all commands associated with corresponding events in events_list have completed.</li>
+</ul>
+</li>
+<li>Memory objects only can</li>
+</ul>
+<h2 id="Buffer-creation"><a href="#Buffer-creation" class="headerlink" title="Buffer creation"></a>Buffer creation</h2><p>Create buffer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cl_mem clCreateBuffer (cl_context context,</span><br><span class="line">                       cl_mem_flags flags,</span><br><span class="line">                       size_t size,         // in bytes</span><br><span class="line">                       void *host_ptr,      // pointer to data alocated by App</span><br><span class="line">                       cl_int *errcode_ret)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>flags: specify allocatoins and usage information<ul>
+<li>CL_MEM_READ_WRITE( <strong>default</strong> ): the allocation memory could be read and write</li>
+<li>CL_MEM_READ_ONLY</li>
+<li>CL_MEM_WRITE_ONLY</li>
+<li>CL_MEM_USE_HOST_PTR: GTT BO. use the memory referenced by <code>host_ptr</code> as memory object, only if host_ptr is not NULL.</li>
+<li>CL_MEM_ALLOC_HOST_PTR: visible VRAM BO. the buffer should be allcated from host-accessible memory.<ul>
+<li>cannot work with CL_MEM_USE_HOST_PTR, not valid.</li>
+</ul>
+</li>
+<li>CL_MEM_COPY_HOST_PTR: copy from <code>host_ptr</code> to device, GTT to (any)VRAM, only if host_ptr is not NULL.<ul>
+<li>cannot work with CL_MEM_USE_HOST_PTR</li>
+<li>With CL_MEM_ALLOC_HOST_PTR to intiailie memory object allocated as host-accessible memory with host_ptr<ul>
+<li>copy from GTT to visible VRAM</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>host_ptr: pointer to data alocated by App<ul>
+<li>the size of memory pointed should be &gt;= <code>size</code> in bytes.</li>
+</ul>
+</li>
+<li>Note:<ul>
+<li>memory object are set to kernel in global address space.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__kernel void square(__global float *buffer0)</span><br><span class="line">&#123;&#125;</span><br><span class="line"></span><br><span class="line">cl_mem buffer;</span><br><span class="line">errNum = clSetKernelArg(kernel, 0, sizeof(cl_mem0, &amp;buffer)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>Sub-buffers provides a view into a particular buffer.</p>
+<ul>
+<li>divide a single buffer into chunks that can be worked on independently as a ponter to a sub-memory area.</li>
+<li>No need to take care of offset for each sub-buffer, but the offset is still required to create sub-buffers.</li>
+<li>that’s purely a software abstraction</li>
+</ul>
+<p>Create sub-buffer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cl_mem clCreateSubBuffer (cl_mem buffer,                            // the entire/target buffer</span><br><span class="line">                          cl_mem_flags flags,                       // same as clCreateBuffer()</span><br><span class="line">                          cl_buffer_create_type buffer_create_type, // for sub-buffer info</span><br><span class="line">                          const void *buffer_create_info,           // for sub-buffer info</span><br><span class="line">                          cl_int *errcode_ret)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>buffer_create_type: CL_BUFFER_CREATE_TYPE_REGION</p>
+</li>
+<li><p>buffer_create_info: a pointer to following structure</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct _cl_buffer_region &#123;</span><br><span class="line">    size_t origin;</span><br><span class="line">    size_t size;</span><br><span class="line">&#125; cl_buffer_region;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>(origin, size) defines offset and size of sub-buffer in the original <code>buffer</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">cl_mem buffer = clCreateBuffer(</span><br><span class="line">    context,</span><br><span class="line">    CL_MEM_READ_WRITE,</span><br><span class="line">    sizeof(int) * NUM_BUFFER_ELEMENTS * numDevices,</span><br><span class="line">    NULL,</span><br><span class="line">    &amp;errNum);</span><br><span class="line"></span><br><span class="line">// now for all devices other than the first create a sub-buffer</span><br><span class="line">for (unsigned int i = 1; i &lt; numDevices; i++)</span><br><span class="line">&#123;</span><br><span class="line">    cl_buffer_region region =</span><br><span class="line">    &#123;</span><br><span class="line">        NUM_BUFFER_ELEMENTS * i * sizeof(int),</span><br><span class="line">        NUM_BUFFER_ELEMENTS * sizeof(int)</span><br><span class="line">    &#125;;</span><br><span class="line">    buffer = clCreateSubBuffer(</span><br><span class="line">            buffers[0],</span><br><span class="line">            CL_MEM_READ_WRITE,</span><br><span class="line">            CL_BUFFER_CREATE_TYPE_REGION,</span><br><span class="line">            &amp;region,</span><br><span class="line">            &amp;errNum);</span><br><span class="line">    checkErr(errNum, &quot;clCreateSubBuffer&quot;);</span><br><span class="line"></span><br><span class="line">    buffers.push_back(buffer);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// create kernels for each sub-buffer</span><br><span class="line">for (unsigned int i = 0; i &lt; numDevices; i++)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">    cl_kernel kernel = clCreateKernel(</span><br><span class="line">            program,</span><br><span class="line">            &quot;square&quot;,</span><br><span class="line">            &amp;errNum);</span><br><span class="line">    checkErr(errNum, &quot;clCreateKernel(square)&quot;);</span><br><span class="line"></span><br><span class="line">    errNum = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *)&amp;buffers[i]);</span><br><span class="line">    kernels.push_back(kernel);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>Memory objects reference count</p>
+<ul>
+<li>cl_int clRetainMemObject(cl_mem buffer)</li>
+<li>cl_int clReleaseMemObject(cl_mem buffer)</li>
+</ul>
+<p>Querying Buffers and Sub-Buffers</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cl_int clGetMemObjectInfo (cl_mem memobj,</span><br><span class="line">                           cl_mem_info param_name,</span><br><span class="line">                           size_t param_value_size,</span><br><span class="line">                           void *param_value,</span><br><span class="line">                           size_t *param_value_size_ret)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>CL_MEM_TYPE: for buffers and sub-buffers, returns CL_MEM_OBJECT_BUFFER</li>
+<li>CL_MEM_FLAGS: return <code>flags</code> during buffer creation</li>
+<li>CL_MEM_SIZE: in bytes</li>
+<li>CL_MEM_HOST_PTR: return <code>host_ptr</code></li>
+<li>CL_MEM_ASSOCIATED_MEMOBJECT: (sub-buffer only) return the buffer from which it was created. otherwise NULL for general buffer</li>
+<li>CL_MEM_OFFSET: (sub-buffer only) return offset, otherwise 0 for general buffer</li>
+</ul>
+<h2 id="Read-write-and-copy"><a href="#Read-write-and-copy" class="headerlink" title="Read, write and copy"></a>Read, write and copy</h2><p>Read buffer: buffer object -&gt; host memory</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cl_int clEnqueueReadBuffer (cl_command_queue command_queue,</span><br><span class="line">                        +-- cl_mem buffer,</span><br><span class="line">                        |   cl_bool blocking_read,      // CL_TRUE, otherwise wait for the command event</span><br><span class="line">                        |   size_t offset,</span><br><span class="line">                        |   size_t size,</span><br><span class="line">                        +-&gt; void *ptr,</span><br><span class="line">                            cl_uint num_events_in_wait_list,    // dependent event: number</span><br><span class="line">                            const cl_event *event_wait_list,    // dependent event: list</span><br><span class="line">                            cl_event *event)                    // generate event</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">cl_int clEnqueueReadBufferRect (cl_command_queue command_queue,</span><br><span class="line">                            +-- cl_mem buffer,</span><br><span class="line">                            |   cl_bool blocking_read,</span><br><span class="line">                            |   const size_t *buffer_origin,    // (x, y, z) offset in the memory being read</span><br><span class="line">                            |   const size_t *host_origin,      // (x, y, z) offset in the memory of ptr</span><br><span class="line">                            |   const size_t *region,           // (w, h, d) size in bytes of 2D or 3D rectangle</span><br><span class="line">                            |   size_t buffer_row_pitch,        // bytes in row for the memory being read</span><br><span class="line">                            |   size_t buffer_slice_pitch,      // bytes in slice for the memory being read</span><br><span class="line">                            |   size_t host_row_pitch,          // bytes in row for host memory</span><br><span class="line">                            |   size_t host_slice_pitch,        // bytes in slice for host memory</span><br><span class="line">                            +-&gt; void *ptr,                      // pointer to host memory</span><br><span class="line">                                cl_uint num_events_in_wait_list,</span><br><span class="line">                                const cl_event *event_wait_list,</span><br><span class="line">                                cl_event *event)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>region: (width, height, depth), for 2D (w, h, 1). aka region[0, 1, 2]</li>
+<li>buffer_row_pitch: bytes in row.<ul>
+<li>if it’s 0, bytes in row is computed as region[0]</li>
+<li>this can decide how to treat/seprate the buffer to ideal rectangle in row</li>
+</ul>
+</li>
+<li>buffer_slice_pitch: bytes in slice<ul>
+<li>if it’s 0, bytes in slice is computed as region[1] * buffer_row_pitch</li>
+<li>this can decide how to treat/seprate the buffer to ideal rectangle in slice</li>
+</ul>
+</li>
+<li>the offset into a memory region associated with the buffer is caculated, so does host_origin<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">buffer_origin[2] * buffer_slice_pith +</span><br><span class="line">buffer_origin[1] * buffer_row_pith +</span><br><span class="line">buffer_origin[0]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>Write buffer: host memory -&gt; buffer object</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cl_int clEnqueueWriteBuffer (cl_command_queue command_queue,</span><br><span class="line">                         +-&gt; cl_mem buffer,</span><br><span class="line">                         |   cl_bool blocking_write,    // CL_TRUE, otherwise wait for the command event</span><br><span class="line">                         |   size_t offset,</span><br><span class="line">                         |   size_t size,</span><br><span class="line">                         +-- const void *ptr,</span><br><span class="line">                             cl_uint num_events_in_wait_list,   // dependent event: number</span><br><span class="line">                             const cl_event *event_wait_list,   // dependent event: list</span><br><span class="line">                             cl_event *event)                   // generate event</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">cl_int clEnqueueWriteBufferRect (cl_command_queue command_queue,</span><br><span class="line">                             +-&gt; cl_mem buffer,</span><br><span class="line">                             |   cl_bool blocking_write,</span><br><span class="line">                             |   const size_t *buffer_origin,</span><br><span class="line">                             |   const size_t *host_origin,</span><br><span class="line">                             |   const size_t *region,</span><br><span class="line">                             |   size_t buffer_row_pitch,</span><br><span class="line">                             |   size_t buffer_slice_pitch,</span><br><span class="line">                             |   size_t host_row_pitch,</span><br><span class="line">                             |   size_t host_slice_pitch,</span><br><span class="line">                             +-- const void *ptr,</span><br><span class="line">                                 cl_uint num_events_in_wait_list,</span><br><span class="line">                                 const cl_event *event_wait_list,</span><br><span class="line">                                 cl_event *event)</span><br></pre></td></tr></table></figure>
+
+<p>Copy buffer: cl_mem src -&gt; dst</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cl_int clEnqueueCopyBuffer (cl_command_queue command_queue,</span><br><span class="line">                            cl_mem src_buffer,</span><br><span class="line">                            cl_mem dst_buffer,</span><br><span class="line">                            size_t src_offset,</span><br><span class="line">                            size_t dst_offset,</span><br><span class="line">                            size_t size,</span><br><span class="line">                            cl_uint num_events_in_wait_list,</span><br><span class="line">                            const cl_event *event_wait_list,</span><br><span class="line">                            cl_event *event)</span><br></pre></td></tr></table></figure>
+
+<p>e.g. for reading rectangle buffer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">#define NUM_BUFFER_ELEMENTS 16</span><br><span class="line"></span><br><span class="line">cl_int hostBuffer[NUM_BUFFER_ELEMENTS] =</span><br><span class="line">&#123;</span><br><span class="line">    0, 1, 2, 3, 4, 5, 6, 7,</span><br><span class="line">    8, 9, 10, 11, 12, 13, 14, 15</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int ptr[4] = &#123;-1, -1, -1, -1&#125;;</span><br><span class="line">size_t buffer_origin[3]     = &#123; 1 * sizeof(int), 1, 0 &#125;;</span><br><span class="line">size_t host_origin[3]       = &#123; 0, 0, 0 &#125;;</span><br><span class="line">size_t region[3]            = &#123; 2 * sizeof(int), 2, 1 &#125;;</span><br><span class="line"></span><br><span class="line">//cl_int clEnqueueReadBufferRect (cl_command_queue command_queue,</span><br><span class="line">//                            +-- cl_mem buffer,</span><br><span class="line">//                            |   cl_bool blocking_read,</span><br><span class="line">//                            |   const size_t *buffer_origin,    // (x, y, z) offset in the memory being read</span><br><span class="line">//                            |   const size_t *host_origin,      // (x, y, z) offset in the memory of ptr</span><br><span class="line">//                            |   const size_t *region,           // (w, h, d) size in bytes of 2D or 3D rectangle</span><br><span class="line">//                            |   size_t buffer_row_pitch,        // bytes in row for the memory being read</span><br><span class="line">//                            |   size_t buffer_slice_pitch,      // bytes in slice for the memory being read</span><br><span class="line">//                            |   size_t host_row_pitch,          // bytes in row for host memory</span><br><span class="line">//                            |   size_t host_slice_pitch,        // bytes in slice for host memory</span><br><span class="line">//                            +-&gt; void *ptr,                      // pointer to host memory</span><br><span class="line">//                                cl_uint num_events_in_wait_list,</span><br><span class="line">//                                const cl_event *event_wait_list,</span><br><span class="line">//                                cl_event *event)</span><br><span class="line">errNum = clEnqueueReadBufferRect (</span><br><span class="line">                commandQueue,</span><br><span class="line">                buffer,</span><br><span class="line">                CL_TRUE,</span><br><span class="line">                buffer_origin,</span><br><span class="line">                host_origin,</span><br><span class="line">                region,</span><br><span class="line">                ( NUM_BUFFER_ELEMENTS / 4 ) * sizeof(int),  // separate the memory as 4 X 4 array</span><br><span class="line">                0,</span><br><span class="line">                0,</span><br><span class="line">                2 * sizeof(int),    // works for 0 as well.</span><br><span class="line">                static_cast&lt;void *&gt;(ptr),</span><br><span class="line">                0,</span><br><span class="line">                NULL,</span><br><span class="line">                NULL);</span><br><span class="line"></span><br><span class="line">res:</span><br><span class="line">    5 6</span><br><span class="line">    9 10</span><br><span class="line"></span><br><span class="line">Note-1:</span><br><span class="line"> ( NUM_BUFFER_ELEMENTS / 4 ) * sizeof(int),  // buffer_row_pitch separates the memory as 4 X 4 array</span><br><span class="line"></span><br><span class="line"> 0 | 0   1   2   3</span><br><span class="line"> 1 | 4   5   6   7</span><br><span class="line"> 2 | 8   9   10  11</span><br><span class="line"> 3 | 12  13  14  15</span><br><span class="line"></span><br><span class="line"> ( NUM_BUFFER_ELEMENTS / 2 ) * sizeof(int),  // buffer_row_pitch separates the memory as 2 X 8 array</span><br><span class="line"></span><br><span class="line"> 0 | 0   1   2   3  4   5   6   7</span><br><span class="line"> 1 | 8   9   10  11 12  13  14  15</span><br><span class="line"></span><br><span class="line">Note-2:</span><br><span class="line">  row is in bytes</span><br><span class="line">  height is in index</span><br><span class="line">e.g.</span><br><span class="line">size_t buffer_origin[3]     = &#123; 1 * sizeof(int), 1, 0 &#125;;    // offset, (1, 1, 0)</span><br><span class="line">size_t host_origin[3]       = &#123; 0, 0, 0 &#125;;</span><br><span class="line">size_t region[3]            = &#123; 2 * sizeof(int), 2, 1 &#125;;    // size (2, 2, 0)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int ptr[6] = &#123;-1, -1, -1, -1, -1, -1&#125;;</span><br><span class="line">size_t region[3]            = &#123; 2 * sizeof(int), 3, 1 &#125;;</span><br><span class="line"></span><br><span class="line">res:</span><br><span class="line">    5 6</span><br><span class="line">    9 10</span><br><span class="line">    13 14</span><br></pre></td></tr></table></figure>
+
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><p>Map a region of buffer object to host.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void * clEnqueueMapBuffer (cl_command_queue command_queue,</span><br><span class="line">                           cl_mem buffer,               // target memory object</span><br><span class="line">                           cl_bool blocking_map,        // wait until the memory is mapped to the host</span><br><span class="line">                           cl_map_flags map_flags,      // R/W</span><br><span class="line">                           size_t offset,               // in bytes, into buffer object</span><br><span class="line">                           size_t size,</span><br><span class="line">                           cl_uint num_events_in_wait_list,</span><br><span class="line">                           const cl_event *event_wait_list,</span><br><span class="line">                           cl_event *event,</span><br><span class="line">                           cl_int *errcode_ret)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>blocking_map: return when mapping is done. otherwise, user has to check the event status.</li>
+<li>map_flags: CL_MAP_WRITE, CL_MAP_READ<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cl_int * mapPtr = (cl_int*) clEnqueueMapBuffer(</span><br><span class="line">    queues[0],</span><br><span class="line">    buffers[0],</span><br><span class="line">    CL_TRUE,</span><br><span class="line">    CL_MAP_WRITE,</span><br><span class="line">    0,</span><br><span class="line">    sizeof(cl_int) * NUM_BUFFER_ELEMENTS * numDevices,</span><br><span class="line">    0,</span><br><span class="line">    NULL,</span><br><span class="line">    NULL,</span><br><span class="line">    &amp;errNum);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>After read/write, unmap the buffer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cl_int clEnqueueUnmapMemObject (cl_command_queue command_queue,</span><br><span class="line">                                cl_mem memobj,          // buffer object being mapped</span><br><span class="line">                                void *mapped_ptr,       // returned mapped pointer</span><br><span class="line">                                cl_uint num_events_in_wait_list,</span><br><span class="line">                                const cl_event *event_wait_list,</span><br><span class="line">                                cl_event *event)</span><br></pre></td></tr></table></figure>
+
+<h1 id="Events"><a href="#Events" class="headerlink" title="Events"></a>Events</h1><p>A platform defines a context that contents one or more devices, for each device there is one or more command queues.<br>Commands in a command queue generates events, and other commands can wait on these events before they execute.</p>
+<p>The state of an event can describe the status of command.</p>
+<ul>
+<li>CL_QUEUED: enqueued in command queue</li>
+<li>CL_SUBMITTED: enqueued command has been submitted to device with command queue</li>
+<li>CL_RUNNING: device is executing the command</li>
+<li>CL_COMPLETE: the command is completed.</li>
+</ul>
+<p>How to create events<br>the most comman way is to enqueue command</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cl_int clEnqueueNDRangeKernel (cl_command_queue command_queue, -------+</span><br><span class="line">                               cl_kernel kernel,                      |</span><br><span class="line">                               cl_uint work_dim,                      |</span><br><span class="line">                               const size_t *global_work_offset,      |</span><br><span class="line">                               const size_t *global_work_size,        +--&gt; must be in the same context(cmdq and wait events)</span><br><span class="line">                               const size_t *local_work_size,         |</span><br><span class="line">                               cl_uint num_events_in_wait_list,       |</span><br><span class="line">                               const cl_event *event_wait_list, ------+</span><br><span class="line">                               cl_event *event)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>the command will not run until the events in list becomme the status of CL_COMPLETE or error return.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">err = clEnqueueNDRangeKernel(commands, kernel1, 1, NULL, &amp;glabol, &amp;local, 0, NULL, &amp;k_events[0]);</span><br><span class="line">err = clEnqueueNDRangeKernel(commands, kernel2, 2, NULL, &amp;glabol, &amp;local, 0, NULL, &amp;k_events[1]);</span><br><span class="line">err = clEnqueueNDRangeKernel(commands, kernel2, 2, NULL, &amp;glabol, &amp;local, 2, k_events, NULL); // event = NULL, no need to generate event for others.</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>How to ignore events for a command</p>
+<ul>
+<li>set the number of events 0</li>
+<li>set the pointer to the array of events NULL</li>
+</ul>
+<h2 id="Barrier"><a href="#Barrier" class="headerlink" title="Barrier"></a>Barrier</h2><ul>
+<li><p>Wait for events in the list to complete</p>
+</li>
+<li><p>If the event list is empty, wait for all commands prior to this point complete before any of following commands start.</p>
+</li>
+<li><p>Returned event can be used to identify this barrier command later on.</p>
+</li>
+<li><p><em>This command blocks following command execution, that is, any following commands enqueued after it do not execute until it completes.</em></p>
+</li>
+<li><p>e.g. Update memory objects across commands must be complete so that subsequent commands see the new values.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">OpenCL 1.2</span><br><span class="line"></span><br><span class="line">cl_int clEnqueueBarrierWithWaitList (cl_command_queue command_queue,</span><br><span class="line">                                     cl_uint num_events_in_wait_list,</span><br><span class="line">                                     const cl_event *event_wait_list,</span><br><span class="line">                                     cl_event *event)</span><br><span class="line"></span><br><span class="line">OpenCL 1.1 (deprecated in 1.2)</span><br><span class="line"></span><br><span class="line">cl_int clEnqueueBarrier (cl_command_queue command_queue)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>return error:<ul>
+<li>CL_INVALID_COMMAND_QUEUE: command queue it not valid</li>
+<li>CL_INVALID_EVENT_WAIT_LIST: event number and list are not match, e.g. num &gt; 0 but list is NULL</li>
+<li>CL_OUT_OF_RESOURCES: fail to allocate resouces in device</li>
+<li>CL_OUT_OF_HOST_MEMORY: fail to allocate resouces in host</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Marker"><a href="#Marker" class="headerlink" title="Marker"></a>Marker</h2><ul>
+<li>Wait for events in the list to complete</li>
+<li>If the event list is empty, wait for all commands prior to this point complete before any of following commands start.</li>
+<li>Returned event can be used to identify this barrier command later on.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">OpenCL 1.2</span><br><span class="line"></span><br><span class="line">cl_int clEnqueueMarkerWithWaitList (cl_command_queue command_queue,</span><br><span class="line">                                    cl_uint num_events_in_wait_list,</span><br><span class="line">                                    const cl_event *event_wait_list,</span><br><span class="line">                                    cl_event *event)</span><br><span class="line">OpenCL 1.1 (deprecated in 1.2)</span><br><span class="line">cl_int clEnqueueMarker (cl_command_queue command_queue,</span><br><span class="line">                        cl_event *event)</span><br><span class="line">different from clEnqueueBarrier(), it could generate an event to wait on.</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Synchronization"><a href="#Synchronization" class="headerlink" title="Synchronization"></a>Synchronization</h2><p>Wait events in OpenCL 1.1 only, deprecated in 1.2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cl_int clEnqueueWaitForEvents (cl_command_queue command_queue,</span><br><span class="line">                               cl_uint num_events_in_wait_list,</span><br><span class="line">                               const cl_event *event_wait_list)</span><br></pre></td></tr></table></figure>
+
+<p>For OpenCL 1.1</p>
+<ul>
+<li><p>that doesn’t work, since barrier command only to the queue within which it’s placed.</p>
+</li>
+<li><p>Barrier is used in the same command queue, not across command queue.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">clEnqueueNDRangeKernel()                        clEnqueueNDRangeKernel()</span><br><span class="line">clEnqueueWriteBuffer()                          clEnqueueWriteBuffer()</span><br><span class="line">clEnqueueReadBuffer()                           clEnqueueReadBuffer()</span><br><span class="line"></span><br><span class="line">clEnqueueBarrier()  &lt;-----------------------&gt;   clEnqueueBarrier()</span><br><span class="line"></span><br><span class="line">clEnqueueNDRangeKernel()                        clEnqueueNDRangeKernel()</span><br><span class="line">clEnqueueReadBuffer()                           clEnqueueReadBuffer()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>the sync across command queues</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">clEnqueueNDRangeKernel()                        clEnqueueNDRangeKernel()</span><br><span class="line">clEnqueueWriteBuffer()                          clEnqueueWriteBuffer()</span><br><span class="line">clEnqueueReadBuffer()                           clEnqueueReadBuffer()</span><br><span class="line"></span><br><span class="line">clEnqueueBarrier()        event from Marker</span><br><span class="line">clEnqueueWaitForEvents   &lt;------------------    clEnqueueMarker(event), like barrier with event</span><br><span class="line"></span><br><span class="line">clEnqueueNDRangeKernel()                        clEnqueueNDRangeKernel()</span><br><span class="line">clEnqueueReadBuffer()                           clEnqueueReadBuffer()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>For OpenCL 1.2, wait for events</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cl_int clWaitForEvents (cl_uint num_events, const cl_event *event_list)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Waits on the host thread for commands identified by event objects in event_list to complete.</li>
+<li>A command is considered complete if its execution status is CL_COMPLETE or a negative value.</li>
+<li>error<ul>
+<li>CL_INVALID_VALUE if num_events is zero or event_list is NULL.</li>
+<li>CL_INVALID_CONTEXT if events specified in event_list do not belong to the same context.</li>
+<li>CL_INVALID_EVENT if event objects specified in event_list are not valid event objects.</li>
+<li>CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST if the execution status of any of the events in event_list is a negative integer value.</li>
+<li>CL_OUT_OF_RESOURCES if there is a failure to allocate resources required by the OpenCL implementation on the device.</li>
+<li>CL_OUT_OF_HOST_MEMORY if there is a failure to allocate resources required by the OpenCL implementation on the host.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Event-Object"><a href="#Event-Object" class="headerlink" title="Event Object"></a>Event Object</h2><p>Reference count</p>
+<ul>
+<li><p>increment</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cl_int clRetainEvent (cl_event event)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>CL_SUCCESS: success</li>
+<li>CL_INVALID_EVENT: event is not a valid event object</li>
+<li>CL_OUT_OF_RESOURCES: fail to allocate resouces in device</li>
+<li>CL_OUT_OF_HOST_MEMORY: fail to allocate resouces in host</li>
+</ul>
+</li>
+<li><p>decrement</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cl_int clReleaseEvent (cl_event event)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>Get event information</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cl_int clGetEventInfo (cl_event event,</span><br><span class="line">                       cl_event_info param_name,</span><br><span class="line">                       size_t param_value_size,</span><br><span class="line">                       void *param_value,</span><br><span class="line">                       size_t *param_value_size_ret)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>CL_EVENT_COMMAND_QUEUE: return command queue associated with event</li>
+<li>CL_EVENT_CONTEXT: return context associated with event</li>
+<li>CL_EVENT_COMMAND_TYPE: e.g. CL_COMMAND_NDRANGE_KERNEL</li>
+<li>CL_EVENT_COMMAND_ EXECUTION_STATUS:<ul>
+<li>CL_QUEUED: enqueued in command queue</li>
+<li>CL_SUBMITTED: submitted to device already by the host to the device from command queue</li>
+<li>CL_RUNNING: the device is executing the command</li>
+<li>CL_COMPLETE: the command is completed</li>
+<li>CL_EVENT_REFERENCE_COUNT: event reference count</li>
+</ul>
+</li>
+</ul>
+<h2 id="User-defined-event"><a href="#User-defined-event" class="headerlink" title="User defined event"></a>User defined event</h2><p>Create user defined event for a specific context to wait</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cl_event clCreateUserEvent (cl_context context, cl_int *errcode_ret)</span><br></pre></td></tr></table></figure>
+
+<p>Set event status by host, different from event for commands in device</p>
+<ul>
+<li>it can be called only once for update user event status</li>
+<li>status<ul>
+<li>CL_COMPLETE</li>
+<li>a -n to indicate an error, causing all enqueued commands that wait on this user event to be terminated.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cl_int clSetUserEventStatus (cl_event event, cl_int execution_status)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>Wait on host thread for commands identified by events in the event_list to complete</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cl_int clWaitForEvents (cl_uint num_events, const cl_event *event_list)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Set-Callback"><a href="#Set-Callback" class="headerlink" title="Set Callback"></a>Set Callback</h2><p>Set event callback, when the command associated with the event is CL_COMPLETE, event is called</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cl_int</span><br><span class="line">clSetEventCallback (cl_event event,</span><br><span class="line">                    cl_int command_exec_callback_type,      // current only CL_COMPLETE</span><br><span class="line">                    void (CL_CALLBACK *pfn_event_notify)</span><br><span class="line">                         (cl_event event,</span><br><span class="line">                          cl_int event_command_exec_status,</span><br><span class="line">                          void *user_data),</span><br><span class="line">                    void *user_data)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>if multiple event set for the same command, these events will be executed in any order</li>
+<li>callback cannot call blocking functions, e.g. clFinish, clWaitForEvents</li>
+</ul>
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><p><strong>Note</strong>:(?)</p>
+<ul>
+<li>Even if the command associated with the event has completed, cannot ensure the memory object modification by this command can be seen by other commands in the same command queue.</li>
+<li>ref: <a href="https://software.intel.com/en-us/articles/opencl-using-events" target="_blank" rel="noopener">https://software.intel.com/en-us/articles/opencl-using-events</a></li>
+</ul>
+<p>Event is to sync commands among command queues in the same context, working for different command queues as well</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cl_event k_events[2];</span><br><span class="line">cmdq = clCreateCommandQueue(context, device, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, NULL);</span><br><span class="line"></span><br><span class="line">err = clEnqueueNDRangeKernel(cmdq, kernel1, 1, NULL, &amp;global, &amp;local, 0, NULL, &amp;k_events[0]);</span><br><span class="line">err = clEnqueueNDRangeKernel(cmdq, kernel2, 1, NULL, &amp;global, &amp;local, 0, NULL, &amp;k_events[1]);</span><br><span class="line">err = clEnqueueNDRangeKernel(cmdq, kernel3, 1, NULL, &amp;global, &amp;local, 2, k_events, NULL);</span><br></pre></td></tr></table></figure>
+
+<p>Why not barrier, but event?</p>
+<ul>
+<li>Barrier blocks any prior commands enqueued until they are all completed.</li>
+<li>Event provides fine grained control for an out of order queue</li>
+<li>Event works between commands in different queues, which are in the same context</li>
+<li>Event convey more information than barrier, just complete or not.</li>
+</ul>
+<p>Sync in different contexts</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">cl_event k_events[2];</span><br><span class="line"></span><br><span class="line">// 2 cmdq in different contexts</span><br><span class="line">cmdq1 = clCreateCommandQueue(context1, device_id1, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &amp;err);</span><br><span class="line">cmdq2 = clCreateCommandQueue(context2, device_id2, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &amp;err);</span><br><span class="line"></span><br><span class="line">// create user event on context2, who waits on.</span><br><span class="line">cl_event uevent = clCreateUserEvent(context2, &amp;err);</span><br><span class="line"></span><br><span class="line">// commands in context1 creating events</span><br><span class="line">err = clEnqueueNDRangeKernel(cmdq1, kernel1, 1, NULL, &amp;global, &amp;local, 0, NULL, &amp;k_events[1]);</span><br><span class="line">err = clEnqueueNDRangeKernel(cmdq1, kernel2, 1, NULL, &amp;global, &amp;local, 0, NULL, &amp;k_events[2]);</span><br><span class="line"></span><br><span class="line">// commands in context2 waiting on user event</span><br><span class="line">err = clEnqueueNDRangeKernel(cmdq2, kernel3, 1, NULL, &amp;global, &amp;local, 0, uevent, NULL);</span><br><span class="line"></span><br><span class="line">// wait on host for k_events</span><br><span class="line">err = clWaitForEvents(2, &amp;k_events);</span><br><span class="line">err = clSetUserEventStatus(uevent, CL_COMPLETE);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Profiling"><a href="#Profiling" class="headerlink" title="Profiling"></a>Profiling</h2><p>Enable profiling in flag on command queue: CL_QUEUE_PROFILING_ENABLE</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cl_int clGetEventProfilingInfo (cl_event event,</span><br><span class="line">                                cl_profiling_info param_name,</span><br><span class="line">                                size_t param_value_size,</span><br><span class="line">                                void *param_value,</span><br><span class="line">                                size_t *param_value_size_ret)   // actual size in bytes copied to [[param_value]]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>nano second</li>
+<li>resolution of a timer is value of CL_DEVICE_PROFILING_TIMER_RESOLUTION</li>
+<li>param_name<ul>
+<li>CL_PROFILING_COMMAND_QUEUED: in command queue</li>
+<li>CL_PROFILING_COMMAND_SUBMIT: host -&gt; device</li>
+<li>CL_PROFILING_COMMAND_START: start on the device</li>
+<li>CL_PROFILING_COMMAND_END: finish on the device</li>
+</ul>
+</li>
+</ul>
+<p>e.g.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cl_command_queue commands = clCreateCommandQueue(context, device_id, CL_QUEUE_PROFILING_ENABLE, &amp;err);</span><br><span class="line"></span><br><span class="line">cl_event prof_event;</span><br><span class="line"></span><br><span class="line">err = clEnqueueNDRangeKernel(commands, kernel, nd, NULL, global, NULL, 0, NULL, prof_event);</span><br><span class="line">clFinish(commands);</span><br><span class="line">err = clWaitForEvents(1, &amp;prof_event);</span><br><span class="line"></span><br><span class="line">cl_ulong ev_start_time = (cl_ulong)0;</span><br><span class="line">cl_ulong ev_end_time = (cl_ulong)0;</span><br><span class="line"></span><br><span class="line">err = clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong, &amp;ev_start_time, &amp;return_bytes)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">also can set callback to get profiling info, set user event to start to profile</span><br></pre></td></tr></table></figure>
+
+<h2 id="Events-In-Kernel"><a href="#Events-In-Kernel" class="headerlink" title="Events In Kernel"></a>Events In Kernel</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">event_t async_work_group_copy (</span><br><span class="line">                                __local gentype *dst,</span><br><span class="line">                                const __global gentype *src, size_t num_gentypes,</span><br><span class="line">                                event_t event)</span><br><span class="line"></span><br><span class="line">event_t async_work_group_strided_copy ( __local gentype *dst,</span><br><span class="line">                                        const __global gentype *src,</span><br><span class="line">                                        size_t num_gentypes,</span><br><span class="line">                                        size_t src_stride,</span><br><span class="line">                                        event_t event)</span><br><span class="line"></span><br><span class="line">void wait_group_events (int num_events, event_t *event_list)</span><br></pre></td></tr></table></figure>
+
+<h1 id="Images-and-Samplers"><a href="#Images-and-Samplers" class="headerlink" title="Images and Samplers"></a>Images and Samplers</h1><p>Image data could be emuated by generic memory object, which will lost performance comparing to work as image object.</p>
+<p>Loading an image from a file by <strong>FreeImage</strong> libarary, and create an image object from its contents.</p>
+<ul>
+<li><p>OpenCL 1.1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">cl_mem clCreateImage2D (cl_context context,</span><br><span class="line">                        cl_mem_flags flags,</span><br><span class="line">                        const cl_image_format *image_format,</span><br><span class="line">                        size_t image_width,</span><br><span class="line">                        size_t image_height,</span><br><span class="line">                        size_t image_row_pitch,</span><br><span class="line">                        void *host_ptr,</span><br><span class="line">                        cl_int *errcode_ret)</span><br><span class="line"></span><br><span class="line">cl_mem clCreateImage3D (cl_context context,</span><br><span class="line">                        cl_mem_flags flags, // same enumeration cl_mem_flags</span><br><span class="line">                        const cl_image_format *image_format,</span><br><span class="line">                        size_t image_width,</span><br><span class="line">                        size_t image_height,</span><br><span class="line">                        size_t image_depth,</span><br><span class="line">                        size_t image_row_pitch,</span><br><span class="line">                        size_t image_slice_pitch,</span><br><span class="line">                        void *host_ptr,     // A pointer to the image buffer laid out linearly in mem- ory.</span><br><span class="line">                        cl_int *errcode_ret)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>OpenCL 1.2, to create 1D, 2D, 3D image buffer or array</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">cl_mem clCreateImage (cl_context context,</span><br><span class="line">                      cl_mem_flags flags,</span><br><span class="line">                      const cl_image_format *image_format,</span><br><span class="line">                      const cl_image_desc *image_desc,      // info for image</span><br><span class="line">                      void *host_ptr,</span><br><span class="line">                      cl_int *errcode_ret)</span><br><span class="line"></span><br><span class="line">typedef struct _cl_image_desc &#123;</span><br><span class="line">    cl_mem_object_type  image_type,</span><br><span class="line">    size_t              image_width;</span><br><span class="line">    size_t              image_height;</span><br><span class="line">    size_t              image_depth;</span><br><span class="line">    size_t              image_array_size;</span><br><span class="line">    size_t              image_row_pitch;</span><br><span class="line">    size_t              image_slice_pitch;</span><br><span class="line">    cl_uint             num_mip_levels;</span><br><span class="line">    cl_uint             num_samples;</span><br><span class="line">    cl_mem              buffer;</span><br><span class="line">&#125; cl_image_desc;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>Get Image information</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cl_int clGetImageInfo (cl_mem image,</span><br><span class="line">                       cl_image_info param_name,</span><br><span class="line">                       size_t param_value_size,</span><br><span class="line">                       void *param_value,</span><br><span class="line">                       size_t *param_value_size_ret)</span><br></pre></td></tr></table></figure>
+
+<p>Image format is stored as cl_image_format, how individual pixels of the image are laid out in memory.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct _cl_image_format &#123;</span><br><span class="line">    cl_channel_order    image_channel_order;        // e.g. CL_R</span><br><span class="line">    cl_channel_type     image_channel_data_type;    // e.g. CL_SNORM_INT8</span><br><span class="line">&#125; cl_image_format;</span><br></pre></td></tr></table></figure>
+
+<p>Samplers are required when fetching from an image object in kernel. Sampler tell the image-reading function how to access the image:</p>
+<ul>
+<li>Coordinate mode:<ul>
+<li>normalized in range [0..1]</li>
+<li>Non-normalized in range [0..image_dim - 1]</li>
+</ul>
+</li>
+<li>Addressing mode: behavior when fetching from an image with corrdinates that are outside the range of the image boundaries.<ul>
+<li>CL_ADDRESS_CLAMP: Coordinates outside the range of the image will return the border color.</li>
+<li>CL_ADDRESS_CLAMP_TO_EDGE: Coordinates will clamp to the edge of the image.</li>
+<li>CL_ADDRESS_REPEAT: Coordinates outside the range of the image will repeat.</li>
+<li>CL_ADDRESS_MIRRORED_REPEAT: Coordinates outside the range of the image will mirror and repeat.</li>
+</ul>
+</li>
+<li>Filter mode:<ul>
+<li>nearest: the value will be read from the image at the location nearest to the coordinate.</li>
+<li>linear: several values close to the coordinate will be averaged.</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cl_sampler clCreateSampler (cl_context context,</span><br><span class="line">                            cl_bool normalized_coords,</span><br><span class="line">                            cl_addressing_mode addressing_mode,</span><br><span class="line">                            cl_filter_mode filter_mode,</span><br><span class="line">                            cl_int *errcode_ret)</span><br></pre></td></tr></table></figure>
+
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Compute/">Compute</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/OpenCL/">OpenCL</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjunweihit.github.io/2018/12/13/ocl-overview-md/" data-title="OpenCL Overview | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/12/13/ocl-svm/" title="OpenCL SVM">
+  <strong>上一篇：</strong><br/>
+  <span>
+  OpenCL SVM</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/12/13/linux-env-markdown-syntax/"  title="Markdown Syntax Guide">
+ <strong>下一篇：</strong><br/> 
+ <span>Markdown Syntax Guide
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Platform-model"><span class="toc-number">1.</span> <span class="toc-text">Platform model</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Platform-model-HW"><span class="toc-number">2.</span> <span class="toc-text">Platform model(HW)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Execution-model"><span class="toc-number">3.</span> <span class="toc-text">Execution model</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How-to-build"><span class="toc-number">4.</span> <span class="toc-text">How to build</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#A-general-way-of-OCL-app"><span class="toc-number">5.</span> <span class="toc-text">A general way of OCL app</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Platform"><span class="toc-number">6.</span> <span class="toc-text">Platform</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Device"><span class="toc-number">7.</span> <span class="toc-text">Device</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Context"><span class="toc-number">8.</span> <span class="toc-text">Context</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Program-with-OpenCL-C"><span class="toc-number">9.</span> <span class="toc-text">Program with OpenCL C</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OpenCL-C-Build-In-Functions"><span class="toc-number">10.</span> <span class="toc-text">OpenCL C Build-In Functions</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Programs-and-Kernels"><span class="toc-number">11.</span> <span class="toc-text">Programs and Kernels</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Program"><span class="toc-number">11.1.</span> <span class="toc-text">Program</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kernel"><span class="toc-number">11.2.</span> <span class="toc-text">Kernel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Thread-safty"><span class="toc-number">11.3.</span> <span class="toc-text">Thread safty</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Buffers-and-Sub-Buffers"><span class="toc-number">12.</span> <span class="toc-text">Buffers and Sub-Buffers</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer-creation"><span class="toc-number">12.1.</span> <span class="toc-text">Buffer creation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Read-write-and-copy"><span class="toc-number">12.2.</span> <span class="toc-text">Read, write and copy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Map"><span class="toc-number">12.3.</span> <span class="toc-text">Map</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Events"><span class="toc-number">13.</span> <span class="toc-text">Events</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Barrier"><span class="toc-number">13.1.</span> <span class="toc-text">Barrier</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Marker"><span class="toc-number">13.2.</span> <span class="toc-text">Marker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Synchronization"><span class="toc-number">13.3.</span> <span class="toc-text">Synchronization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Event-Object"><span class="toc-number">13.4.</span> <span class="toc-text">Event Object</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-defined-event"><span class="toc-number">13.5.</span> <span class="toc-text">User defined event</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set-Callback"><span class="toc-number">13.6.</span> <span class="toc-text">Set Callback</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Usage"><span class="toc-number">13.7.</span> <span class="toc-text">Usage</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Profiling"><span class="toc-number">13.8.</span> <span class="toc-text">Profiling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Events-In-Kernel"><span class="toc-number">13.9.</span> <span class="toc-text">Events In Kernel</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Images-and-Samplers"><span class="toc-number">14.</span> <span class="toc-text">Images and Samplers</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Compute/" title="Compute">Compute<sup>15</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/Graphics/" title="Graphics">Graphics<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/" title="linux-dev">linux-dev<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-env/" title="linux-env">linux-env<sup>11</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ROCm/" title="ROCm">ROCm<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Wiki/" title="Wiki">Wiki<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env-misc/" title="linux-env-misc">linux-env-misc<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenCL/" title="OpenCL">OpenCL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TensorFlow/" title="TensorFlow">TensorFlow<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SCM/" title="SCM">SCM<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-dev-misc/" title="linux-dev-misc">linux-dev-misc<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env/" title="linux-env">linux-env<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graphics/" title="Graphics">Graphics<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://en.wikipedia.org" target="_blank" title="wikipedia(en)">wikipedia(en)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3230658564&verifier=93c86f97&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Running on the Linux road <br/>
+			Try everything</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3230658564" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/zjunweihit" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:zjunweihit@sina.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="zjunweihit">zjunweihit</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

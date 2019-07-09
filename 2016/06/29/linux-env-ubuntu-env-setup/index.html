@@ -1,0 +1,1169 @@
+
+ <!DOCTYPE HTML>
+<html lang="default">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>Ubuntu系统环境那些事 | Linux Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="zjunweihit">
+    
+
+    
+    <meta name="description" content="居家旅行必备的设置，以下内容都是基于Ubuntu12.04系统的.(Updated for Ubuntu14.04)">
+<meta name="keywords" content="ubuntu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu系统环境那些事">
+<meta property="og:url" content="http://zjunweihit.github.io/2016/06/29/linux-env-ubuntu-env-setup/index.html">
+<meta property="og:site_name" content="Linux Player">
+<meta property="og:description" content="居家旅行必备的设置，以下内容都是基于Ubuntu12.04系统的.(Updated for Ubuntu14.04)">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-09T00:55:29.871Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu系统环境那些事">
+<meta name="twitter:description" content="居家旅行必备的设置，以下内容都是基于Ubuntu12.04系统的.(Updated for Ubuntu14.04)">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Linux Player" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/L2_ico.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/L2.jpg" alt="Linux Player" title="Linux Player"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Linux Player">Linux Player</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:zjunweihit.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/29/linux-env-ubuntu-env-setup/" title="Ubuntu系统环境那些事" itemprop="url">Ubuntu系统环境那些事</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-29T14:30:00.000Z" itemprop="datePublished"> Published 2016-06-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-Ubuntu"><span class="toc-number">1.</span> <span class="toc-text">Install Ubuntu</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ubuntu-12-04-installer-in-USB-mass-storage-device"><span class="toc-number">1.1.</span> <span class="toc-text">Ubuntu 12.04 installer in USB mass storage device</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ubuntu-12-04-硬件安装"><span class="toc-number">1.2.</span> <span class="toc-text">Ubuntu 12.04 硬件安装</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#proxy-settings"><span class="toc-number">2.</span> <span class="toc-text">proxy settings</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#确保apt-get工作正常"><span class="toc-number">3.</span> <span class="toc-text">确保apt-get工作正常</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#firefox-同步"><span class="toc-number">4.</span> <span class="toc-text">firefox 同步</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Adobe-flash-support"><span class="toc-number">5.</span> <span class="toc-text">Adobe flash support</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关闭ubuntu-Tab键自动补全的声音"><span class="toc-number">6.</span> <span class="toc-text">关闭ubuntu Tab键自动补全的声音</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装git"><span class="toc-number">7.</span> <span class="toc-text">安装git</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装quilt"><span class="toc-number">8.</span> <span class="toc-text">安装quilt</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装ssh"><span class="toc-number">9.</span> <span class="toc-text">安装ssh</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ssh后-perl-warning-Setting-locale-failed"><span class="toc-number">9.1.</span> <span class="toc-text">ssh后 perl: warning: Setting locale failed</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置默认shell为bash"><span class="toc-number">10.</span> <span class="toc-text">设置默认shell为bash</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#rpm-包安装"><span class="toc-number">11.</span> <span class="toc-text">rpm 包安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#64-bit-系统对32-bit的兼容"><span class="toc-number">12.</span> <span class="toc-text">64-bit 系统对32-bit的兼容</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装五笔"><span class="toc-number">13.</span> <span class="toc-text">安装五笔</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置背景色"><span class="toc-number">14.</span> <span class="toc-text">设置背景色</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#vim-安装"><span class="toc-number">15.</span> <span class="toc-text">vim 安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#恢复光标关闭前的位置"><span class="toc-number">16.</span> <span class="toc-text">恢复光标关闭前的位置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#目录結构"><span class="toc-number">17.</span> <span class="toc-text">目录結构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#创建root及其密码"><span class="toc-number">18.</span> <span class="toc-text">创建root及其密码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置默认编辑器"><span class="toc-number">19.</span> <span class="toc-text">设置默认编辑器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fix-override-cpp-setting"><span class="toc-number">20.</span> <span class="toc-text">fix: override cpp setting</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Add-user-to-a-group"><span class="toc-number">21.</span> <span class="toc-text">Add user to a group</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Keep-the-env-for-sudo"><span class="toc-number">22.</span> <span class="toc-text">Keep the env for sudo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sudo-echo"><span class="toc-number">23.</span> <span class="toc-text">sudo echo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sudo不需要输入密码"><span class="toc-number">24.</span> <span class="toc-text">sudo不需要输入密码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Eclipse-setup"><span class="toc-number">25.</span> <span class="toc-text">Eclipse setup</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Wine-for-windows-program"><span class="toc-number">26.</span> <span class="toc-text">Wine for windows program</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Boot-Ubuntu-from-terminal"><span class="toc-number">27.</span> <span class="toc-text">Boot Ubuntu from terminal</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Boot-Ubuntu-from-specific-kernel"><span class="toc-number">28.</span> <span class="toc-text">Boot Ubuntu from specific kernel</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Set-memmap-in-GRUB"><span class="toc-number">29.</span> <span class="toc-text">Set memmap in GRUB</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Uncomment-to-disable-graphical-terminal-grub-pc-only"><span class="toc-number">30.</span> <span class="toc-text">Uncomment to disable graphical terminal (grub-pc only)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Boot-Ubuntu-without-the-specific-module-installed-automatically"><span class="toc-number">31.</span> <span class="toc-text">Boot Ubuntu without the specific module installed automatically</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Networking-setting"><span class="toc-number">32.</span> <span class="toc-text">Networking setting</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Local-networking-setting-RNDIS-Ubuntu"><span class="toc-number">33.</span> <span class="toc-text">Local networking setting RNDIS(Ubuntu)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Networking-setting-CentOS"><span class="toc-number">34.</span> <span class="toc-text">Networking setting (CentOS)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cifs-mounting"><span class="toc-number">35.</span> <span class="toc-text">cifs mounting</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ldconfig"><span class="toc-number">36.</span> <span class="toc-text">ldconfig</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#locate"><span class="toc-number">37.</span> <span class="toc-text">locate</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#update-alternative"><span class="toc-number">38.</span> <span class="toc-text">update-alternative</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#aria2c-download-by-multi-thread"><span class="toc-number">39.</span> <span class="toc-text">aria2c download by multi-thread</span></a></li></ol>
+		
+		</div>
+		
+		<p>居家旅行必备的设置，以下内容都是基于Ubuntu12.04系统的.<br>(Updated for Ubuntu14.04)</p>
+<a id="more"></a>
+
+<h1 id="Install-Ubuntu"><a href="#Install-Ubuntu" class="headerlink" title="Install Ubuntu"></a>Install Ubuntu</h1><h2 id="Ubuntu-12-04-installer-in-USB-mass-storage-device"><a href="#Ubuntu-12-04-installer-in-USB-mass-storage-device" class="headerlink" title="Ubuntu 12.04 installer in USB mass storage device"></a>Ubuntu 12.04 installer in USB mass storage device</h2><ul>
+<li><p>Download the Ubuntu 12.04 image(*.iso)</p>
+</li>
+<li><p>Prepare a USB mass storage device and connect to the PC(assuming “sdb”)</p>
+</li>
+<li><p>Create installer in the USB device</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ su -</span><br><span class="line"># fdisk -l</span><br><span class="line"># dd bs=4M if=*.iso of=/dev/sdb</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Boot the PC and seclet boot from USB mass storage device</p>
+</li>
+<li><p>I have tried to create one partition on the USB mass storage device, then create the installer in the new partition, other partitions are used for original purpose.</p>
+</li>
+<li><p>USB memory cannot be done successfully, maybe USB hard disk can do this.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># fdisk /dev/sdb</span><br><span class="line">  o: create empty partition table</span><br><span class="line">  n: create new partition(sdb1 sdb2)</span><br><span class="line"></span><br><span class="line"># dd bs=4M if=*.iso of=/dev/sdb</span><br><span class="line">or </span><br><span class="line"># dd bs=4M if=*.iso of=/dev/sdb1  --&gt; In this way, the partition cannot be found when booting PC, even if /dev/sdb1 is toggled as boot partition by fdisk(a: option)</span><br><span class="line"></span><br><span class="line"># mkfs.vfat /dev/sdb2  --&gt; Partition 2 can be used for windows.</span><br><span class="line"></span><br><span class="line">I have created a Ubuntu13.04 installer in partition 1 of a USB hard disk successfully before. But unfortunately I missed the log...</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Ubuntu-12-04-硬件安装"><a href="#Ubuntu-12-04-硬件安装" class="headerlink" title="Ubuntu 12.04 硬件安装"></a>Ubuntu 12.04 硬件安装</h2><p>(似乎依赖于windows系统，不推荐，虽然我目前就的就是这种方式)<br>(2016/07/02, 已经不用这种方法了)</p>
+<ul>
+<li>Usually there are 2 ways to setup by hardware.</li>
+<li>wubi安装(这可不是五笔啊)<ul>
+<li>get wubi.exe from ubuntu*.iso</li>
+<li>wubi.exe –force-wubi</li>
+<li>因为12.04里，windows内安装的选项被禁用了。</li>
+</ul>
+</li>
+<li>non-wubi<ul>
+<li>refer to<ul>
+<li><a href="http://wenku.baidu.com/view/bad8fe01e87101f69e3195a6.html" target="_blank" rel="noopener">setup with easybcd_1</a></li>
+<li><a href="http://wenku.baidu.com/view/ef1e8b210722192e4536f615.html" target="_blank" rel="noopener">setup with esaybcd_2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="proxy-settings"><a href="#proxy-settings" class="headerlink" title="proxy settings"></a>proxy settings</h1><p>如果使用proxy来wget代码,那么必须要设置正确的proxy环境变量.</p>
+<ul>
+<li><p>临时使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># export ftp_proxy=http://junwei-zhang:junwei123@improxy.mit.edu:10080</span></span><br><span class="line"><span class="comment"># export http_proxy=http://junwei-zhang:junwei123@improxy.mit.edu:10080</span></span><br><span class="line"><span class="comment"># export https_proxy=http://junwei-zhang:junwei123@improxy.mit.edu:10080</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>永久使用:将以上内容,写到bashrc中.</p>
+<ul>
+<li><p>For all users</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/bash.bashrc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>For the local user</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/.bashrc</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>查看是否写入到环境变量中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># env | grep proxy</span><br><span class="line">ftp_proxy=http://junwei-zhang:junwei123@improxy.mit.edu:10080</span><br><span class="line">http_proxy=http://junwei-zhang:junwei123@improxy.mit.edu:10080</span><br><span class="line">https_proxy=http://junwei-zhang:junwei123@improxy.mit.edu:10080</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果apt-get是经过代理工作的,需要编缉/etc/apt/apt.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Acquire::http::Proxy &quot;http://username:passwd@proxy_addr:port&quot;;</span><br><span class="line">如:</span><br><span class="line">Acquire::http::Proxy &quot;http://junwei-zhang:junwei123@iproxy.mit.edu:10080&quot;;</span><br><span class="line">Acquire::ftp::Proxy &quot;http://junwei-zhang:junwei123@iproxy.mit.edu:10080&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果是firefox需要proxy</p>
+<ul>
+<li>在网络设置里,输入proxy的IP及端口号</li>
+</ul>
+</li>
+</ul>
+<h1 id="确保apt-get工作正常"><a href="#确保apt-get工作正常" class="headerlink" title="确保apt-get工作正常"></a>确保apt-get工作正常</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get upgrade</span><br></pre></td></tr></table></figure>
+
+<p>如果apt-get是经过代理工作的,需要编缉/etc/apt/apt.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Acquire::http::Proxy &quot;http://username:passwd@proxy_addr:port&quot;;</span><br><span class="line">如:</span><br><span class="line">Acquire::http::Proxy &quot;http://junwei-zhang:junwei123@iproxy.mit.edu:10080&quot;;</span><br><span class="line">Acquire::ftp::Proxy &quot;http://junwei-zhang:junwei123@iproxy.mit.edu:10080&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>Ubuntu12.04, it may be got below error:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">W: Failed to fetch http://mirrors.sohu.com/ubuntu/dists/precise/universe/i18n/Index  No Hash entry in Release file /var/lib/apt/lists/partial/mirrors.sohu.com_ubuntu_dists_precise_universe_i18n_Index</span><br><span class="line"></span><br><span class="line">W: Failed to fetch bzip2:/var/lib/apt/lists/partial/mirrors.sohu.com_ubuntu_dists_precise-updates_main_binary-i386_Packages  Hash Sum mismatch</span><br><span class="line"></span><br><span class="line">W: Failed to fetch bzip2:/var/lib/apt/lists/partial/extras.ubuntu.com_ubuntu_dists_precise_main_binary-i386_Packages  Hash Sum mismatch</span><br><span class="line"></span><br><span class="line">E: Some index files failed to download. They have been ignored, or old ones used instead.</span><br></pre></td></tr></table></figure>
+
+<p>将/var/lib/apt/lists/partial/下的所有文件删除，但是这可以解决大部分问题，个别源不能解决，如”/var/lib/apt/lists/partial/extras.ubuntu.com_ubuntu_dists_precise_main_binary-i386_Packages”，无耐进入/var/lib/apt/lists/将对应的文件删除</p>
+<p>但是在ubuntu14.04下，似乎不能这样解决。试过以下方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get clean</span><br><span class="line">$ sudo rm /var/lib/apt/* -rf</span><br><span class="line">$ sudo apt-get udpate --fix-missing</span><br></pre></td></tr></table></figure>
+
+<p>(其实也不只是ubuntu14.04这样，这个时候ubuntu12.04也有同样的问题）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">software&amp;update：donwload from， other， set best server，自动为我选择了ali云的镜像（http://mirrors.aliyun.com）</span><br><span class="line"></span><br><span class="line">$ sudo apt-get clean</span><br><span class="line">$ sudo rm /var/lib/apt/* -rf</span><br><span class="line">$ sudo apt-get udpate --fix-missing</span><br><span class="line">... &lt;snip&gt;</span><br><span class="line">Get:60 http://mirrors.aliyun.com trusty-security/restricted Translation-en [14 B]</span><br><span class="line">Get:61 http://mirrors.aliyun.com trusty-security/universe Translation-en [24.4 kB]</span><br><span class="line">Ign http://mirrors.aliyun.com trusty/main Translation-en_US</span><br><span class="line">Ign http://mirrors.aliyun.com trusty/multiverse Translation-en_US</span><br><span class="line">Ign http://mirrors.aliyun.com trusty/restricted Translation-en_US</span><br><span class="line">Ign http://mirrors.aliyun.com trusty/universe Translation-en_US </span><br><span class="line">Fetched 24.6 MB in 20s (1,182 kB/s)</span><br><span class="line">W: Failed to fetch bzip2:/var/lib/apt/lists/partial/extras.ubuntu.com_ubuntu_dists_trusty_main_source_Sources  Hash Sum mismatch</span><br><span class="line"></span><br><span class="line">W: Failed to fetch bzip2:/var/lib/apt/lists/partial/extras.ubuntu.com_ubuntu_dists_trusty_main_binary-i386_Packages  Hash Sum mismatch</span><br><span class="line"></span><br><span class="line">E: Some index files failed to download. They have been ignored, or old ones used instead.</span><br><span class="line"></span><br><span class="line">$ sudo vi /etc/apt/sources.list</span><br><span class="line">  ## This software is not part of Ubuntu, but is offered by third-party</span><br><span class="line">  ## developers who want to ship their latest software.</span><br><span class="line">-  deb http://extras.ubuntu.com/ubuntu trusty main</span><br><span class="line">+ #deb http://extras.ubuntu.com/ubuntu trusty main</span><br><span class="line">-  deb-src http://extras.ubuntu.com/ubuntu trusty main</span><br><span class="line">+ #deb-src http://extras.ubuntu.com/ubuntu trusty main</span><br><span class="line"></span><br><span class="line">$ sudo apt-get udpate --fix-missing</span><br><span class="line">Success!</span><br></pre></td></tr></table></figure>
+
+<p>使用apt-get下载*.deb包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get download bluez</span><br></pre></td></tr></table></figure>
+
+<p>使用apt-get下载*.tar.gz源代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get source bluez</span><br></pre></td></tr></table></figure>
+
+<h1 id="firefox-同步"><a href="#firefox-同步" class="headerlink" title="firefox 同步"></a>firefox 同步</h1><ul>
+<li><a href="http://support.mozilla.org/zh-CN/kb/%E5%A6%82%E4%BD%95%E5%9C%A8%E7%94%B5%E8%84%91%E4%B9%8B%E9%97%B4%E5%90%8C%E6%AD%A5Firefox%E7%9A%84%E8%AE%BE%E7%BD%AE" target="_blank" rel="noopener">firefox机器间同步</a></li>
+<li>plugin with firefox(V11) in Ubuntu12.04 is incompatible, which because the version is too low.<ul>
+<li>To udpate 1:</li>
+<li>Click “Help”-&gt;”Firefox Help”-&gt;”Firefox Free Download”</li>
+<li>In the web page it will tell you it is not the latest version. You can update in this page.</li>
+<li>It seemingly needs to restart the firefox or system.</li>
+<li>To update 2:</li>
+<li>sudo apt-get remove firefox</li>
+<li>sudo apt-get install firefox</li>
+</ul>
+</li>
+</ul>
+<h1 id="Adobe-flash-support"><a href="#Adobe-flash-support" class="headerlink" title="Adobe flash support"></a>Adobe flash support</h1><ul>
+<li>Open Ubuntu software center(/usr/bin/software-center), search “flash”</li>
+<li>Open <a href="http://get.adobe.com/cn/flashplayer/" target="_blank" rel="noopener">adobe flash download</a></li>
+<li>Select “APT, 适用于Uubuntu10.04+”</li>
+<li>Pop the window and choose “/usr/bin/software-center”</li>
+<li>Software-center could download and install flash plugin automatically</li>
+</ul>
+<h1 id="关闭ubuntu-Tab键自动补全的声音"><a href="#关闭ubuntu-Tab键自动补全的声音" class="headerlink" title="关闭ubuntu Tab键自动补全的声音"></a>关闭ubuntu Tab键自动补全的声音</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi /etc/inputrc</span><br><span class="line">- # set bell-style none</span><br><span class="line">+ set bell-style none</span><br></pre></td></tr></table></figure>
+
+<h1 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install git</span><br></pre></td></tr></table></figure>
+
+<h1 id="安装quilt"><a href="#安装quilt" class="headerlink" title="安装quilt"></a>安装quilt</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install quilt</span><br></pre></td></tr></table></figure>
+
+<h1 id="安装ssh"><a href="#安装ssh" class="headerlink" title="安装ssh"></a>安装ssh</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install ssh</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Ubuntu14.04<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh-server</span><br><span class="line"></span><br><span class="line">if you want to update the port number</span><br><span class="line">sudo vi /etc/ssh/sshd_config</span><br><span class="line">sudo service ssh restart</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="ssh后-perl-warning-Setting-locale-failed"><a href="#ssh后-perl-warning-Setting-locale-failed" class="headerlink" title="ssh后 perl: warning: Setting locale failed"></a>ssh后 perl: warning: Setting locale failed</h2><p>有时在chroot后到一个新的rootfs中，make uImage会在编译过程中出现以下warning。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  GEN     lib/oid_registry_data.c</span><br><span class="line">perl: warning: Setting locale failed.</span><br><span class="line">perl: warning: Please check that your locale settings:</span><br><span class="line">        LANGUAGE = (unset),</span><br><span class="line">        LC_ALL = (unset),</span><br><span class="line">        LC_PAPER = &quot;zh_CN.UTF-8&quot;,</span><br><span class="line">        LC_ADDRESS = &quot;zh_CN.UTF-8&quot;,</span><br><span class="line">        LC_MONETARY = &quot;zh_CN.UTF-8&quot;,</span><br><span class="line">        LC_NUMERIC = &quot;C&quot;,</span><br><span class="line">        LC_TELEPHONE = &quot;zh_CN.UTF-8&quot;,</span><br><span class="line">        LC_IDENTIFICATION = &quot;zh_CN.UTF-8&quot;,</span><br><span class="line">        LC_COLLATE = &quot;C&quot;,</span><br><span class="line">        LC_MEASUREMENT = &quot;zh_CN.UTF-8&quot;,</span><br><span class="line">        LC_TIME = &quot;zh_CN.UTF-8&quot;,</span><br><span class="line">        LC_NAME = &quot;zh_CN.UTF-8&quot;,</span><br><span class="line">        LANG = &quot;en_US.UTF-8&quot;</span><br><span class="line">perl: warning: Falling back to the standard locale (&quot;C&quot;).</span><br><span class="line">Compiling 49 OIDs</span><br><span class="line">  CC      lib/oid_registry.o</span><br></pre></td></tr></table></figure>
+
+<p>这是因为local setting is not correct。可以在login user的bashrc中添加一些设置。如，你是以root用户登录到该系统，那就在/root/.bashrc中添加以下settings。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export LANGUAGE=en_US.UTF-8</span><br><span class="line">export LANG=en_US.UTF-8</span><br><span class="line">export LC_ALL=en_US.UTF-8</span><br><span class="line">locale-gen en_US.UTF-8</span><br></pre></td></tr></table></figure>
+
+<p>Referrence:</p>
+<ul>
+<li><a href="http://askubuntu.com/questions/144235/locale-variables-have-no-effect-in-remote-shell-perl-warning-setting-locale-f" target="_blank" rel="noopener">locale-variables-have-no-effect-in-remote-shell-perl-warning-setting-locale-f</a></li>
+</ul>
+<h1 id="设置默认shell为bash"><a href="#设置默认shell为bash" class="headerlink" title="设置默认shell为bash"></a>设置默认shell为bash</h1><p>(Ubuntu12.04默认shell为dash,即/bin/sh –&gt; /bin/dash)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dpkg-reconfigure dash</span><br><span class="line">--&gt; No</span><br></pre></td></tr></table></figure>
+
+<h1 id="rpm-包安装"><a href="#rpm-包安装" class="headerlink" title="rpm 包安装"></a>rpm 包安装</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get install rpm</span><br></pre></td></tr></table></figure>
+
+<h1 id="64-bit-系统对32-bit的兼容"><a href="#64-bit-系统对32-bit的兼容" class="headerlink" title="64-bit 系统对32-bit的兼容"></a>64-bit 系统对32-bit的兼容</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install ia32-libs</span><br></pre></td></tr></table></figure>
+
+<h1 id="安装五笔"><a href="#安装五笔" class="headerlink" title="安装五笔"></a>安装五笔</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ibus-table-wubi</span><br></pre></td></tr></table></figure>
+
+<pre><code>* 如果没有ibus就先安装ibus
+* ibus开机启动</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">language support --&gt; keyboard input method system选为ibus即可</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Ubuntu14.04, ibus不如以前那样好用了。因为，Ctrl+Space不能切换当前输入法与英文。所以转向Fcitx，国人写的输入法框架，更好的支持中文，支持一下！！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ killall ibus-daemon</span><br><span class="line">$ sudo apt-get install fcitx fcitx-table fcitx-table-wubi</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Remove the ibus, not needed now</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get purge ibus</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>But unfortunately, the ubuntu desktop is removed together(bad actions…), which causes the system setting is not available. Re-install the ubuntu desktop</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install ubuntu-desktop</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>However, the <code>input method switch</code> does NOT work yet. The hotkey is used by others(<code>Text Entry</code> in <code>System Setting</code>).</p>
+<ul>
+<li>Open <code>System Setting</code> and set the <code>Switch to next source</code> by other hotkey.</li>
+</ul>
+</li>
+<li><p>Yeap, it’s work now!</p>
+</li>
+</ul>
+<h1 id="设置背景色"><a href="#设置背景色" class="headerlink" title="设置背景色"></a>设置背景色</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">色度,饱和度,亮度</span><br><span class="line">85,90,205</span><br><span class="line">rgb</span><br><span class="line">204 232 207</span><br><span class="line">#CCE8CF</span><br></pre></td></tr></table></figure>
+
+<h1 id="vim-安装"><a href="#vim-安装" class="headerlink" title="vim 安装"></a>vim 安装</h1><ul>
+<li><p>ubuntu12.04默认不能安装vim,这会导致vim相关的配置文件都无效.可以用以下方法安装vim.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">The following packages have unmet dependencies:</span><br><span class="line">vim : Depends: vim-common (= 2:7.3.429-2ubuntu2) but 2:7.3.429-2ubuntu2.1 is to be installed</span><br><span class="line">E: Unable to correct problems, you have held broken packages.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>卸载vim-common</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get remove vim-common</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>再安装vim</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install vim</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="恢复光标关闭前的位置"><a href="#恢复光标关闭前的位置" class="headerlink" title="恢复光标关闭前的位置"></a>恢复光标关闭前的位置</h1><ul>
+<li><p>增加以下内容在.vimrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if has(&quot;autocmd&quot;)</span><br><span class="line">    &quot; When editing a file, always jump to the last cursor position</span><br><span class="line">    autocmd BufReadPost *</span><br><span class="line">    \ if line(&quot;&apos;\&quot;&quot;) &gt; 0 &amp;&amp; line (&quot;&apos;\&quot;&quot;) &lt;= line(&quot;$&quot;) |</span><br><span class="line">    \   exe &quot;normal! g&apos;\&quot;&quot; |</span><br><span class="line">    \ endif</span><br><span class="line">endif</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>uncomment以下内容在/etc/vim/vimrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot; Uncomment the following to have Vim jump to the last position when</span><br><span class="line">&quot; reopening a file</span><br><span class="line">if has(&quot;autocmd&quot;)</span><br><span class="line">  au BufReadPost * if line(&quot;&apos;\&quot;&quot;) &gt; 1 &amp;&amp; line(&quot;&apos;\&quot;&quot;) &lt;= line(&quot;$&quot;) | exe &quot;normal! g&apos;\&quot;&quot; | endif</span><br><span class="line">endif</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果以上两个方法都没有没好使，有可能是.viminfo没有设置正确的权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ll ~/.viminfo</span><br><span class="line">-rw------- 1 zjunwei zjunwei 4431 Nov  3 21:15 /home/zjunwei/.viminfo</span><br><span class="line"> ^^          ^^^^^^^</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="目录結构"><a href="#目录結构" class="headerlink" title="目录結构"></a>目录結构</h1><ul>
+<li><p>vimwiki is got from internet</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p ~/.vim</span><br><span class="line">$ cd ~/.vim</span><br><span class="line">git clone https://github.com/zjunweihit/vimwiki</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>others are got from vimwiki</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cd vimwiki</span><br><span class="line">$ cp -r automatically doc ftplugin plugin syntax ../</span><br><span class="line">zjunwei@ubuntu:~$ ls .vim/</span><br><span class="line">autoload  doc  ftplugin  plugin  syntax  vimwiki</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="创建root及其密码"><a href="#创建root及其密码" class="headerlink" title="创建root及其密码"></a>创建root及其密码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">zjunwei@ubuntu:~$ sudo passwd root</span><br><span class="line">[sudo] password for zjunwei:</span><br><span class="line">Enter new UNIX password:</span><br><span class="line">Retype new UNIX password:</span><br><span class="line">passwd: password updated successfully</span><br><span class="line">zjunwei@ubuntu:~$ su -</span><br><span class="line">Password:</span><br><span class="line">root@ubuntu:~#</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置默认编辑器"><a href="#设置默认编辑器" class="headerlink" title="设置默认编辑器"></a>设置默认编辑器</h1><ul>
+<li><p>终端输入:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ echo export EDITOR=/usr/bin/vim &gt;&gt; ~/.bashrc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用系统管理工具update-alternatives设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ sudo update-alternatives --config editor</span><br><span class="line">There are 3 choices for the alternative editor (providing /usr/bin/editor).</span><br><span class="line"></span><br><span class="line">  Selection    Path                Priority   Status</span><br><span class="line">  ------------------------------------------------------------</span><br><span class="line">  * 0            /bin/nano            40        auto mode</span><br><span class="line">    1            /bin/ed             -100       manual mode</span><br><span class="line">    2            /bin/nano            40        manual mode</span><br><span class="line">    3            /usr/bin/vim.basic   30        manual mode</span><br><span class="line"></span><br><span class="line">  Press enter to keep the current choice[*], or type selection number: 3</span><br><span class="line">  update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/editor (editor) in manual mode.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>有可能会遇到两个vim,分别如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  Selection    Path                Priority   Status</span><br><span class="line">  ------------------------------------------------------------</span><br><span class="line">  * 0            /bin/nano            40        auto mode</span><br><span class="line">    1            /bin/ed             -100       manual mode</span><br><span class="line">    2            /bin/nano            40        manual mode</span><br><span class="line">    3            /usr/bin/vim.basic   30        manual mode</span><br><span class="line">    4            /usr/bin/vim.tiny    10        manual mode</span><br><span class="line"></span><br><span class="line">vim.basic是一个完整版的vim，但没有图像界面</span><br><span class="line">vim.tiny是一个vim的缩减版</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="fix-override-cpp-setting"><a href="#fix-override-cpp-setting" class="headerlink" title="fix: override cpp setting"></a>fix: override cpp setting</h1><p>Ubuntu 18.04, vim default setting has overrided ~/.vim/ftplugin/cpp.vim.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls /usr/share/vim/vim80/ftplugin/cpp.vim</span><br></pre></td></tr></table></figure>
+
+<p>comment the last line:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;runtime! ftplugin/c.vim ftplugin/c_*.vim ftplugin/c/*.vim</span><br></pre></td></tr></table></figure>
+
+<h1 id="Add-user-to-a-group"><a href="#Add-user-to-a-group" class="headerlink" title="Add user to a group"></a>Add user to a group</h1><p>How to add a user to a group</p>
+<ul>
+<li><p>add user to “sudo” group</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo adduser `whoami` sudo</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>You can test which you belong to with the id -Gn command.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ id -Gn</span><br><span class="line">junwei-zhang adm disk dialout fuse admin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>After adding yourself to a certain group, you’ll notice that the group is not immediately visible in the output of that command. If you do not want to restart the graphical session (“re-login”), perform a direct login:(or reboot the system)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ su - $USER</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Check it again</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ id -Gn</span><br><span class="line">junwei-zhang adm disk dialout sudo fuse admin</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Keep-the-env-for-sudo"><a href="#Keep-the-env-for-sudo" class="headerlink" title="Keep the env for sudo"></a>Keep the env for sudo</h1><p>如何保留”sudo command”时环境变量?</p>
+<ul>
+<li>Modify the /etc/sudoer<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo visudo</span><br><span class="line"></span><br><span class="line">+ sudo env_keep += &quot;http_proxy https_proxy ftp_proxy&quot;</span><br><span class="line">                    ^^^^^^^^^^</span><br><span class="line">                    Add the env variant you want</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="sudo-echo"><a href="#sudo-echo" class="headerlink" title="sudo echo"></a>sudo echo</h1><ul>
+<li><p>This won’t work:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo echo &quot;Text I want to write&quot; &gt; /path/to/file</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>If you want to write some text to a file that needs a root privileges, you do it this way:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;Text I want to write&quot; | sudo tee /path/to/file &gt; /dev/null</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>or (updated after reading discussion below):<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sh -c &apos;echo &quot;Text I want to write&quot; &gt; /path/to/file&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>If you just want to append some text, you do it this way:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;Text I want to write&quot; | sudo tee -a /path/to/file &gt; /dev/null</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>or (updated after reading discussion below):<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sh -c &apos;echo &quot;Text I want to write&quot; &gt;&gt; /path/to/file&apos;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="sudo不需要输入密码"><a href="#sudo不需要输入密码" class="headerlink" title="sudo不需要输入密码"></a>sudo不需要输入密码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">(1)</span><br><span class="line">$ su -</span><br><span class="line"></span><br><span class="line">(2)</span><br><span class="line">#chmod 660 /etc/sudoer</span><br><span class="line"></span><br><span class="line">(3)</span><br><span class="line">modify it as follow:(using sudo without password)</span><br><span class="line"></span><br><span class="line">%sudo ALL=NOPASSWD: ALL</span><br><span class="line"></span><br><span class="line">(4)</span><br><span class="line">#chmod 440 /etc/sudoer</span><br><span class="line"></span><br><span class="line">(5) add user to sudo group</span><br><span class="line">$sudo adduser `whoami` sudo</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ su -</span><br><span class="line">$ sudoedit /etc/sudoer</span><br><span class="line">+ %sudo ALL=NOPASSWD: ALL</span><br><span class="line">$ exit</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ su -</span><br><span class="line">$ sudoedit /etc/sudoer</span><br><span class="line"></span><br><span class="line"># User privilege specification</span><br><span class="line">root    ALL=(ALL:ALL) ALL</span><br><span class="line">+ username ALL=NOPASSWD: ALL</span><br><span class="line"></span><br><span class="line"># Allow members of group sudo to execute any command</span><br><span class="line">- %sudo&gt;-ALL=(ALL:ALL) ALL</span><br><span class="line">+ #%sudo&gt;-ALL=(ALL:ALL) ALL</span><br><span class="line">$ exit</span><br></pre></td></tr></table></figure>
+
+<h1 id="Eclipse-setup"><a href="#Eclipse-setup" class="headerlink" title="Eclipse setup"></a>Eclipse setup</h1><ul>
+<li><p>Download JDK</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install openjdk-7-jdk</span><br><span class="line"></span><br><span class="line">$ java &lt;Tab&gt;</span><br><span class="line">java     javac    javadoc  javah    javap </span><br><span class="line">$ java -version</span><br><span class="line">java version &quot;1.7.0_25&quot;</span><br><span class="line">OpenJDK Runtime Environment (IcedTea 2.3.10) (7u25-2.3.10-1ubuntu0.12.04.2)</span><br><span class="line">OpenJDK Server VM (build 23.7-b01, mixed mode)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Download Eclipse</p>
+<ul>
+<li><p><a href="http://www.eclipse.org/downloads/packages/eclipse-ide-cc-developers/keplersr1" target="_blank" rel="noopener">eclipse kepler sr1</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tar xvf eclipse-cpp-kepler-SR1-linux-gtk.tar.gz -C /opt/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Run eclipse</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ /opt/eclipse/eclipse &amp;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Wine-for-windows-program"><a href="#Wine-for-windows-program" class="headerlink" title="Wine for windows program"></a>Wine for windows program</h1><ul>
+<li>Open “Ubuntu Software Center”</li>
+<li>search “wine”</li>
+<li>install “wine Windows Program loader”</li>
+<li>Download the Windows software *.exe</li>
+<li>Click right button on it</li>
+<li>select “open with wine Windows Program loader”</li>
+</ul>
+<h1 id="Boot-Ubuntu-from-terminal"><a href="#Boot-Ubuntu-from-terminal" class="headerlink" title="Boot Ubuntu from terminal"></a>Boot Ubuntu from terminal</h1><p>(Ubuntu14.04: referring to <a href="http://www.htpcbeginner.com/force-ubuntu-boot-into-terminal/" target="_blank" rel="noopener">http://www.htpcbeginner.com/force-ubuntu-boot-into-terminal/</a>)</p>
+<ul>
+<li>Update the grub default settings<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi /etc/default/grub</span><br><span class="line"></span><br><span class="line">- GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash&quot;</span><br><span class="line">+ GRUB_CMDLINE_LINUX_DEFAULT=&quot;text&quot;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Boot-Ubuntu-from-specific-kernel"><a href="#Boot-Ubuntu-from-specific-kernel" class="headerlink" title="Boot Ubuntu from specific kernel"></a>Boot Ubuntu from specific kernel</h1><ul>
+<li><p>grep the menu entry</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /boot/grub/grub.cfg | grep menuentry</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>set default option in grub, entering the secondary option by “&gt;”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grub-set-default &apos;Advanced options for Ubuntu&gt;Ubuntu, with Linux 4.7.0-custom&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>update grub</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/default/grub</span><br><span class="line"></span><br><span class="line">+ GRUB_DEFAULT=save</span><br><span class="line"></span><br><span class="line">update-grub</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Set-memmap-in-GRUB"><a href="#Set-memmap-in-GRUB" class="headerlink" title="Set memmap in GRUB"></a>Set memmap in GRUB</h1><ul>
+<li><p><code>$</code> needs escaping symbol <code>\</code> both in default grub and grub.cfg</p>
+</li>
+<li><p>default grub</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi /etc/default/grub</span><br><span class="line"></span><br><span class="line">- GRUB_CMDLINE_LINUX=&quot;&quot;</span><br><span class="line">+ GRUB_CMDLINE_LINUX=&quot;memmap=1G\\\$3G&quot;</span><br><span class="line"></span><br><span class="line">$ update-grub</span><br><span class="line">the /boot/grub/grub.cfg will be updated accordingly</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>grub.cfg, following will be appended to the command line</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">memmap=1G\$3G</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Verify after reboot</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># dmesg | grep user</span><br><span class="line">[    0.000000] user: [mem 0x00000000c0000000-0x00000000ffffffff] reserved</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>referring to</p>
+<ul>
+<li><a href="http://www.gossamer-threads.com/lists/linux/kernel/1774749" target="_blank" rel="noopener">[PATCH] x86: e820: fix memmap kernel boot parameter</a></li>
+<li><a href="https://www.kernel.org/doc/Documentation/kernel-parameters.txt" target="_blank" rel="noopener">kernel-parameters.txt</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="Uncomment-to-disable-graphical-terminal-grub-pc-only"><a href="#Uncomment-to-disable-graphical-terminal-grub-pc-only" class="headerlink" title="Uncomment to disable graphical terminal (grub-pc only)"></a>Uncomment to disable graphical terminal (grub-pc only)</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- #GRUB_TERMINAL=console</span><br><span class="line">+ GRUB_TERMINAL=console</span><br><span class="line"></span><br><span class="line">$ sudo update-grub</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Reboot the system, you will login the terminal by default</li>
+<li>If you want to revert the changes, you can recover the /etc/default/grub and update the grub.</li>
+<li>If you only want to use the terminal, you can press “Ctrl+Alt+F1”~”Ctrl+Alt+F6”. Then “Ctrl+Alt+F7” will take you back to the GUI desktop.</li>
+</ul>
+<h1 id="Boot-Ubuntu-without-the-specific-module-installed-automatically"><a href="#Boot-Ubuntu-without-the-specific-module-installed-automatically" class="headerlink" title="Boot Ubuntu without the specific module installed automatically"></a>Boot Ubuntu without the specific module installed automatically</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># echo &quot;blacklist DRV_NAME&quot; &gt; /etc/modprobe.d/blacklist.conf</span><br><span class="line"></span><br><span class="line">e.g.</span><br><span class="line"># echo &quot;blacklist amdgpu&quot; &gt; /etc/modprobe.d/blacklist.conf</span><br></pre></td></tr></table></figure>
+
+<h1 id="Networking-setting"><a href="#Networking-setting" class="headerlink" title="Networking setting"></a>Networking setting</h1><ul>
+<li><p>Modify host name</p>
+<ul>
+<li>forever<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi /etc/hostname</span><br><span class="line">name_new</span><br><span class="line"></span><br><span class="line">$ reboot</span><br><span class="line">or</span><br><span class="line">$ sudo hostname name_new</span><br><span class="line">$ hostname</span><br><span class="line">name_new</span><br><span class="line"></span><br><span class="line">$ sudo vi /etc/hosts</span><br><span class="line">127.0.1.1   name_new</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>static IP</p>
+<ul>
+<li><p>vi /etc/network/interfaces</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># eth0 for static</span><br><span class="line">auto eth0</span><br><span class="line">iface eth0 inet static</span><br><span class="line">address 192.168.0.131</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.0.1</span><br><span class="line"></span><br><span class="line"># eth1 for dhcp</span><br><span class="line">auto eth1</span><br><span class="line">iface eth1 inet dhcp</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>restart network</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /etc/init.d/networking restart</span><br><span class="line">or</span><br><span class="line">$ sudo service networking restart</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>set DNS</p>
+<ul>
+<li><p>vi /etc/resolv.conf</p>
+<ul>
+<li>如果只修改这里,重启后会丢失DNS的信息<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">domain sdec.</span><br><span class="line">search sdec.</span><br><span class="line">nameserver 10.11.12.13</span><br><span class="line">nameserver 192.168.0.2</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>vi /etc/resolvconf/resolv.conf.d/head</p>
+<ul>
+<li>or /etc/resolvconf/resolv.conf.d/base (未测试)</li>
+<li>or /etc/resolvconf/resolv.conf.d/tail (未测试)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">domain sdec.</span><br><span class="line">search sdec.</span><br><span class="line">nameserver 10.11.12.13</span><br><span class="line">nameserver 192.168.0.2</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>refresh resolvconf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo service resolvconf restart</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>tftp</p>
+<ul>
+<li><p>安装tftp的客户端,服务器和xinetd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install tftp-hpa tftpd-hpa xinetd</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>vi /etc/xinetd.conf(设置xinetd, 如果没有就创建)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># Simple configuration file for xinetd</span><br><span class="line">#</span><br><span class="line"># Some defaults, and include /etc/xinetd.d/</span><br><span class="line"></span><br><span class="line">defaults</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"># Please note that you need a log_type line to be able to use log_on_success</span><br><span class="line"># and log_on_failure. The default is the following :</span><br><span class="line"># log_type = SYSLOG daemon info</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">includedir /etc/xinetd.d</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>vi /etc/xinetd.d/tftp(设置xinentd中的tftp控制,如果没有就创建)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">service tftp</span><br><span class="line">&#123;</span><br><span class="line">        socket_type             = dgram</span><br><span class="line">        protocol                = udp</span><br><span class="line">        wait                    = yes</span><br><span class="line">        user                    = root</span><br><span class="line">        server                  = /usr/sbin/in.tftpd</span><br><span class="line">        server_args             = -s /tftpboot -c</span><br><span class="line">        disable                 = no</span><br><span class="line">        per_source              = 11</span><br><span class="line">        cps                     = 100 2</span><br><span class="line">        flags                   = IPv4</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>server_args配置tftp根目录路径</li>
+</ul>
+</li>
+<li><p>vi /etc/default/tftpd-hpa</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">* /etc/default/tftpd-hpa</span><br><span class="line"></span><br><span class="line">TFTP_USERNAME=&quot;tftp&quot;</span><br><span class="line">TFTP_DIRECTORY=&quot;/tftpboot&quot;</span><br><span class="line">TFTP_ADDRESS=&quot;0.0.0.0:69&quot;</span><br><span class="line">TFTP_OPTIONS=&quot;-l -c -s&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果需要,可以修改tftp根目录的权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chmod –R 777 /tftpboot</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /etc/init.d/xinetd reload</span><br><span class="line">$ sudo /etc/init.d/xinetd restart</span><br><span class="line">$ sudo service tftpd-hpa restart</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>主机测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># write some test info.</span><br><span class="line">$ vi /tftpboot/a.txt</span><br><span class="line">$ cd ~</span><br><span class="line">$ tftp localhost</span><br><span class="line">tftp&gt; get a.txt</span><br><span class="line">tftp&gt; q</span><br><span class="line">$ ls -l a*.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>常见问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">现象一：</span><br><span class="line"></span><br><span class="line">tftp&gt; get test.log</span><br><span class="line"></span><br><span class="line">Transfer timed out.</span><br><span class="line"></span><br><span class="line">原因：</span><br><span class="line"></span><br><span class="line">tftpd服务没有启动</span><br><span class="line"></span><br><span class="line">现象二：</span><br><span class="line"></span><br><span class="line">tftp&gt; get test.log</span><br><span class="line"></span><br><span class="line">Error code 2: Only absolute filenames allowed</span><br><span class="line"></span><br><span class="line">原因：</span><br><span class="line"></span><br><span class="line">在/etc/xinetd.d/tftpd中设置的server_args为/etc/default/tftpd-hpa</span><br><span class="line"></span><br><span class="line">cat /etc/default/tftpd-hpa</span><br><span class="line"></span><br><span class="line">#Defaults for tftpd-hpa</span><br><span class="line"></span><br><span class="line">RUN_DAEMON=&quot;no&quot;</span><br><span class="line"></span><br><span class="line">OPTIONS=&quot;-s /home/tftpd -c -p -U 077 -u tftpd&quot;</span><br><span class="line"></span><br><span class="line">设置的时候只要将server_args＝改为你自己设定的服务器文件夹就行了</span><br><span class="line"></span><br><span class="line">现象三：</span><br><span class="line"></span><br><span class="line">tftp&gt; put ex070416.log</span><br><span class="line"></span><br><span class="line">Error code 1: File not found</span><br><span class="line"></span><br><span class="line">原因：</span><br><span class="line"></span><br><span class="line">指定的文件不存在；或tftpd启动参数中没有指定-c选项，允许上传文件</span><br><span class="line"></span><br><span class="line">现象其它:</span><br><span class="line">再不好使就重新装一次^_^</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>NFS</p>
+<ul>
+<li><p>nfs server(通常板子的调试,只需要安装server即可)</p>
+<ul>
+<li><p>setup nfs server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install nfs-kernel-server nfs-common</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启nfs server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo service nfs-kernel-server restart</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置共享目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi /etc/exports</span><br><span class="line"></span><br><span class="line">/tftpboot       *(rw,sync,no_root_squash,no_all_squash)</span><br><span class="line">$ sudo service nfs-kernel-server restart</span><br><span class="line"></span><br><span class="line">for CentOS</span><br><span class="line">$ sudo /usr/sbin/exportfs -a</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>nfs client</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install nfs-common</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>查看nfs server上共享的目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">showmount -e 192.168.xx.xx</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建共享挂载点，并执行挂载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir /path-to-mount</span><br><span class="line">$ mount -t nfs 192.168.xx.xx:/path-to-share /path-to-mount</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改/etc/fstab文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.xx.xx:/data3/nfsroot/data3/nfsroot nfs defaults 0 0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在共享目录下创建一个文件，看看另外一端能不能看到。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Local-networking-setting-RNDIS-Ubuntu"><a href="#Local-networking-setting-RNDIS-Ubuntu" class="headerlink" title="Local networking setting RNDIS(Ubuntu)"></a>Local networking setting RNDIS(Ubuntu)</h1><ul>
+<li><p>Remote Network Device Interface Specification.</p>
+</li>
+<li><p>它是由微软制定的规范,Linux也兼容这个规范. 通过USB的Gadget,将device虚拟为一个网卡,以实现本地网络的连接.因此,IP必须为192.168.x.x的范围.</p>
+</li>
+<li><p>Host PC</p>
+<ul>
+<li><p>Linux(Ubuntu)需要使能下以Kconfig.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">|-- Device Drivers  ---&gt;</span><br><span class="line">    |-- [*] Network device support (CONFIG_NETDEVICES)  ---&gt;</span><br><span class="line">        |-- USB Network Adapters  ---&gt;</span><br><span class="line">            |-- &lt;*&gt; Multi-purpose USB Networking Framework (CONFIG_USB_USBNET)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>一般情况下,都是以 <m> 的形式发布的.所以,只要查看一下rndis_host.ko是否安装.</m></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ lsmod | grep eth</span><br><span class="line">cdc_ether              13536  1 rndis_host</span><br><span class="line">usbnet                 26212  3 rndis_host,cdc_subset,cdc_ether</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在我实验的环境里,并没有安装rndis_host.ko,但是也可以实现RNDIS功能.</p>
+</li>
+</ul>
+</li>
+<li><p>Windows</p>
+<ul>
+<li>需要安装微软的Generic RNDIS驱动.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Device: usually it is embedded device.</p>
+<ul>
+<li><p>需要使能以下Kconfig, 产生g_ether.ko的功能,并支持RNDIS. g_ether是USB Gadget ethernet的功能.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">|-- Device Drivers  ---&gt;</span><br><span class="line">    |-- [*] USB support (CONFIG_USB_SUPPORT)  ---&gt;</span><br><span class="line">        |-- &lt;*&gt; USB Gadget Support (CONFIG_USB_GADGET)  ---&gt;</span><br><span class="line">            `-- &lt;*&gt; USB Gadget Drivers  ---&gt;</span><br><span class="line">                    |-- [*] RNDIS support (CONFIG_USB_ETH_RNDIS)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果同以上将g_ether.ko编入到内核的情况,可以在cmdline是设置ip,在系统启动过程中,会找网络.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setenv bootargs  root=/dev/mmcblk0p7 rootwait console=ttymxc1,115200 rw nosmp ip=192.168.1.2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果是以<m>的方法,那么在系统起来后,安装g_ether.ko,然后,手动设置IP</m></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig usb0 192.168.1.2</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>待device系统起来,并且带有RNDIS的g_ether功能工作时,host(Ubuntu)会自动连接该设备.这时,我们要disconncet它.因为,它总是在不停地连接,使用过程中可能会自动断开,影响正常使用.断开后,Ubuntu将不会再自动连接,这时,我们要手动设置host端的ip.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig usb0 192.168.1.3 up</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>至此,我们可以稳定地使用host与device之间的网络.</p>
+</li>
+<li><p>注意:</p>
+<ul>
+<li>如果,host同时还在另一个local ip段内,如:192.168.0.123, 那么设置ip时,不要与它处于同一个ip段,否则,不能成功连接.</li>
+</ul>
+</li>
+</ul>
+<h1 id="Networking-setting-CentOS"><a href="#Networking-setting-CentOS" class="headerlink" title="Networking setting (CentOS)"></a>Networking setting (CentOS)</h1><p>以下内容适用于CentOS等Redhat的Linux系统.</p>
+<ul>
+<li><p>CentOS basic setings</p>
+<ul>
+<li><p>modify host name</p>
+<ul>
+<li><p>temporary &amp; now</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ hostname</span><br><span class="line">name_org</span><br><span class="line">$ sudo hostname name_new</span><br><span class="line">$ hostname</span><br><span class="line">name_new</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>forever &amp; reboot</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi /etc/sysconfig/network</span><br><span class="line">HOSTNAME=name_new</span><br><span class="line">$ sudo vi /etc/hosts</span><br><span class="line">127.0.0.1   localhost.localdomain   name_new</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>DNS: /etc/resolv.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nameserver 8.8.8.8 #google域名服务器</span><br><span class="line">nameserver 8.8.4.4 #google域名服务器</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>check DNS server status</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nslookup www.google.com</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>gateway: /etc/sysconfig/network</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NETWORKING=yes(表示系统是否使用网络，一般设置为yes。如果设为no，则不能使用网络，而且很多系统服务程序将无法启动)</span><br><span class="line">HOSTNAME=centos(设置本机的主机名，这里设置的主机名要和/etc/hosts中设置的主机名对应)</span><br><span class="line">GATEWAY=192.168.1.1(设置本机连接的网关的IP地址。例如，网关为10.0.0.2)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>restart network</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo service network restart</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>modify IP: /etc/sysconfig/network-scripts/ifcfg-eth0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DEVICE=eth0 #描述网卡对应的设备别名，例如ifcfg-eth0的文件中它为eth0</span><br><span class="line">BOOTPROTO=static #设置网卡获得ip地址的方式，可能的选项为static，dhcp或bootp，分别对应静态指定的 ip地址，通过dhcp协议获得的ip地址，通过bootp协议获得的ip地址</span><br><span class="line">BROADCAST=192.168.0.255 #对应的子网广播地址</span><br><span class="line">HWADDR=00:07:E9:05:E8:B4 #对应的网卡物理地址</span><br><span class="line">IPADDR=192.168.1.17 #如果设置网卡获得 ip地址的方式为静态指定，此字段就指定了网卡对应的ip地址</span><br><span class="line">IPV6INIT=no</span><br><span class="line">IPV6_AUTOCONF=no</span><br><span class="line">NETMASK=255.255.255.0 #网卡对应的网络掩码</span><br><span class="line">NETWORK=192.168.1.0 #网卡对应的网络地址</span><br><span class="line">ONBOOT=yes #系统启动时是否设置此网络接口，设置为yes时，系统启动时激活此设备</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>firewall setting:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo service iptables save</span><br><span class="line">sudo service iptables stop</span><br><span class="line">sudo chkconfig iptables off</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>和网络相关的设置主要如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/etc/host.conf         配置域名服务客户端的控制文件</span><br><span class="line">/etc/hosts             完成主机名映射为IP地址的功能</span><br><span class="line">/etc/resolv.conf       域名服务客户端的配置文件,用于指定域名服务器的位置</span><br><span class="line">/etc/sysconfig/network 包含了主机最基本的网络信息,用于系统启动.</span><br><span class="line">/etc/sysconfig/network-script/    系统启动时初始化网络的一些信息</span><br><span class="line">/etc/xinetd.conf       定义了由超级进程xinetd启动的网络服务</span><br><span class="line">/etc/networks          完成域名与网络地址的映射</span><br><span class="line">/etc/protocols         设定了主机使用的协议以及各个协议的协议号</span><br><span class="line">/etc/services          设定主机的不同端口的网络服务</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>/etc/host.conf文件的默认信息如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">multi on           #允许主机拥有多个IP地址</span><br><span class="line">order hosts,bind   #主机名解析顺序，即本地解析,DNS域名解析的顺序</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这个文件一般不需要我们修改，默认的解析顺序是本地解析,DNS服务器解析，也就是说在本系统里对于一个主机名首先进行本地解析，如果本地解析没有，然后进行DNS服务器解析。</li>
+</ul>
+</li>
+<li><p>/etc/hosts文件默认的内容大概如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1   zjunwei localhost.localdomain localhost</span><br><span class="line">::1         localhost6.localdomain6 localhost6</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第一行是ipv4, 第二行是ipv6,不用的话,注释掉</li>
+<li>如果ping localhost的时候,显示zjunwei.因为,后面的是它的别名.</li>
+<li>这个文件如果被人恶意修改了,是很危险的.比如,淘宝的网站域名解析到了其它的钓鱼网站上.</li>
+</ul>
+</li>
+<li><p>/etc/resolv.conf, 指定域名解析的DNS服务器IP等信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nameserver    指定DNS服务器的IP地址</span><br><span class="line">domain        定义本地域名信息</span><br><span class="line">search        定义域名的搜索列表</span><br><span class="line">sortlist      对gethostbyname返回的地址进行排序</span><br><span class="line"></span><br><span class="line">一般使用nameserver就够用了</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>一般来说，推荐设置2个DNS服务器，比如我们用google的免费DNS服务器，那么该文件的设置内容如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nameserver 8.8.8.8</span><br><span class="line">nameserver 8.8.4.4</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>/etc/sysconfig/network</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">NETWORKING=yes</span><br><span class="line">NETWORKING_IPV6=no</span><br><span class="line">HOSTNAME=butbueatiful</span><br><span class="line">GATEWAY=192.168.0.1</span><br><span class="line"></span><br><span class="line">----</span><br><span class="line">NETWORK          设置网络是否有效，yes有效，no无效</span><br><span class="line">NETWORKING_IPV6  设置ipv6网络是否有效，yes有效，no无效</span><br><span class="line">HOSTNAME         设置服务器的主机名，最好和/etc/hosts里设置一样，否则在使用一些程序的时候会有问题。</span><br><span class="line">GATEWAY          指定默认网关IP</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ifcfg-ethX, 设置对应网口的IP等信息, 比如第一个网口, 那么就是/etc/sysconfig/network-scripts/ifcfg-eth0，配置例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">DEVICE=&quot;eth0&quot;</span><br><span class="line">BOOTPROTO=&quot;static&quot;</span><br><span class="line">BROADCAST=&quot;192.168.0.255&quot;</span><br><span class="line">HWADDR=&quot;00:16:36:1B:BB:74&quot;</span><br><span class="line">IPADDR=&quot;192.168.1.110&quot;</span><br><span class="line">NETMASK=&quot;255.255.255.0&quot;</span><br><span class="line">ONBOOT=&quot;yes&quot;</span><br><span class="line"></span><br><span class="line">----</span><br><span class="line">DEVICE=&quot;eth0&quot;</span><br><span class="line">BOOTPROTO=&quot;dhcp&quot;</span><br><span class="line">HWADDR=&quot;00:0C:29:8E:13:7E&quot;</span><br><span class="line">NM_CONTROLLED=&quot;no&quot;</span><br><span class="line">ONBOOT=&quot;yes&quot;</span><br><span class="line"></span><br><span class="line">----</span><br><span class="line">DEVICE        设备名，不要自己乱改，和文件ifcfg-ethX里的ethX要一致</span><br><span class="line">BROADCAST     广播地址</span><br><span class="line">HWADDR        物理地址，这个你不要乱改</span><br><span class="line">IPADDR        IP地址</span><br><span class="line">NETMASK       子网掩码</span><br><span class="line">ONBOOT        启动或者重启网络时，是否启动该设备，yes是启动，no是不启动</span><br><span class="line">BOOTPROTO     开机协议，最常见的三个参数如下：</span><br><span class="line">              static(静态IP)</span><br><span class="line">              none(不指定,设置固定ip的情况，这个也行，但是如果要设定多网口绑定bond的时候，必须设成none）</span><br><span class="line">              dhcp(动态获得IP相关信息）</span><br><span class="line"></span><br><span class="line">DEVICE=&quot;eth0&quot;              设备名</span><br><span class="line">NM_CONTROLLED=&quot;yes&quot;        设备是否被NetworkManager管理</span><br><span class="line">ONBOOT=&quot;no&quot;                开机是否启动</span><br><span class="line">HWADDR=&quot;00:0C:29:59:E2:D3&quot; 硬件地址（MAC地址）</span><br><span class="line">TYPE=Ethernet              类型</span><br><span class="line">BOOTPROTO=none             启动协议&#123;none|dhcp&#125;</span><br><span class="line">IPADDR=192.168.0.1         IP地址</span><br><span class="line">PREFIX=24                  子网掩码</span><br><span class="line">GATEWAY=192.168.0.254      默认网关</span><br><span class="line">DNS1=202.106.0.20          主DNS</span><br><span class="line">DOMAIN=202.106.46.151      辅助DNS</span><br><span class="line">UUID=5fb06bd0-0bb0-7ffb-45f1-d6edd65f3e03    设备UUID编号</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>route-ethX,比如第一个网口eth0的路由信息,那么就是/etc/sysconfig/network-scripts/route-eth0：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">比如我们现在有这样一个需求，通过eth0去网络172.17.27.0/24不走默认路由，需要走192.168.0.254，那么我们第一反应，肯定是用route命令追加路由信息：</span><br><span class="line">[root@butbueatiful ~]# route add -net 172.17.27.0 netmask 255.255.255.0 gw 192.168.0.254 dev eth0</span><br><span class="line"></span><br><span class="line">可是，你没意识到的是，这样只是动态追加的而已，重启网络后，路由信息就消失了，所以需要设置静态路由，这时候就要设置/etc/sysconfig/network-scripts/route-eth0文件了，如果没有该文件，你就新建一个：</span><br><span class="line">[root@butbueatiful ~]# vi /etc/sysconfig/network-scripts/route-eth0</span><br><span class="line">#追加</span><br><span class="line">172.17.27.0/24via 192.168.0.254</span><br><span class="line"></span><br><span class="line">这下即使重启网络，重启系统，该路由也会自动加载，当然了，如果你没有这样的需要，那么这个文件就没必要创建和配置了。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>常用修改文件及命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/etc/sysconfig/network-scripts/ifcfg-设备名（通常为ifcfg-eth0)</span><br><span class="line">/etc/sysconfig/network</span><br><span class="line">/etc/resolv.conf文件：设置DNS服务器</span><br><span class="line"></span><br><span class="line">以上种种这些方式可以同时在5.0与6.0系统中实现，但6.0系统后官方文档中描述说：ifconfig与route是非常陈旧的命令，取而代之的是ip命令。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>老命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">ifconfig    接口  选项|地址</span><br><span class="line"></span><br><span class="line"># ifconfig  eth0  up          # 开启eth0网卡</span><br><span class="line"># ifconfig  eth0  down        # 关闭eth0网卡</span><br><span class="line"># ifconfig  eth0  -arp        # 关闭eth0网卡arp协议</span><br><span class="line"># ifconfig  eth0  promisc     # 开启eth0网卡的混合模式</span><br><span class="line"># ifconfig  eth0  mtu 1400    # 设置eth0网卡的最大传输单元为1400</span><br><span class="line"># ifconfig  eth0  192.168.0.2/24    # 设置eth0网卡IP地址</span><br><span class="line"># ifconfig  eth0  192.168.0.2  netmask 255.255.255.0    # 功能同上</span><br><span class="line"></span><br><span class="line">网关设置：</span><br><span class="line"></span><br><span class="line">route  add [-net|-host] target [netmask] gw</span><br><span class="line">route  del [-net|-host] target [netmask] gw</span><br><span class="line"></span><br><span class="line"># route add  -net 192.168.3.0/24  gw  192.168.0.254    # 设置到192.168.3.0网段的网关为192.168.0.254</span><br><span class="line"># route add  -net 192.168.3.0 netmask 255.255.255.0  gw  192.168.0.254    # 功能同上</span><br><span class="line"># route add  -host 192.168.4.4  gw  192.168.0.254    # 设置到192.168.4.4主机的网关为192.168.0.254</span><br><span class="line">#</span><br><span class="line"># route del  -net 192.168.3.0/24                        # 删除192.168.3.0网段的网关信息</span><br><span class="line"># route del  -host 192.168.4.4                        # 删除192.168.4.4主机的网关信息</span><br><span class="line"># route add default gw  192.168.0.254                # 设置默认网关为192.168.0.254</span><br><span class="line"># route del default gw  192.168.0.254                # 删除默认网关为192.168.0.254</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ip  [选项]  操作对象&#123;link|addr|route...&#125;</span><br><span class="line"></span><br><span class="line"># ip link show                  # 显示网络接口信息</span><br><span class="line"># ip link set eth0 upi          # 开启网卡</span><br><span class="line"># ip link set eth0 down         # 关闭网卡</span><br><span class="line"># ip link set eth0 promisc on   # 开启网卡的混合模式</span><br><span class="line"># ip link set eth0 promisc offi # 关闭网卡的混个模式</span><br><span class="line"># ip link set eth0 txqueuelen 1200    # 设置网卡队列长度</span><br><span class="line"># ip link set eth0 mtu 1400     # 设置网卡最大传输单元</span><br><span class="line"># ip addr show                  # 显示网卡IP信息</span><br><span class="line"># ip addr add 192.168.0.1/24 dev eth0 # 设置eth0网卡IP地址192.168.0.1</span><br><span class="line"># ip addr del 192.168.0.1/24 dev eth0 # 删除eth0网卡IP地址</span><br><span class="line"></span><br><span class="line"># ip route list                 # 查看路由信息</span><br><span class="line"># ip route add 192.168.4.0/24  via  192.168.0.254 dev eth0 # 设置192.168.4.0网段的网关为192.168.0.254,数据走eth0接口</span><br><span class="line"># ip route add default via  192.168.0.254  dev eth0    # 设置默认网关为192.168.0.254</span><br><span class="line"># ip route del 192.168.4.0/24    # 删除192.168.4.0网段的网关</span><br><span class="line"># ip route del default    # 删除默认路由</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>安全设置</p>
+<ul>
+<li><p>/etc/resolv.conf和/etc/hosts被人篡改了的话, 会很危险, 那我们在设置好着2个文件后, 做一下处理, 让这2个文件默认不能直接修改, 即使root也不行, 执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># chattr +i /etc/&#123;resolv.conf,hosts&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果想修改时</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># chattr -i /etc/&#123;resolv.conf,hosts&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>网络排除思路</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">检查本机网络协议是否正确:  # ping -c 3 127.0.0.1</span><br><span class="line">检查本机网卡链路是否正确:  # ping -c 3 192.168.0.1(本机IP地址)</span><br><span class="line">检查网关是否正确:          # ping -c 3 192.168.0.254(网关IP地址)</span><br><span class="line">检查外部连通性:            # ping -c 3 www.google.com.hk</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="cifs-mounting"><a href="#cifs-mounting" class="headerlink" title="cifs mounting"></a>cifs mounting</h1><ul>
+<li>mount cifs as usual nfs for kernel &lt; 3.8, but the newer Ubuntu 16.04 adopts different way<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">The default in mainline kernel versions prior to v3.8 was sec=ntlm. In v3.8, the default was changed to sec=ntlmssp.</span><br><span class="line"></span><br><span class="line">$ sudo mount.cifs ubuntu-shared/ /mnt -o user=admin,sec=ntlm</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>Reference</p>
+<ul>
+<li><a href="https://askubuntu.com/questions/337128/mount-error13-permission-denied" target="_blank" rel="noopener">mount error(13): Permission denied</a></li>
+</ul>
+</blockquote>
+<h1 id="ldconfig"><a href="#ldconfig" class="headerlink" title="ldconfig"></a>ldconfig</h1><ul>
+<li><p>check lib loading order</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ldconfig -p</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>after install lib in system, load the lib in cache file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ldconfig</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>config setting, loaded by order(number, character)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/ld.so.conf.d</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="locate"><a href="#locate" class="headerlink" title="locate"></a>locate</h1><p>Update locate database, which will be updated daily by cron(man updatedb)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo updatedb</span><br></pre></td></tr></table></figure>
+
+<h1 id="update-alternative"><a href="#update-alternative" class="headerlink" title="update-alternative"></a>update-alternative</h1><ul>
+<li><p>setup link for gcc/g++,</p>
+<ul>
+<li><code>--install &lt;link&gt; &lt;name&gt; &lt;path&gt; &lt;priority&gt;</code> priority is higher if the value is bigger.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 5</span><br><span class="line">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 10</span><br><span class="line"></span><br><span class="line">sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 5</span><br><span class="line">sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 10</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>config different gcc/g++</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --config gcc</span><br><span class="line">There are 2 choices for the alternative gcc (providing /usr/bin/gcc).</span><br><span class="line"></span><br><span class="line">  Selection    Path            Priority   Status</span><br><span class="line">------------------------------------------------------------</span><br><span class="line">* 0            /usr/bin/gcc-7   10        auto mode</span><br><span class="line">  1            /usr/bin/gcc-5   5         manual mode</span><br><span class="line">  2            /usr/bin/gcc-7   10        manual mode</span><br><span class="line"></span><br><span class="line">Press &lt;enter&gt; to keep the current choice[*], or type selection number:</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="aria2c-download-by-multi-thread"><a href="#aria2c-download-by-multi-thread" class="headerlink" title="aria2c download by multi-thread"></a>aria2c download by multi-thread</h1><ul>
+<li><p>install</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install aria2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>download a package</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aria2c  -c -s 16 -x 16 http://web/page/file.tar.bz2</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/linux-env/">linux-env</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ubuntu/">ubuntu</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zjunweihit.github.io/2016/06/29/linux-env-ubuntu-env-setup/" data-title="Ubuntu系统环境那些事 | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/02/mac-env/" title="Mac 环境那些事">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Mac 环境那些事</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/05/22/linux-env-hexo-setup/"  title="How to setup Hexo">
+ <strong>下一篇：</strong><br/> 
+ <span>How to setup Hexo
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-Ubuntu"><span class="toc-number">1.</span> <span class="toc-text">Install Ubuntu</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ubuntu-12-04-installer-in-USB-mass-storage-device"><span class="toc-number">1.1.</span> <span class="toc-text">Ubuntu 12.04 installer in USB mass storage device</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ubuntu-12-04-硬件安装"><span class="toc-number">1.2.</span> <span class="toc-text">Ubuntu 12.04 硬件安装</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#proxy-settings"><span class="toc-number">2.</span> <span class="toc-text">proxy settings</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#确保apt-get工作正常"><span class="toc-number">3.</span> <span class="toc-text">确保apt-get工作正常</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#firefox-同步"><span class="toc-number">4.</span> <span class="toc-text">firefox 同步</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Adobe-flash-support"><span class="toc-number">5.</span> <span class="toc-text">Adobe flash support</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关闭ubuntu-Tab键自动补全的声音"><span class="toc-number">6.</span> <span class="toc-text">关闭ubuntu Tab键自动补全的声音</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装git"><span class="toc-number">7.</span> <span class="toc-text">安装git</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装quilt"><span class="toc-number">8.</span> <span class="toc-text">安装quilt</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装ssh"><span class="toc-number">9.</span> <span class="toc-text">安装ssh</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ssh后-perl-warning-Setting-locale-failed"><span class="toc-number">9.1.</span> <span class="toc-text">ssh后 perl: warning: Setting locale failed</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置默认shell为bash"><span class="toc-number">10.</span> <span class="toc-text">设置默认shell为bash</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#rpm-包安装"><span class="toc-number">11.</span> <span class="toc-text">rpm 包安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#64-bit-系统对32-bit的兼容"><span class="toc-number">12.</span> <span class="toc-text">64-bit 系统对32-bit的兼容</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装五笔"><span class="toc-number">13.</span> <span class="toc-text">安装五笔</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置背景色"><span class="toc-number">14.</span> <span class="toc-text">设置背景色</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#vim-安装"><span class="toc-number">15.</span> <span class="toc-text">vim 安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#恢复光标关闭前的位置"><span class="toc-number">16.</span> <span class="toc-text">恢复光标关闭前的位置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#目录結构"><span class="toc-number">17.</span> <span class="toc-text">目录結构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#创建root及其密码"><span class="toc-number">18.</span> <span class="toc-text">创建root及其密码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置默认编辑器"><span class="toc-number">19.</span> <span class="toc-text">设置默认编辑器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fix-override-cpp-setting"><span class="toc-number">20.</span> <span class="toc-text">fix: override cpp setting</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Add-user-to-a-group"><span class="toc-number">21.</span> <span class="toc-text">Add user to a group</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Keep-the-env-for-sudo"><span class="toc-number">22.</span> <span class="toc-text">Keep the env for sudo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sudo-echo"><span class="toc-number">23.</span> <span class="toc-text">sudo echo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sudo不需要输入密码"><span class="toc-number">24.</span> <span class="toc-text">sudo不需要输入密码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Eclipse-setup"><span class="toc-number">25.</span> <span class="toc-text">Eclipse setup</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Wine-for-windows-program"><span class="toc-number">26.</span> <span class="toc-text">Wine for windows program</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Boot-Ubuntu-from-terminal"><span class="toc-number">27.</span> <span class="toc-text">Boot Ubuntu from terminal</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Boot-Ubuntu-from-specific-kernel"><span class="toc-number">28.</span> <span class="toc-text">Boot Ubuntu from specific kernel</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Set-memmap-in-GRUB"><span class="toc-number">29.</span> <span class="toc-text">Set memmap in GRUB</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Uncomment-to-disable-graphical-terminal-grub-pc-only"><span class="toc-number">30.</span> <span class="toc-text">Uncomment to disable graphical terminal (grub-pc only)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Boot-Ubuntu-without-the-specific-module-installed-automatically"><span class="toc-number">31.</span> <span class="toc-text">Boot Ubuntu without the specific module installed automatically</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Networking-setting"><span class="toc-number">32.</span> <span class="toc-text">Networking setting</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Local-networking-setting-RNDIS-Ubuntu"><span class="toc-number">33.</span> <span class="toc-text">Local networking setting RNDIS(Ubuntu)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Networking-setting-CentOS"><span class="toc-number">34.</span> <span class="toc-text">Networking setting (CentOS)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cifs-mounting"><span class="toc-number">35.</span> <span class="toc-text">cifs mounting</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ldconfig"><span class="toc-number">36.</span> <span class="toc-text">ldconfig</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#locate"><span class="toc-number">37.</span> <span class="toc-text">locate</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#update-alternative"><span class="toc-number">38.</span> <span class="toc-text">update-alternative</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#aria2c-download-by-multi-thread"><span class="toc-number">39.</span> <span class="toc-text">aria2c download by multi-thread</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Compute/" title="Compute">Compute<sup>15</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/Graphics/" title="Graphics">Graphics<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-dev/" title="linux-dev">linux-dev<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux-env/" title="linux-env">linux-env<sup>11</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/ROCm/" title="ROCm">ROCm<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Wiki/" title="Wiki">Wiki<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ubuntu/" title="ubuntu">ubuntu<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env-misc/" title="linux-env-misc">linux-env-misc<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenCL/" title="OpenCL">OpenCL<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TensorFlow/" title="TensorFlow">TensorFlow<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SCM/" title="SCM">SCM<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-dev-misc/" title="linux-dev-misc">linux-dev-misc<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-env/" title="linux-env">linux-env<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graphics/" title="Graphics">Graphics<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://en.wikipedia.org" target="_blank" title="wikipedia(en)">wikipedia(en)</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3230658564&verifier=93c86f97&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Running on the Linux road <br/>
+			Try everything</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3230658564" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/https://github.com/zjunweihit" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:zjunweihit@sina.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="zjunweihit">zjunweihit</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
