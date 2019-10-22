@@ -4,29 +4,25 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
-    <title>TensorFlow Example&gt; Neural Style | Linux Player</title>
+    <title>How to use Json | Linux Player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="zjunweihit">
     
 
     
-    <meta name="description" content="Run an example of neural style by TensorFlow powered by ROCm.">
-<meta name="keywords" content="ROCm,TensorFlow">
+    <meta name="description" content="json format and C++ support">
+<meta name="keywords" content="C++,Json">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TensorFlow Example&gt; Neural Style">
-<meta property="og:url" content="http://zjunweihit.github.io/2018/12/25/compute-rocm-neural-style/index.html">
+<meta property="og:title" content="How to use Json">
+<meta property="og:url" content="http://zjunweihit.github.io/2019/10/22/json-howto/index.html">
 <meta property="og:site_name" content="Linux Player">
-<meta property="og:description" content="Run an example of neural style by TensorFlow powered by ROCm.">
+<meta property="og:description" content="json format and C++ support">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://zjunweihit.github.io/image/compute-rocm-neural-style/night-org.jpg">
-<meta property="og:image" content="http://zjunweihit.github.io/image/compute-rocm-neural-style/1-style.jpg">
-<meta property="og:image" content="http://zjunweihit.github.io/image/compute-rocm-neural-style/night-output.jpg">
-<meta property="og:updated_time" content="2019-07-09T00:55:29.867Z">
+<meta property="og:updated_time" content="2019-10-22T05:41:15.767Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TensorFlow Example&gt; Neural Style">
-<meta name="twitter:description" content="Run an example of neural style by TensorFlow powered by ROCm.">
-<meta name="twitter:image" content="http://zjunweihit.github.io/image/compute-rocm-neural-style/night-org.jpg">
+<meta name="twitter:title" content="How to use Json">
+<meta name="twitter:description" content="json format and C++ support">
 
     
     
@@ -84,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/12/25/compute-rocm-neural-style/" title="TensorFlow Example&gt; Neural Style" itemprop="url">TensorFlow Example&gt; Neural Style</a>
+      <a href="/2019/10/22/json-howto/" title="How to use Json" itemprop="url">How to use Json</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
 		
   <p class="article-time">
-    <time datetime="2018-12-25T04:40:57.000Z" itemprop="datePublished"> Published 2018-12-25</time>
+    <time datetime="2019-10-22T05:21:12.000Z" itemprop="datePublished"> Published 2019-10-22</time>
     
   </p>
 </header>
@@ -100,48 +96,44 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Environment"><span class="toc-number">1.</span> <span class="toc-text">Environment</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-TensorFlow-ROCm"><span class="toc-number">2.</span> <span class="toc-text">Install TensorFlow ROCm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-libs-for-neural-style"><span class="toc-number">3.</span> <span class="toc-text">Install libs for neural style</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Result"><span class="toc-number">4.</span> <span class="toc-text">Result</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Json-Format"><span class="toc-number">1.</span> <span class="toc-text">Json Format</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Json-for-Modern-C"><span class="toc-number">2.</span> <span class="toc-text">Json for Modern C++</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">3.</span> <span class="toc-text">Reference</span></a></li></ol>
 		
 		</div>
 		
-		<p>Run an example of neural style by TensorFlow powered by ROCm.</p>
+		<ul>
+<li>json format and C++ support</li>
+</ul>
 <a id="more"></a>
-<h1 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h1><ul>
-<li>Ubuntu 18.04</li>
-<li>tensorflow 1.12.0</li>
-<li>ROCm 2.0.89</li>
-</ul>
-<h1 id="Install-TensorFlow-ROCm"><a href="#Install-TensorFlow-ROCm" class="headerlink" title="Install TensorFlow ROCm"></a>Install TensorFlow ROCm</h1><ul>
-<li><a href="https://zjunweihit.github.io/2018/12/25/compute-env-tensorflow/">TensorFlow powered by ROCm</a></li>
-</ul>
-<h1 id="Install-libs-for-neural-style"><a href="#Install-libs-for-neural-style" class="headerlink" title="Install libs for neural style"></a>Install libs for neural style</h1><ul>
-<li><p>Get the neural repository</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/anishathalye/neural-style.git</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Install libs by requirement file except <code>tensorflow-gpu</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pip3 install -r requirements.txt</span><br><span class="line"></span><br><span class="line">cat requirements.txt</span><br><span class="line"></span><br><span class="line">numpy</span><br><span class="line">Pillow  # provides PIL</span><br><span class="line">scipy</span><br><span class="line">tensorflow-gpu &gt;= 1.0  # installs tensorflow with GPU support, should still work even without GPU</span><br><span class="line">                       # Not necessary for tensorflow-rocm</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Download vgg 19 mat data</p>
+
+<h1 id="Json-Format"><a href="#Json-Format" class="headerlink" title="Json Format"></a>Json Format</h1><p>Data could be classified as</p>
 <ul>
-<li><a href="http://www.vlfeat.org/matconvnet/models/imagenet-vgg-verydeep-19.mat" target="_blank" rel="noopener">imagenet-vgg-verydeep-19.mat</a></li>
+<li>scalar: a variable</li>
+<li>sequence: a list or array</li>
+<li>mapping: key/value, hash or dictionary</li>
 </ul>
+<p>Data expression</p>
+<ul>
+<li>same kind of data could be seprated by “,”</li>
+<li>mapping uses “:”</li>
+<li>array(list) uses “[]”</li>
+<li>mapping set uses “{}”</li>
+</ul>
+<p>Example</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;version&quot;: 0.2,</span><br><span class="line">    &quot;vc_kernel_args&quot;: [</span><br><span class="line">        [0, &quot;float&quot;],</span><br><span class="line">        [1, &quot;float&quot;],</span><br><span class="line">        [2, &quot;float&quot;],</span><br><span class="line">        [3, &quot;int&quot;],</span><br><span class="line">        [4, &quot;int&quot;]</span><br><span class="line">    ],</span><br><span class="line">    &quot;hsaco_kernel_obj&quot;: &#123;</span><br><span class="line">        &quot;symbol&quot;           : &quot;vector_add&quot;,</span><br><span class="line">        &quot;dim&quot;              : 1,</span><br><span class="line">        &quot;workgroup_size_x&quot; : 16,</span><br><span class="line">        &quot;workgroup_size_y&quot; : 1,</span><br><span class="line">        &quot;workgroup_size_z&quot; : 1,</span><br><span class="line">        &quot;grid_size_x&quot;      : 16,</span><br><span class="line">        &quot;grid_size_y&quot;      : 1,</span><br><span class="line">        &quot;grid_size_z&quot;      : 1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Json-for-Modern-C"><a href="#Json-for-Modern-C" class="headerlink" title="Json for Modern C++"></a>Json for Modern C++</h1><ul>
+<li><p>download release from page <a href="https://github.com/nlohmann/json/releases" target="_blank" rel="noopener">nlohmann json release</a></p>
 </li>
-<li><p>Run neural sytle</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 ./neural_style.py --overwrite --network ~/vgg-19-mat/imagenet-vgg-verydeep-19.mat --content origin/night.jpeg --styles examples/1-style.jpg --output output/night.jpg</span><br></pre></td></tr></table></figure>
+<li><p>include the header</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;json.hpp&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Parse json file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;fstream&gt;</span><br><span class="line">#include &quot;json.hpp&quot;</span><br><span class="line"></span><br><span class="line">using json = nlohmann::json;</span><br><span class="line"></span><br><span class="line">std::ifstream f(jsonFile);</span><br><span class="line">if (!f.is_open()) &#123;</span><br><span class="line">   std::cout &lt;&lt; &quot;Failed to open &quot; &lt;&lt; jsonFile &lt;&lt; std::endl;</span><br><span class="line">   return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">json j = json::parse(f);</span><br><span class="line"></span><br><span class="line">std::cout &lt;&lt; j[&quot;version&quot;] &lt;&lt; std::endl;</span><br><span class="line">std::cout &lt;&lt; j[&quot;vc_kernel_args&quot;].size() &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">// dump the string</span><br><span class="line">std::string str = j[&quot;vc_kernel_args&quot;][0][1].dump(); // it has &quot;&quot;, this is &quot;float&quot;</span><br><span class="line">str.substr(1, str.size() - 2); // remove the &quot;&quot; at the beginning and end</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
-<h1 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h1><ul>
-<li><p>Original picture about night<br><img src="/image/compute-rocm-neural-style/night-org.jpg" alt="Image"></p>
-</li>
-<li><p>Learn this picture’s style<br><img src="/image/compute-rocm-neural-style/1-style.jpg" alt="Image"></p>
-</li>
-<li><p>Apply to original night and become a new night picture with above style<br><img src="/image/compute-rocm-neural-style/night-output.jpg" alt="Image"></p>
-</li>
-</ul>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li><a href="https://github.com/anishathalye/neural-style" target="_blank" rel="noopener">neural-style</a></li>
-<li><a href="https://blog.csdn.net/B9Q8e64lO6mm/article/details/81117285" target="_blank" rel="noopener">在Ubuntu 18.04安装Tensorflow</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2009/05/data_types_and_json.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2009/05/data_types_and_json.html</a></li>
 </ul>
   
 	</div>
@@ -150,13 +142,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Compute/">Compute</a>
+  <a class="article-category-link" href="/categories/Programming/">Programming</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/ROCm/">ROCm</a><a href="/tags/TensorFlow/">TensorFlow</a>
+  <span></span> <a href="/tags/C/">C++</a><a href="/tags/Json/">Json</a>
   </div>
 
 </div>
@@ -165,7 +157,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zjunweihit.github.io/2018/12/25/compute-rocm-neural-style/" data-title="TensorFlow Example&gt; Neural Style | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  <div data-url="http://zjunweihit.github.io/2019/10/22/json-howto/" data-title="How to use Json | Linux Player" data-tsina="3230658564" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -178,19 +170,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2019/01/02/compute-env-tensorflow-build-from-source/" title="TensorFlow Build From Source">
-  <strong>上一篇：</strong><br/>
-  <span>
-  TensorFlow Build From Source</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2018/12/25/compute-env-tensorflow-install-guide/"  title="TensorFlow Installation Guide">
+<a href="/2019/10/22/cpp-string-operation/"  title="C++ string operation">
  <strong>下一篇：</strong><br/> 
- <span>TensorFlow Installation Guide
+ <span>C++ string operation
 </span>
 </a>
 </div>
@@ -205,7 +189,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Environment"><span class="toc-number">1.</span> <span class="toc-text">Environment</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-TensorFlow-ROCm"><span class="toc-number">2.</span> <span class="toc-text">Install TensorFlow ROCm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-libs-for-neural-style"><span class="toc-number">3.</span> <span class="toc-text">Install libs for neural style</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Result"><span class="toc-number">4.</span> <span class="toc-text">Result</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Json-Format"><span class="toc-number">1.</span> <span class="toc-text">Json Format</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Json-for-Modern-C"><span class="toc-number">2.</span> <span class="toc-text">Json for Modern C++</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">3.</span> <span class="toc-text">Reference</span></a></li></ol>
  
   </div>
 
