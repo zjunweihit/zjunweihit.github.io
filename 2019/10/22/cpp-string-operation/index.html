@@ -4,24 +4,25 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
-    <title>gtest | Linux Player</title>
+    <title>C++ string operation | Linux Player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="zjunweihit">
     
 
     
-    <meta name="description" content="Start to enable unit test for C++.">
+    <meta name="description" content="String operation.">
+<meta name="keywords" content="C++">
 <meta property="og:type" content="article">
-<meta property="og:title" content="gtest">
-<meta property="og:url" content="http://zjunweihit.github.io/2018/11/12/linux-env-gtest/index.html">
+<meta property="og:title" content="C++ string operation">
+<meta property="og:url" content="http://zjunweihit.github.io/2019/10/22/cpp-string-operation/index.html">
 <meta property="og:site_name" content="Linux Player">
-<meta property="og:description" content="Start to enable unit test for C++.">
+<meta property="og:description" content="String operation.">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-09T00:55:29.871Z">
+<meta property="og:updated_time" content="2019-10-22T04:50:20.170Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="gtest">
-<meta name="twitter:description" content="Start to enable unit test for C++.">
+<meta name="twitter:title" content="C++ string operation">
+<meta name="twitter:description" content="String operation.">
 
     
     
@@ -79,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/12/linux-env-gtest/" title="gtest" itemprop="url">gtest</a>
+      <a href="/2019/10/22/cpp-string-operation/" title="C++ string operation" itemprop="url">C++ string operation</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-12T14:02:13.000Z" itemprop="datePublished"> Published 2018-11-12</time>
+    <time datetime="2019-10-22T02:45:39.000Z" itemprop="datePublished"> Published 2019-10-22</time>
     
   </p>
 </header>
@@ -95,64 +96,33 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-gtest"><span class="toc-number">1.</span> <span class="toc-text">Install gtest</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Integrate-a-test-case-in-gtest"><span class="toc-number">2.</span> <span class="toc-text">Integrate a test case in gtest</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">3.</span> <span class="toc-text">Reference</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Find-a-key-word"><span class="toc-number">1.</span> <span class="toc-text">Find a key word</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Get-a-part-from-a-string"><span class="toc-number">2.</span> <span class="toc-text">Get a part from a string</span></a></li></ol>
 		
 		</div>
 		
-		<p>Start to enable unit test for C++.</p>
+		<p>String operation.</p>
 <a id="more"></a>
 
-<p>Verified on ubuntu 16.04 and 18.04.</p>
-<h1 id="Install-gtest"><a href="#Install-gtest" class="headerlink" title="Install gtest"></a>Install gtest</h1><ul>
-<li><p>install gtest source package</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install libgtest-dev</span><br></pre></td></tr></table></figure>
+<h1 id="Find-a-key-word"><a href="#Find-a-key-word" class="headerlink" title="Find a key word"></a>Find a key word</h1><ul>
+<li><p>str.<code>find()</code> &lt;<a href="http://www.cplusplus.com/reference/string/string/find/" target="_blank" rel="noopener">cpp_ref</a>&gt;</p>
+<ul>
+<li><p>string index starts from 0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">std::string str(&quot;12345678901234567890&quot;);</span><br><span class="line"></span><br><span class="line">std::size_t found = str.find(&quot;3&quot;);</span><br><span class="line">if (found!=std::string::npos)</span><br><span class="line">  std::cout &lt;&lt; &quot;first &apos;3&apos; found at: &quot; &lt;&lt; found &lt;&lt; &apos;\n&apos;;</span><br><span class="line"></span><br><span class="line">std::size_t found2 = str.find(&quot;3&quot;, found + 1);</span><br><span class="line">if (found2!=std::string::npos)</span><br><span class="line">  std::cout &lt;&lt; &quot;second &apos;3&apos; found at: &quot; &lt;&lt; found2 &lt;&lt; &apos;\n&apos;;</span><br><span class="line"></span><br><span class="line">----</span><br><span class="line">first &apos;3&apos; found at: 2</span><br><span class="line">second &apos;3&apos; found at: 12</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Build gtest lib</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/src/gtest</span><br><span class="line">sudo mkdir build</span><br><span class="line">cd build</span><br><span class="line">sudo cmake ../</span><br><span class="line">sudo make -j4</span><br></pre></td></tr></table></figure>
+<li><p><code>find_first_of()</code> and <code>find_last_of()</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">found = str.find_first_of(&quot;3&quot;);</span><br><span class="line">if (found!=std::string::npos)</span><br><span class="line">  std::cout &lt;&lt; &quot;first &apos;3&apos; found at: &quot; &lt;&lt; found &lt;&lt; &apos;\n&apos;;</span><br><span class="line">found = str.find_last_of(&quot;3&quot;);</span><br><span class="line">if (found!=std::string::npos)</span><br><span class="line">  std::cout &lt;&lt; &quot;last &apos;3&apos; found at: &quot; &lt;&lt; found &lt;&lt; &apos;\n&apos;;</span><br><span class="line"></span><br><span class="line">----</span><br><span class="line">first &apos;3&apos; found at: 2</span><br><span class="line">last &apos;3&apos; found at: 12</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>move the libs( to /user/local/bin</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/usr/src/gtest/build# ls libgtest*</span><br><span class="line">libgtest.a  libgtest_main.a</span><br><span class="line"></span><br><span class="line">sudo cp -a libgtest*.a /usr/local/lib/</span><br></pre></td></tr></table></figure>
+</ul>
+</li>
+<li><p>str.rfind(): find the key from right to left, at a specific position <a href="http://www.cplusplus.com/reference/string/string/rfind/" target="_blank" rel="noopener">cpp_ref</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">std::string str(&quot;12345678901234567890&quot;);</span><br><span class="line"></span><br><span class="line">std::size_t found = str.rfind(&quot;3&quot;);</span><br><span class="line">if (found!=std::string::npos)</span><br><span class="line">  std::cout &lt;&lt; &quot;last &apos;3&apos; found at: &quot; &lt;&lt; found &lt;&lt; &apos;\n&apos;;</span><br><span class="line"></span><br><span class="line">std::size_t found2 = str.rfind(&quot;3&quot;, found - 1);</span><br><span class="line">if (found2!=std::string::npos)</span><br><span class="line">  std::cout &lt;&lt; &quot;second right &apos;3&apos; found at: &quot; &lt;&lt; found2 &lt;&lt; &apos;\n&apos;;</span><br><span class="line"></span><br><span class="line">found = str.rfind(&quot;3&quot;, 2);</span><br><span class="line">if (found!=std::string::npos)</span><br><span class="line">  std::cout &lt;&lt; &quot;first &apos;3&apos; found at: &quot; &lt;&lt; found &lt;&lt; &apos;\n&apos;;</span><br><span class="line"></span><br><span class="line">----</span><br><span class="line">last &apos;3&apos; found at: 12</span><br><span class="line">second right &apos;3&apos; found at: 2</span><br><span class="line">first &apos;3&apos; found at: 2</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
-<h1 id="Integrate-a-test-case-in-gtest"><a href="#Integrate-a-test-case-in-gtest" class="headerlink" title="Integrate a test case in gtest"></a>Integrate a test case in gtest</h1><ul>
-<li><p>Prepare functions to test</p>
-<ul>
-<li><p>func.cpp</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;func.h&quot;</span><br><span class="line"></span><br><span class="line">int add(int a, int b)</span><br><span class="line">&#123;</span><br><span class="line">    return a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>func.h</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#ifndef _FUNC_H</span><br><span class="line">#define _FUNC_H</span><br><span class="line"></span><br><span class="line">int add(int a, int b);</span><br><span class="line"></span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>Create a test case</p>
-<ul>
-<li>func_test.cpp<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;gtest/gtest.h&quot;</span><br><span class="line">#include &quot;func.h&quot;</span><br><span class="line"></span><br><span class="line">TEST(AddTest, AddTestCase)</span><br><span class="line">&#123;</span><br><span class="line">    ASSERT_EQ(2, add(1, 1));</span><br><span class="line">    ASSERT_EQ(3, add(2, 1));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>Create the main function for all test cases</p>
-<ul>
-<li>main.cpp<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;gtest/gtest.h&quot;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int main(int argc,char* argv[])</span><br><span class="line">&#123;</span><br><span class="line">    testing::GTEST_FLAG(output) = &quot;xml:&quot;; //若要生成xml结果文件</span><br><span class="line">    testing::InitGoogleTest(&amp;argc,argv); //初始化</span><br><span class="line">    RUN_ALL_TESTS();                     //跑单元测</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>Build with CMakeLists.txt, depending on <code>libgtest</code>, <code>libpthread</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 2.8)</span><br><span class="line"></span><br><span class="line">add_executable(main</span><br><span class="line">    main.cpp</span><br><span class="line">    func.cpp</span><br><span class="line">    func_test.cpp</span><br><span class="line">)</span><br><span class="line">target_link_libraries(main gtest pthread)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Run test and result:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">./main</span><br><span class="line">[==========] Running 1 test from 1 test case.</span><br><span class="line">[----------] Global test environment set-up.</span><br><span class="line">[----------] 1 test from AddTest</span><br><span class="line">[ RUN      ] AddTest.AddTestCase</span><br><span class="line">[       OK ] AddTest.AddTestCase (0 ms)</span><br><span class="line">[----------] 1 test from AddTest (0 ms total)</span><br><span class="line"></span><br><span class="line">[----------] Global test environment tear-down</span><br><span class="line">[==========] 1 test from 1 test case ran. (0 ms total)</span><br><span class="line">[  PASSED  ] 1 test.</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>xml repot</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ ./main --gtest_output=xml</span><br><span class="line"></span><br><span class="line">$ ls *.xml</span><br><span class="line">test_detail.xml</span><br><span class="line"></span><br><span class="line">$ cat test_detail.xml</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;testsuites tests=&quot;1&quot; failures=&quot;0&quot; disabled=&quot;0&quot; errors=&quot;0&quot; timestamp=&quot;2018-11-12T22:45:07&quot; time=&quot;0&quot; name=&quot;AllTests&quot;&gt;</span><br><span class="line">  &lt;testsuite name=&quot;AddTest&quot; tests=&quot;1&quot; failures=&quot;0&quot; disabled=&quot;0&quot; errors=&quot;0&quot; time=&quot;0&quot;&gt;</span><br><span class="line">    &lt;testcase name=&quot;AddTestCase&quot; status=&quot;run&quot; time=&quot;0&quot; classname=&quot;AddTest&quot; /&gt;</span><br><span class="line">  &lt;/testsuite&gt;</span><br><span class="line">&lt;/testsuites&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="Get-a-part-from-a-string"><a href="#Get-a-part-from-a-string" class="headerlink" title="Get a part from a string"></a>Get a part from a string</h1><ul>
+<li>str.substr(pos, len) <a href="http://www.cplusplus.com/reference/string/string/substr/" target="_blank" rel="noopener">cpp_ref</a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">std::string str(&quot;12345678901234567890&quot;);</span><br><span class="line"></span><br><span class="line">str = str.substr(3, 2);</span><br><span class="line">std::cout &lt;&lt; str &lt;&lt; &apos;\n&apos;;</span><br><span class="line"></span><br><span class="line">----</span><br><span class="line">45</span><br></pre></td></tr></table></figure>
 
 </li>
-</ul>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li><a href="https://www.cnblogs.com/Jessica-jie/p/6704388.html" target="_blank" rel="noopener">https://www.cnblogs.com/Jessica-jie/p/6704388.html</a></li>
-<li><a href="https://www.cnblogs.com/hcu5555/archive/2015/04/30/4468847.html" target="_blank" rel="noopener">https://www.cnblogs.com/hcu5555/archive/2015/04/30/4468847.html</a></li>
-<li><a href="https://www.cnblogs.com/coderzh/archive/2009/04/06/1426755.html" target="_blank" rel="noopener">https://www.cnblogs.com/coderzh/archive/2009/04/06/1426755.html</a></li>
 </ul>
   
 	</div>
@@ -161,9 +131,14 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/linux-env/">linux-env</a>
+  <a class="article-category-link" href="/categories/Programing/">Programing</a>
 </div>
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C++</a>
+  </div>
 
 </div>
 
@@ -171,7 +146,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zjunweihit.github.io/2018/11/12/linux-env-gtest/" data-title="gtest | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  <div data-url="http://zjunweihit.github.io/2019/10/22/cpp-string-operation/" data-title="C++ string operation | Linux Player" data-tsina="3230658564" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -184,19 +159,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2018/12/13/compute-api/" title="Compute APIs">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Compute APIs</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2018/11/12/linux-env-cmake/"  title="CMake">
+<a href="/2019/02/12/compute-blas-sgemm/"  title="Matrix Multiplication by sgemm">
  <strong>下一篇：</strong><br/> 
- <span>CMake
+ <span>Matrix Multiplication by sgemm
 </span>
 </a>
 </div>
@@ -211,7 +178,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-gtest"><span class="toc-number">1.</span> <span class="toc-text">Install gtest</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Integrate-a-test-case-in-gtest"><span class="toc-number">2.</span> <span class="toc-text">Integrate a test case in gtest</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">3.</span> <span class="toc-text">Reference</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Find-a-key-word"><span class="toc-number">1.</span> <span class="toc-text">Find a key word</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Get-a-part-from-a-string"><span class="toc-number">2.</span> <span class="toc-text">Get a part from a string</span></a></li></ol>
  
   </div>
 
