@@ -4,25 +4,25 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
-    <title>Matrix Multiplication by sgemm | Linux Player</title>
+    <title>Python virtualenv | Linux Player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="zjunweihit">
     
 
     
-    <meta name="description" content="Introduce matrix maltiplication by BLAS library SGEMM API.">
-<meta name="keywords" content="BLAS">
+    <meta name="description" content="Work in python virtual environment.">
+<meta name="keywords" content="Python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Matrix Multiplication by sgemm">
-<meta property="og:url" content="http://zjunweihit.github.io/2019/02/12/compute-blas-sgemm/index.html">
+<meta property="og:title" content="Python virtualenv">
+<meta property="og:url" content="http://zjunweihit.github.io/2019/10/28/py-virutalenv/index.html">
 <meta property="og:site_name" content="Linux Player">
-<meta property="og:description" content="Introduce matrix maltiplication by BLAS library SGEMM API.">
+<meta property="og:description" content="Work in python virtual environment.">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-09T00:55:29.867Z">
+<meta property="og:updated_time" content="2019-10-28T09:27:15.123Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Matrix Multiplication by sgemm">
-<meta name="twitter:description" content="Introduce matrix maltiplication by BLAS library SGEMM API.">
+<meta name="twitter:title" content="Python virtualenv">
+<meta name="twitter:description" content="Work in python virtual environment.">
 
     
     
@@ -80,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/02/12/compute-blas-sgemm/" title="Matrix Multiplication by sgemm" itemprop="url">Matrix Multiplication by sgemm</a>
+      <a href="/2019/10/28/py-virutalenv/" title="Python virtualenv" itemprop="url">Python virtualenv</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
 		
   <p class="article-time">
-    <time datetime="2019-02-12T04:20:17.000Z" itemprop="datePublished"> Published 2019-02-12</time>
+    <time datetime="2019-10-28T05:49:05.000Z" itemprop="datePublished"> Published 2019-10-28</time>
     
   </p>
 </header>
@@ -96,32 +96,55 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Get-the-output-in-column-major"><span class="toc-number">1.</span> <span class="toc-text">Get the output in column major</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Get-the-output-in-row-major"><span class="toc-number">2.</span> <span class="toc-text">Get the output in row major</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">3.</span> <span class="toc-text">Reference</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#virtualenv"><span class="toc-number">1.</span> <span class="toc-text">virtualenv</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#virtualenvwrapper"><span class="toc-number">2.</span> <span class="toc-text">virtualenvwrapper</span></a></li></ol>
 		
 		</div>
 		
-		<p>Introduce matrix maltiplication by BLAS library SGEMM API.</p>
+		<p>Work in python virtual environment.</p>
 <a id="more"></a>
 
-<h1 id="Get-the-output-in-column-major"><a href="#Get-the-output-in-column-major" class="headerlink" title="Get the output in column major"></a>Get the output in column major</h1><p>For compatibility BLAS keeps the column major style as matrix stroage as same as FORTRAN.<br>But it’s a bit hard for C/C++ programmers, who are familiar with row major matrix.</p>
-<p>e.g. <code>C = alpha * A * B + beta * C</code> as <code>C = A * B</code>, alpha= 1.0f，beta = 0.0f.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">A (m x k) * B (k x n) = C (m x n)</span><br><span class="line">   2 x 3       3 x 2       2 x 2</span><br><span class="line"></span><br><span class="line">hipblasSgemm(handle,</span><br><span class="line">             HIPBLAS_OP_T, HIPBLAS_OP_T,</span><br><span class="line">             m, n, k,</span><br><span class="line">             &amp;alpha,</span><br><span class="line">             da, lda, // lda = k</span><br><span class="line">             db, ldb, // ldb = n</span><br><span class="line">             &amp;beta,</span><br><span class="line">             dc, ldc) // ldc = m</span><br><span class="line"></span><br><span class="line">CPU(row major):</span><br><span class="line"></span><br><span class="line">| 0 1 2 |   | 6 5 |     |  8  5 |</span><br><span class="line">| 3 4 5 |   | 4 3 |     | 44 32 |</span><br><span class="line">            | 2 1 |</span><br><span class="line"></span><br><span class="line">GPU(column major):</span><br><span class="line"></span><br><span class="line">| 0 3 |     | 6 4 2 |   |  8  5 |</span><br><span class="line">| 1 4 |     | 5 3 1 |   | 44 32 |</span><br><span class="line">| 2 5 |      =&gt;T           |</span><br><span class="line"> =&gt; T                      | copy to CPU as matrix transpose</span><br><span class="line">                           V</span><br><span class="line">CPU(row major):</span><br><span class="line">                        |  8 44 |</span><br><span class="line">                        |  5 32 |</span><br><span class="line"></span><br><span class="line">A(m x k) -&gt; GPU: AT(k x m) -&gt; HIPBLAS_OP_T -&gt; GPU: A(m x k)</span><br><span class="line">B(k x n) -&gt; GPU: BT(n x k) -&gt; HIPBLAS_OP_T -&gt; GPU: B(k x n)</span><br><span class="line"></span><br><span class="line">do sgemm</span><br><span class="line">GPU: C(m x n) -&gt; copy to CPU -&gt; CPU: CT( n x m )</span><br></pre></td></tr></table></figure>
-
-<p>Leading Dimension:</p>
+<h1 id="virtualenv"><a href="#virtualenv" class="headerlink" title="virtualenv"></a>virtualenv</h1><ul>
+<li><p>install virtualenv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip3 install virtualenv</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>create virtualenv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ virtualenv env1</span><br><span class="line">$ ls env1 </span><br><span class="line">bin  include  lib</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>enter the env1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ source env1/bin/activate</span><br><span class="line">(env1) $</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>do anything in the virtual env</p>
 <ul>
-<li>The first index in the dimension. A(20, 10), lda=20, row number.</li>
-<li>If we set <code>HIPBLAS_OP_T</code>, it will be the column number, otherwise, it’s row number.</li>
-<li>Get the Leading Dimension with <em>the matrix in GPU</em> for multiplication.</li>
+<li><p>install demo, which will be installed in <code>env1/lib/python3.6/site-packages/demo</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip3 install demo</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>get the installed packages</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ pip freeze &gt; requirements.txt</span><br><span class="line">$ cat requirements.txt</span><br><span class="line">pbr==5.4.3</span><br><span class="line">six==1.12.0</span><br><span class="line">stevedore==1.31.0</span><br><span class="line">virtualenv==16.7.7</span><br><span class="line">virtualenv-clone==0.5.3</span><br><span class="line">virtualenvwrapper==4.8.4</span><br><span class="line">zjunweidemo==0.0.1</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<p>Summary:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">C = A * B</span><br><span class="line"></span><br><span class="line">利用cublasSgemm的参数 transa（transb） 和 lda（ldb）的设置来共同解决存储方式改变的问题。</span><br><span class="line">关于A,B的参数（行和列）是in GPU时的matrix.</span><br><span class="line"></span><br><span class="line">        CPU     GPU</span><br><span class="line">    (1) A, B</span><br><span class="line">    cublasSgemm(&apos;t&apos;,&apos;t&apos;, c_row, c_col, a_col, alpha, A, a_col, B, b_col, beta, C, c_row);</span><br><span class="line">    如果求AT*B，只需将A的t改为n</span><br><span class="line"></span><br><span class="line">    (2) B       A</span><br><span class="line">    cublasSgemm(&apos;n&apos;,&apos;t&apos;, c_row, c_col, a_col, alpha, A, a_row, B, b_col, beta, C, c_row);</span><br><span class="line"></span><br><span class="line">    (3) A       B</span><br><span class="line">    cublasSgemm(&apos;t&apos;,&apos;n&apos;, c_row, c_col, a_col, alpha, A, a_col, B, b_row, beta, C, c_row);</span><br><span class="line"></span><br><span class="line">    (4)         A, B</span><br><span class="line">    cublasSgemm(&apos;n&apos;,&apos;n&apos;, c_row, c_col, a_col, alpha, A, a_row, B, b_row, beta, C, c_row);</span><br><span class="line"></span><br><span class="line">得到的结果C都是按列存储的（拷贝出host内存之前转置一下，可以考虑使用, 例如cublasSgeam()(矩阵加法),</span><br><span class="line">进行一次1.0 * AT + 0.0 * B的参数设定, 利用内置的转置功能(注意这里的1和0), 来进行将A转换成AT）。</span><br><span class="line"></span><br><span class="line">如果是CPU创建的矩阵，要设置T，随之ld使用列，反之用行。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>exit the env1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(env1) $ deactivate</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
 
-<h1 id="Get-the-output-in-row-major"><a href="#Get-the-output-in-row-major" class="headerlink" title="Get the output in row major"></a>Get the output in row major</h1><p>As we know, blas uses column major matrix. If going to get the C in row major as result, we can do <code>CT = BT * AT</code>, copy CT to CPU and get C directly.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">A (m x k) * B (k x n) = C (m x n)</span><br><span class="line">   2 x 3       3 x 2       2 x 2</span><br><span class="line"></span><br><span class="line">BT(n x k) * AT(k x m) = CT(n x m) in GPU</span><br><span class="line">   2 x 3       3 x 2       2 x 2</span><br><span class="line"></span><br><span class="line">hipblasSgemm(handle,</span><br><span class="line">             HIPBLAS_OP_N, HIPBLAS_OP_N,</span><br><span class="line">             n, m, k,</span><br><span class="line">             &amp;alpha,</span><br><span class="line">             db, ldb, // ldb = n</span><br><span class="line">             da, lda, // lda = k</span><br><span class="line">             &amp;beta,</span><br><span class="line">             dc, ldc) // ldc = n</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="virtualenvwrapper"><a href="#virtualenvwrapper" class="headerlink" title="virtualenvwrapper"></a>virtualenvwrapper</h1><ul>
+<li><p>install virtualenvwrapper</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install virtualenvwrapper</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>enable virtualenvwrapper</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>create virtual env</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkvirtualenv env2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>enter virtual env</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ workon env2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>exit virtualenvwrapper</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
 
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li><a href="https://en.wikipedia.org/wiki/Row-_and_column-major_order" target="_blank" rel="noopener">Row- and column-major order</a></li>
-<li><a href="https://blog.csdn.net/u011460059/article/details/56506987" target="_blank" rel="noopener">cuda 矩阵乘法函数之cublasSgemm</a></li>
+</li>
 </ul>
   
 	</div>
@@ -130,13 +153,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Compute/">Compute</a>
+  <a class="article-category-link" href="/categories/Programming/">Programming</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/BLAS/">BLAS</a>
+  <span></span> <a href="/tags/Python/">Python</a>
   </div>
 
 </div>
@@ -145,7 +168,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zjunweihit.github.io/2019/02/12/compute-blas-sgemm/" data-title="Matrix Multiplication by sgemm | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  <div data-url="http://zjunweihit.github.io/2019/10/28/py-virutalenv/" data-title="Python virtualenv | Linux Player" data-tsina="3230658564" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -158,19 +181,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2019/10/22/cpp-string-operation/" title="C++ string operation">
-  <strong>上一篇：</strong><br/>
-  <span>
-  C++ string operation</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2019/01/25/compute-wiki-mpi/"  title="MPI introduction">
+<a href="/2019/10/22/json-howto/"  title="How to use Json">
  <strong>下一篇：</strong><br/> 
- <span>MPI introduction
+ <span>How to use Json
 </span>
 </a>
 </div>
@@ -185,7 +200,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Get-the-output-in-column-major"><span class="toc-number">1.</span> <span class="toc-text">Get the output in column major</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Get-the-output-in-row-major"><span class="toc-number">2.</span> <span class="toc-text">Get the output in row major</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">3.</span> <span class="toc-text">Reference</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#virtualenv"><span class="toc-number">1.</span> <span class="toc-text">virtualenv</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#virtualenvwrapper"><span class="toc-number">2.</span> <span class="toc-text">virtualenvwrapper</span></a></li></ol>
  
   </div>
 
