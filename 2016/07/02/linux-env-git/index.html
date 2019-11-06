@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="Linux Player">
 <meta property="og:description" content="Let’s play with git ^^">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-09T00:55:29.871Z">
+<meta property="og:updated_time" content="2019-11-06T01:22:22.251Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="玩转git">
 <meta name="twitter:description" content="Let’s play with git ^^">
@@ -141,6 +141,9 @@
 </li>
 <li><p>git config core.autocrlf true</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">If core.autocrlf is set to true, that means that any time you add a file to the git repo that git thinks is a text file, it will turn all CRLF line endings to just LF before it stores it in the commit. Whenever you git checkout something, all text files automatically will have their LF line endings converted to CRLF endings. This allows development of a project across platforms that use different line-ending styles without commits being very noisy because each editor changes the line ending style as the line ending style is always consistently LF.</span><br><span class="line"></span><br><span class="line">The side-effect of this convenient conversion, and this is what the warning you&apos;re seeing is about, is that if a text file you authored originally had LF endings instead of CRLF, it will be stored with LF as usual, but when checked out later it will have CRLF endings. For normal text files this is usually just fine. The warning is a &quot;for your information&quot; in this case, but in case git incorrectly assesses a binary file to be a text file, it is an important warning because git would then be corrupting your binary file.</span><br><span class="line"></span><br><span class="line">If core.autocrlf is set to false, no line-ending conversion is ever performed, so text files are checked in as-is. This usually works ok, as long as all your developers are either on Linux or all on Windows. But in my experience I still tend to get text files with mixed line endings that end up causing problems.</span><br><span class="line"></span><br><span class="line">My personal preference is to leave the setting turned ON, as a Windows developer.</span><br><span class="line"></span><br><span class="line">See http://kernel.org/pub/software/scm/git/docs/git-config.html for updated info that includes the &quot;input&quot; value.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>No password in push</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global credential.helper store</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -637,15 +640,15 @@
 			
 		
 			
+				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/TensorFlow/" title="TensorFlow">TensorFlow<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/OpenCL/" title="OpenCL">OpenCL<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
 			
 		
 			
@@ -665,19 +668,19 @@
 			
 		
 			
+				<li><a href="/tags/linux-env/" title="linux-env">linux-env<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Json/" title="Json">Json<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/linux-env/" title="linux-env">linux-env<sup>1</sup></a></li>
 			
 		
 			
@@ -689,7 +692,7 @@
 			
 		
 			
-				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
+				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
 			
 		
 		</ul>
