@@ -4,25 +4,25 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
-    <title>ROCm Docker Setup | Linux Player</title>
+    <title>Python build a binary | Linux Player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="zjunweihit">
     
 
     
-    <meta name="description" content="How to setup ROCm docker(Ubuntu 18.04).">
-<meta name="keywords" content="ROCm">
+    <meta name="description" content="Build a binary from python source.">
+<meta name="keywords" content="Python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ROCm Docker Setup">
-<meta property="og:url" content="http://zjunweihit.github.io/2019/01/03/compute-rocm-docker-setup/index.html">
+<meta property="og:title" content="Python build a binary">
+<meta property="og:url" content="http://zjunweihit.github.io/2019/11/09/py-build-binary/index.html">
 <meta property="og:site_name" content="Linux Player">
-<meta property="og:description" content="How to setup ROCm docker(Ubuntu 18.04).">
+<meta property="og:description" content="Build a binary from python source.">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-09T00:55:29.867Z">
+<meta property="og:updated_time" content="2019-11-09T06:54:25.553Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ROCm Docker Setup">
-<meta name="twitter:description" content="How to setup ROCm docker(Ubuntu 18.04).">
+<meta name="twitter:title" content="Python build a binary">
+<meta name="twitter:description" content="Build a binary from python source.">
 
     
     
@@ -80,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/01/03/compute-rocm-docker-setup/" title="ROCm Docker Setup" itemprop="url">ROCm Docker Setup</a>
+      <a href="/2019/11/09/py-build-binary/" title="Python build a binary" itemprop="url">Python build a binary</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
 		
   <p class="article-time">
-    <time datetime="2019-01-03T02:18:11.000Z" itemprop="datePublished"> Published 2019-01-03</time>
+    <time datetime="2019-11-09T06:31:44.000Z" itemprop="datePublished"> Published 2019-11-09</time>
     
   </p>
 </header>
@@ -96,53 +96,24 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-ROCm"><span class="toc-number">1.</span> <span class="toc-text">Install ROCm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-docker"><span class="toc-number">2.</span> <span class="toc-text">Install docker</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Get-ROCm-image"><span class="toc-number">3.</span> <span class="toc-text">Get ROCm image</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Run-a-docker"><span class="toc-number">4.</span> <span class="toc-text">Run a docker</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Verify-a-docker"><span class="toc-number">5.</span> <span class="toc-text">Verify a docker</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Note"><span class="toc-number">6.</span> <span class="toc-text">Note</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">7.</span> <span class="toc-text">Reference</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Build-a-python-binary"><span class="toc-number">1.</span> <span class="toc-text">Build a python binary</span></a></li></ol>
 		
 		</div>
 		
-		<p>How to setup ROCm docker(Ubuntu 18.04).</p>
+		<p>Build a binary from python source.</p>
 <a id="more"></a>
 
-<h1 id="Install-ROCm"><a href="#Install-ROCm" class="headerlink" title="Install ROCm"></a>Install ROCm</h1><p><a href="http://zjunweihit.github.io/2018/12/25/compute-rocm-installation/">ROCm Installation Guide</a></p>
-<h1 id="Install-docker"><a href="#Install-docker" class="headerlink" title="Install docker"></a>Install docker</h1><ul>
-<li><p><a href="http://zjunweihit.github.io/2017/08/08/linux-env-docker/">How to use docker</a></p>
+<h1 id="Build-a-python-binary"><a href="#Build-a-python-binary" class="headerlink" title="Build a python binary"></a>Build a python binary</h1><ul>
+<li><p>Install the tool</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install pyinstaller</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Check storage driver, “overlay2” is recommended by ROCm kernel.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker info</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>If not, start docker with <code>--storage-driver=&lt;name&gt;</code> to enable it as <a href="https://docs.docker.com/storage/storagedriver/select-storage-driver/" target="_blank" rel="noopener">select storage driver</a></li>
-</ul>
+<li><p>simply way</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller -F ttViewer.py</span><br></pre></td></tr></table></figure>
 </li>
-</ul>
-<h1 id="Get-ROCm-image"><a href="#Get-ROCm-image" class="headerlink" title="Get ROCm image"></a>Get ROCm image</h1><ul>
-<li><p>ROCm</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull rocm/rocm-terminal</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Caffe</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull rocm/hipcaffe</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>TensorFlow</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull rocm/tensorflow</span><br></pre></td></tr></table></figure>
+<li><p>build with key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller -F ttViewer.py --key 133</span><br></pre></td></tr></table></figure>
 
 </li>
-</ul>
-<h1 id="Run-a-docker"><a href="#Run-a-docker" class="headerlink" title="Run a docker"></a>Run a docker</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">alias drun=&apos;sudo docker run -it -v $HOME:/data --privileged --device=/dev/kfd&apos;</span><br><span class="line"></span><br><span class="line">drun rocm/rocm-terminal</span><br><span class="line">drun rocm/hipcaffe</span><br><span class="line">drun rocm/tensorflow</span><br></pre></td></tr></table></figure>
-
-<h1 id="Verify-a-docker"><a href="#Verify-a-docker" class="headerlink" title="Verify a docker"></a>Verify a docker</h1><ul>
-<li><p>rocminfo to find out a GPU</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/rocm/bin/rocminfo</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>run a tensorflow hello example</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line">hello = tf.constant(&apos;Hello, TensorFlow&apos;)</span><br><span class="line">sess = tf.Session()</span><br><span class="line"># show gpu support if anyG</span><br><span class="line">sess.run(hello)</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h1 id="Note"><a href="#Note" class="headerlink" title="Note"></a>Note</h1><ul>
-<li>rock-dkms in native OS should work with thunk in docker</li>
-</ul>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li><a href="https://github.com/RadeonOpenCompute/ROCm-docker/blob/master/quick-start.md" target="_blank" rel="noopener">Preparing a machine to run with ROCm and docker</a></li>
 </ul>
   
 	</div>
@@ -151,13 +122,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Compute/">Compute</a>
+  <a class="article-category-link" href="/categories/Programming/">Programming</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/ROCm/">ROCm</a>
+  <span></span> <a href="/tags/Python/">Python</a>
   </div>
 
 </div>
@@ -166,7 +137,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zjunweihit.github.io/2019/01/03/compute-rocm-docker-setup/" data-title="ROCm Docker Setup | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  <div data-url="http://zjunweihit.github.io/2019/11/09/py-build-binary/" data-title="Python build a binary | Linux Player" data-tsina="3230658564" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -179,19 +150,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2019/01/25/compute-wiki-frameworks/" title="Machine Learning Frameworks">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Machine Learning Frameworks</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2019/01/02/compute-env-tensorflow-build-from-source/"  title="TensorFlow Build From Source">
+<a href="/2019/10/29/py-build-package/"  title="Python how to build a package and publish">
  <strong>下一篇：</strong><br/> 
- <span>TensorFlow Build From Source
+ <span>Python how to build a package and publish
 </span>
 </a>
 </div>
@@ -206,7 +169,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-ROCm"><span class="toc-number">1.</span> <span class="toc-text">Install ROCm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-docker"><span class="toc-number">2.</span> <span class="toc-text">Install docker</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Get-ROCm-image"><span class="toc-number">3.</span> <span class="toc-text">Get ROCm image</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Run-a-docker"><span class="toc-number">4.</span> <span class="toc-text">Run a docker</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Verify-a-docker"><span class="toc-number">5.</span> <span class="toc-text">Verify a docker</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Note"><span class="toc-number">6.</span> <span class="toc-text">Note</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">7.</span> <span class="toc-text">Reference</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Build-a-python-binary"><span class="toc-number">1.</span> <span class="toc-text">Build a python binary</span></a></li></ol>
  
   </div>
 
