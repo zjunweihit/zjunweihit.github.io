@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="Linux Player">
 <meta property="og:description" content="Introduce matrix maltiplication by BLAS library SGEMM API.">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-09T00:55:29.867Z">
+<meta property="og:updated_time" content="2019-11-09T07:29:06.054Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Matrix Multiplication by sgemm">
 <meta name="twitter:description" content="Introduce matrix maltiplication by BLAS library SGEMM API.">
@@ -96,32 +96,40 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Get-the-output-in-column-major"><span class="toc-number">1.</span> <span class="toc-text">Get the output in column major</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Get-the-output-in-row-major"><span class="toc-number">2.</span> <span class="toc-text">Get the output in row major</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">3.</span> <span class="toc-text">Reference</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Get-the-output-in-column-major"><span class="toc-number">1.</span> <span class="toc-text">Get the output in column major</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">2.</span> <span class="toc-text">Reference</span></a></li></ol>
 		
 		</div>
 		
 		<p>Introduce matrix maltiplication by BLAS library SGEMM API.</p>
 <a id="more"></a>
 
-<h1 id="Get-the-output-in-column-major"><a href="#Get-the-output-in-column-major" class="headerlink" title="Get the output in column major"></a>Get the output in column major</h1><p>For compatibility BLAS keeps the column major style as matrix stroage as same as FORTRAN.<br>But it’s a bit hard for C/C++ programmers, who are familiar with row major matrix.</p>
-<p>e.g. <code>C = alpha * A * B + beta * C</code> as <code>C = A * B</code>, alpha= 1.0f，beta = 0.0f.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">A (m x k) * B (k x n) = C (m x n)</span><br><span class="line">   2 x 3       3 x 2       2 x 2</span><br><span class="line"></span><br><span class="line">hipblasSgemm(handle,</span><br><span class="line">             HIPBLAS_OP_T, HIPBLAS_OP_T,</span><br><span class="line">             m, n, k,</span><br><span class="line">             &amp;alpha,</span><br><span class="line">             da, lda, // lda = k</span><br><span class="line">             db, ldb, // ldb = n</span><br><span class="line">             &amp;beta,</span><br><span class="line">             dc, ldc) // ldc = m</span><br><span class="line"></span><br><span class="line">CPU(row major):</span><br><span class="line"></span><br><span class="line">| 0 1 2 |   | 6 5 |     |  8  5 |</span><br><span class="line">| 3 4 5 |   | 4 3 |     | 44 32 |</span><br><span class="line">            | 2 1 |</span><br><span class="line"></span><br><span class="line">GPU(column major):</span><br><span class="line"></span><br><span class="line">| 0 3 |     | 6 4 2 |   |  8  5 |</span><br><span class="line">| 1 4 |     | 5 3 1 |   | 44 32 |</span><br><span class="line">| 2 5 |      =&gt;T           |</span><br><span class="line"> =&gt; T                      | copy to CPU as matrix transpose</span><br><span class="line">                           V</span><br><span class="line">CPU(row major):</span><br><span class="line">                        |  8 44 |</span><br><span class="line">                        |  5 32 |</span><br><span class="line"></span><br><span class="line">A(m x k) -&gt; GPU: AT(k x m) -&gt; HIPBLAS_OP_T -&gt; GPU: A(m x k)</span><br><span class="line">B(k x n) -&gt; GPU: BT(n x k) -&gt; HIPBLAS_OP_T -&gt; GPU: B(k x n)</span><br><span class="line"></span><br><span class="line">do sgemm</span><br><span class="line">GPU: C(m x n) -&gt; copy to CPU -&gt; CPU: CT( n x m )</span><br></pre></td></tr></table></figure>
+<h1 id="Get-the-output-in-column-major"><a href="#Get-the-output-in-column-major" class="headerlink" title="Get the output in column major"></a>Get the output in column major</h1><p>For compatibility BLAS keeps the column major style as matrix stroage as same as FORTRAN.<br>It’s a different from C/C++ programming, which is row major matrix.</p>
+<ul>
+<li><p>e.g. <code>C = alpha * A * B + beta * C</code> as <code>C = A * B</code>, alpha= 1.0f，beta = 0.0f.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Prepare data A, B in column major and fixed shape as below:</span><br><span class="line">A (m x k) * B (k x n) = C (m x n)</span><br><span class="line">   2 x 3       3 x 2       2 x 2</span><br><span class="line"></span><br><span class="line">hipblasSgemm(handle,</span><br><span class="line">             trans_A, trans_B,</span><br><span class="line">             m, n, k,</span><br><span class="line">             &amp;alpha,</span><br><span class="line">             da, lda,</span><br><span class="line">             db, ldb,</span><br><span class="line">             &amp;beta,</span><br><span class="line">             dc, ldc)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>NN =&gt; lda = m, ldb = k</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">| 0 2 4 | * | 6 3 |  =  | 26  8 |</span><br><span class="line">| 1 3 5 |   | 5 2 |     | 41 14 |</span><br><span class="line">            | 4 1 |</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>NT =&gt; lda = m, ldb = n</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">| 0 2 4 | * | 6 5 |  =  | 16 10 |</span><br><span class="line">| 1 3 5 |   | 4 3 |     | 28 19 |</span><br><span class="line">            | 2 1 |</span><br><span class="line"></span><br><span class="line">original B (n x k): 3 x 2</span><br><span class="line"></span><br><span class="line">| 6 4 2 |</span><br><span class="line">| 5 3 1 |</span><br><span class="line"></span><br><span class="line">BT in sgemm for matrix multiplication</span><br><span class="line"></span><br><span class="line">|6 5 |</span><br><span class="line">|4 3 |</span><br><span class="line">|2 1 |</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>TN =&gt; lda = k, ldb = k</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">| 0 1 2 | * | 6 3 |  =  | 13 4  |</span><br><span class="line">| 3 4 5 |   | 5 2 |     | 58 22 |</span><br><span class="line">            | 4 1 |</span><br><span class="line"></span><br><span class="line">original A (k x m): 3 x 2</span><br><span class="line"></span><br><span class="line">| 0 3 |</span><br><span class="line">| 1 4 |</span><br><span class="line">| 2 5 |</span><br><span class="line"></span><br><span class="line">BT in sgemm for matrix multiplication</span><br><span class="line"></span><br><span class="line">| 0 1 2 |</span><br><span class="line">| 3 4 5 |</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>TT =&gt; lda = k, ldb = n</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">| 0 1 2 | * | 6 5 |  =  |  8  5 |</span><br><span class="line">| 3 4 5 |   | 4 3 |     | 44 32 |</span><br><span class="line">            | 2 1 |</span><br><span class="line"></span><br><span class="line">orignal A (k x m): 3 x 2 =&gt; AT (m x k)</span><br><span class="line"></span><br><span class="line">| 0 3 | T  | 0 1 2 |</span><br><span class="line">| 1 4 | =&gt; | 3 4 5 | in sgemm for matrix multiplication</span><br><span class="line">| 2 5 |</span><br><span class="line"></span><br><span class="line">orignal B (n x k): 2 x 3 =&gt; BT (k x n)</span><br><span class="line"></span><br><span class="line">| 6 4 2 | T  | 6 5 |</span><br><span class="line">| 5 3 1 | =&gt; | 4 3 | in sgemm for matrix multiplication</span><br><span class="line">             | 2 1 |</span><br></pre></td></tr></table></figure>
 
+</li>
+</ul>
 <p>Leading Dimension:</p>
 <ul>
 <li>The first index in the dimension. A(20, 10), lda=20, row number.</li>
 <li>If we set <code>HIPBLAS_OP_T</code>, it will be the column number, otherwise, it’s row number.</li>
-<li>Get the Leading Dimension with <em>the matrix in GPU</em> for multiplication.</li>
+<li>The number of items in next line at the same position as the current line in matrix order(row major or column major)</li>
 </ul>
-<p>Summary:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">C = A * B</span><br><span class="line"></span><br><span class="line">利用cublasSgemm的参数 transa（transb） 和 lda（ldb）的设置来共同解决存储方式改变的问题。</span><br><span class="line">关于A,B的参数（行和列）是in GPU时的matrix.</span><br><span class="line"></span><br><span class="line">        CPU     GPU</span><br><span class="line">    (1) A, B</span><br><span class="line">    cublasSgemm(&apos;t&apos;,&apos;t&apos;, c_row, c_col, a_col, alpha, A, a_col, B, b_col, beta, C, c_row);</span><br><span class="line">    如果求AT*B，只需将A的t改为n</span><br><span class="line"></span><br><span class="line">    (2) B       A</span><br><span class="line">    cublasSgemm(&apos;n&apos;,&apos;t&apos;, c_row, c_col, a_col, alpha, A, a_row, B, b_col, beta, C, c_row);</span><br><span class="line"></span><br><span class="line">    (3) A       B</span><br><span class="line">    cublasSgemm(&apos;t&apos;,&apos;n&apos;, c_row, c_col, a_col, alpha, A, a_col, B, b_row, beta, C, c_row);</span><br><span class="line"></span><br><span class="line">    (4)         A, B</span><br><span class="line">    cublasSgemm(&apos;n&apos;,&apos;n&apos;, c_row, c_col, a_col, alpha, A, a_row, B, b_row, beta, C, c_row);</span><br><span class="line"></span><br><span class="line">得到的结果C都是按列存储的（拷贝出host内存之前转置一下，可以考虑使用, 例如cublasSgeam()(矩阵加法),</span><br><span class="line">进行一次1.0 * AT + 0.0 * B的参数设定, 利用内置的转置功能(注意这里的1和0), 来进行将A转换成AT）。</span><br><span class="line"></span><br><span class="line">如果是CPU创建的矩阵，要设置T，随之ld使用列，反之用行。</span><br></pre></td></tr></table></figure>
-
-<h1 id="Get-the-output-in-row-major"><a href="#Get-the-output-in-row-major" class="headerlink" title="Get the output in row major"></a>Get the output in row major</h1><p>As we know, blas uses column major matrix. If going to get the C in row major as result, we can do <code>CT = BT * AT</code>, copy CT to CPU and get C directly.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">A (m x k) * B (k x n) = C (m x n)</span><br><span class="line">   2 x 3       3 x 2       2 x 2</span><br><span class="line"></span><br><span class="line">BT(n x k) * AT(k x m) = CT(n x m) in GPU</span><br><span class="line">   2 x 3       3 x 2       2 x 2</span><br><span class="line"></span><br><span class="line">hipblasSgemm(handle,</span><br><span class="line">             HIPBLAS_OP_N, HIPBLAS_OP_N,</span><br><span class="line">             n, m, k,</span><br><span class="line">             &amp;alpha,</span><br><span class="line">             db, ldb, // ldb = n</span><br><span class="line">             da, lda, // lda = k</span><br><span class="line">             &amp;beta,</span><br><span class="line">             dc, ldc) // ldc = n</span><br></pre></td></tr></table></figure>
-
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
 <li><a href="https://en.wikipedia.org/wiki/Row-_and_column-major_order" target="_blank" rel="noopener">Row- and column-major order</a></li>
-<li><a href="https://blog.csdn.net/u011460059/article/details/56506987" target="_blank" rel="noopener">cuda 矩阵乘法函数之cublasSgemm</a></li>
 </ul>
   
 	</div>
@@ -185,7 +193,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Get-the-output-in-column-major"><span class="toc-number">1.</span> <span class="toc-text">Get the output in column major</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Get-the-output-in-row-major"><span class="toc-number">2.</span> <span class="toc-text">Get the output in row major</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">3.</span> <span class="toc-text">Reference</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Get-the-output-in-column-major"><span class="toc-number">1.</span> <span class="toc-text">Get the output in column major</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">2.</span> <span class="toc-text">Reference</span></a></li></ol>
  
   </div>
 
@@ -242,11 +250,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/ROCm/" title="ROCm">ROCm<sup>5</sup></a></li>
+				<li><a href="/tags/Wiki/" title="Wiki">Wiki<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Wiki/" title="Wiki">Wiki<sup>5</sup></a></li>
+				<li><a href="/tags/ROCm/" title="ROCm">ROCm<sup>5</sup></a></li>
 			
 		
 			
@@ -258,7 +266,7 @@
 			
 		
 			
-				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>3</sup></a></li>
 			
 		
 			
@@ -270,7 +278,7 @@
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>3</sup></a></li>
+				<li><a href="/tags/Xorg/" title="Xorg">Xorg<sup>3</sup></a></li>
 			
 		
 			
@@ -286,15 +294,15 @@
 			
 		
 			
-				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/cmake/" title="cmake">cmake<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Json/" title="Json">Json<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
 			
 		
 			
@@ -306,11 +314,11 @@
 			
 		
 			
-				<li><a href="/tags/Framework/" title="Framework">Framework<sup>1</sup></a></li>
+				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/BLAS/" title="BLAS">BLAS<sup>1</sup></a></li>
+				<li><a href="/tags/Compute/" title="Compute">Compute<sup>1</sup></a></li>
 			
 		
 		</ul>
