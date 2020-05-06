@@ -4,25 +4,25 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
-    <title>CMake | Linux Player</title>
+    <title>How to setup v2ray in Linux | Linux Player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="zjunweihit">
     
 
     
-    <meta name="description" content="Go to make build easier.">
-<meta name="keywords" content="cmake">
+    <meta name="description" content="Setup v2ray in Linux.">
+<meta name="keywords" content="linux-env-misc">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CMake">
-<meta property="og:url" content="http://zjunweihit.github.io/2018/11/12/linux-env-cmake/index.html">
+<meta property="og:title" content="How to setup v2ray in Linux">
+<meta property="og:url" content="http://zjunweihit.github.io/2020/05/06/linux-env-v2ray-setup/index.html">
 <meta property="og:site_name" content="Linux Player">
-<meta property="og:description" content="Go to make build easier.">
+<meta property="og:description" content="Setup v2ray in Linux.">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-09T00:55:29.871Z">
+<meta property="og:updated_time" content="2020-05-06T08:30:24.507Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CMake">
-<meta name="twitter:description" content="Go to make build easier.">
+<meta name="twitter:title" content="How to setup v2ray in Linux">
+<meta name="twitter:description" content="Setup v2ray in Linux.">
 
     
     
@@ -80,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/12/linux-env-cmake/" title="CMake" itemprop="url">CMake</a>
+      <a href="/2020/05/06/linux-env-v2ray-setup/" title="How to setup v2ray in Linux" itemprop="url">How to setup v2ray in Linux</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="zjunweihit" target="_blank" itemprop="author">zjunweihit</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-12T08:57:55.000Z" itemprop="datePublished"> Published 2018-11-12</time>
+    <time datetime="2020-05-06T08:16:36.000Z" itemprop="datePublished"> Published 2020-05-06</time>
     
   </p>
 </header>
@@ -96,57 +96,37 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Build-document"><span class="toc-number">1.</span> <span class="toc-text">Build document</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Build-a-single-file"><span class="toc-number">2.</span> <span class="toc-text">Build a single file</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Build-multiple-files-in-sub-directory"><span class="toc-number">3.</span> <span class="toc-text">Build multiple files in sub directory</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ubuntu-18-04"><span class="toc-number">1.</span> <span class="toc-text">Ubuntu 18.04</span></a></li></ol>
 		
 		</div>
 		
-		<p>Go to make build easier.</p>
+		<p>Setup v2ray in Linux.</p>
 <a id="more"></a>
 
-<h1 id="Build-document"><a href="#Build-document" class="headerlink" title="Build document"></a>Build document</h1><ul>
-<li>CMakeLists.txt<ul>
-<li>like Makefile</li>
-</ul>
-</li>
-<li>add_executable(<code>&lt;name&gt;</code> source1 [source2 …])<ul>
-<li>Adds an executable target called <code>&lt;name&gt;</code> to be built from the source files listed in the command invocation.</li>
-<li>The <code>&lt;name&gt;</code> corresponds to the logical target name and must be globally unique within a project.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">* c++11 support</span><br><span class="line">  - add_compile_options() will add the options to gcc and g++</span><br><span class="line">  - set(CMAKE_CXX_FLAGS) works for g++ only</span><br></pre></td></tr></table></figure>
-
+<h1 id="Ubuntu-18-04"><a href="#Ubuntu-18-04" class="headerlink" title="Ubuntu 18.04"></a>Ubuntu 18.04</h1><ul>
+<li><p>Install the <a href="https://github.com/jiangxufeng/v2rayL" target="_blank" rel="noopener">v2rayL</a></p>
+<ul>
+<li>installing online seems not working, even if you downloads it successfully</li>
+<li>download the zip from <a href="https://www.lanzous.com/iaynbud" target="_blank" rel="noopener">https://www.lanzous.com/iaynbud</a></li>
+<li>install from the local folder<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./install.sh</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
-</ul>
-<p>if(CMAKE_COMPILER_IS_GNUCXX)<br>    # add_compile_options(-std=c++11)<br>    set(CMAKE_CXX_FLAGS “${CMAKE_CXX_FLAGS} -std=c++11”)<br>    message(STATUS “optional:-std=c++11”)</p>
-<p>endif(CMAKE_COMPILER_IS_GNUCXX)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># single source file</span><br><span class="line">add_executable(stest single_list.cpp)</span><br><span class="line"></span><br><span class="line"># multiple source files</span><br><span class="line">add_executable(main</span><br><span class="line">    create1.cpp</span><br><span class="line">    create2.cpp</span><br><span class="line">    create3.cpp</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<h1 id="Build-a-single-file"><a href="#Build-a-single-file" class="headerlink" title="Build a single file"></a>Build a single file</h1><ul>
-<li>a single source file is going to be built into an executable binary<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 2.8)</span><br><span class="line"></span><br><span class="line">add_executable(stest single_list.cpp)</span><br></pre></td></tr></table></figure>
-
+<li><p>Set the scription with a correct link</p>
 </li>
-</ul>
-<h1 id="Build-multiple-files-in-sub-directory"><a href="#Build-multiple-files-in-sub-directory" class="headerlink" title="Build multiple files in sub directory"></a>Build multiple files in sub directory</h1><ul>
-<li><p>serveral files in different sub direcotries, build them all in the root directory, and also could build each in a sub directory.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── CMakeLists.txt</span><br><span class="line">├── dlist</span><br><span class="line">│   ├── CMakeLists.txt</span><br><span class="line">│   └── double_list.cpp</span><br><span class="line">└── slist</span><br><span class="line">    ├── CMakeLists.txt</span><br><span class="line">    └── single_list.cpp</span><br></pre></td></tr></table></figure>
+<li><p>Turn on one of connection</p>
 </li>
-<li><p>slist CMakeLists.txt</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 2.8)</span><br><span class="line"></span><br><span class="line">add_executable(stest single_list.cpp)</span><br></pre></td></tr></table></figure>
+<li><p>Find the config file <code>/etc/v2rayL/config.json</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;port&quot;: 1081,</span><br><span class="line">    &quot;protocol&quot;: &quot;http&quot;,</span><br><span class="line">    &quot;settings&quot;: &#123;</span><br><span class="line">        &quot;userLevel&quot;: 8</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;tag&quot;: &quot;http&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>dlist CMakeLists.txt</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 2.8)</span><br><span class="line"></span><br><span class="line">add_executable(dtest double_list.cpp)</span><br></pre></td></tr></table></figure>
+<li><p>(Options) find the port by <code>netstat</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo netstat -tunlp | grep v2</span><br><span class="line">tcp6       0      0 :::1080                 :::*                    LISTEN      6029/v2ray</span><br><span class="line">tcp6       0      0 :::12345                :::*                    LISTEN      6029/v2ray</span><br><span class="line">tcp6       0      0 :::1081                 :::*                    LISTEN      6029/v2ray</span><br><span class="line">udp6       0      0 :::12345                :::*                                6029/v2ray</span><br><span class="line">udp6       0      0 :::1080                 :::*                                6029/v2ray</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>folder root</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 2.8)</span><br><span class="line"></span><br><span class="line">add_subdirectory(slist)</span><br><span class="line">add_subdirectory(dlist)</span><br></pre></td></tr></table></figure>
-
+<li><p>Setup proxy for cmake, wget and other command in termials</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ export http_proxy=127.0.0.1:1081</span><br><span class="line">$ export https_proxy=127.0.0.1:1081</span><br></pre></td></tr></table></figure>
 </li>
-</ul>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li><a href="https://cmake.org/cmake-tutorial/" target="_blank" rel="noopener">cmake-tutorial</a><ul>
-<li><a href="https://blog.csdn.net/ajianyingxiaoqinghan/article/details/70229799" target="_blank" rel="noopener">cmake-tutorial ZN in CSDN</a></li>
-</ul>
+<li><p>Start your work then :)</p>
 </li>
-<li><a href="https://cmake.org/cmake/help/v3.0/manual/cmake-buildsystem.7.html" target="_blank" rel="noopener">cmake-buildsystem(7)</a></li>
-<li><a href="https://cmake.org/documentation/" target="_blank" rel="noopener">cmake doc</a></li>
 </ul>
   
 	</div>
@@ -161,7 +141,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/cmake/">cmake</a>
+  <span></span> <a href="/tags/linux-env-misc/">linux-env-misc</a>
   </div>
 
 </div>
@@ -170,7 +150,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zjunweihit.github.io/2018/11/12/linux-env-cmake/" data-title="CMake | Linux Player" data-tsina="3230658564" class="share clearfix">
+	  <div data-url="http://zjunweihit.github.io/2020/05/06/linux-env-v2ray-setup/" data-title="How to setup v2ray in Linux | Linux Player" data-tsina="3230658564" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -183,19 +163,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2018/11/12/linux-env-gtest/" title="gtest">
-  <strong>上一篇：</strong><br/>
-  <span>
-  gtest</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/12/26/ocl-memory-creation/"  title="OpenCL memory creation">
+<a href="/2019/11/09/py-build-binary/"  title="Python build a binary">
  <strong>下一篇：</strong><br/> 
- <span>OpenCL memory creation
+ <span>Python build a binary
 </span>
 </a>
 </div>
@@ -210,7 +182,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Build-document"><span class="toc-number">1.</span> <span class="toc-text">Build document</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Build-a-single-file"><span class="toc-number">2.</span> <span class="toc-text">Build a single file</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Build-multiple-files-in-sub-directory"><span class="toc-number">3.</span> <span class="toc-text">Build multiple files in sub directory</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ubuntu-18-04"><span class="toc-number">1.</span> <span class="toc-text">Ubuntu 18.04</span></a></li></ol>
  
   </div>
 
